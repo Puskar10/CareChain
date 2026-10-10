@@ -177,4 +177,96 @@ router.post('/logout', authenticateToken, (req: AuthRequest, res: Response) => {
   return res.json({ success: true, message: 'Logged out successfully' });
 });
 
+// POST /api/auth/oauth-sync
+router.post('/oauth-sync', (req, res: Response) => {
+  try {
+    const { email, fullName, avatar, requestedRole, title, supabaseUid } = req.body;
+
+    if (!email && !supabaseUid) {
+      return res.status(400).json({ success: false, error: 'Email or Supabase UID is required' });
+    }
+
+    // Lookup existing user by immutable Supabase UID first, then by email
+    let existing = supabaseUid ? db.findUserBySupabaseUid(supabaseUid) : undefined;
+    if (!existing && email) {
+      existing = db.findUserByEmail(email);
+    }
+
+    if (existing) {
+      // Existing user found: link supabaseUid and update avatar if changed, but PRESERVE authorized role
+      if (supabaseUid && !existing.supabaseUid) {
+        db.updateUser(existing.id, { supabaseUid });
+        existing.supabaseUid = supabaseUid;
+      }
+      if (avatar && avatar !== existing.avatar) {
+        db.updateUser(existing.id, { avatar });
+        existing.avatar = avatar;
+      }
+
+      const { passwordHash: _, ...safeUser } = existing;
+      const token = generateToken(safeUser);
+
+      db.createAuditLog({
+        actorName: safeUser.fullName,
+        actorRole: safeUser.role === 'doctor' ? 'Doctor' : safeUser.role === 'family' ? 'Family Member' : safeUser.role === 'ems' ? 'Emergency EMS' : 'Patient',
+        action: 'Google OAuth Sign-In',
+        details: `Restored session for existing account (${safeUser.email}) with verified role ${safeUser.role}`
+      });
+
+      return res.json({
+        success: true,
+        isNewUser: false,
+        message: 'Google session restored with existing trusted role',
+        token,
+        user: { ...safeUser, authProvider: 'google' }
+      });
+    }
+
+    // New Google User:
+    // CRITICAL: Google identity must NOT automatically grant a privileged CareChain role (Doctor / EMS).
+    let assignedRole: 'patient' | 'family' | 'doctor' | 'ems' = 'patient';
+    let pendingVerification = false;
+
+    if (requestedRole === 'doctor' || requestedRole === 'ems') {
+      assignedRole = 'patient'; // Default to safe patient role until verified
+      pendingVerification = true;
+    } else if (requestedRole === 'family') {
+      assignedRole = 'family';
+    } else {
+      assignedRole = 'patient';
+    }
+
+    const newUser = db.createOAuthUser({
+      email: email || `${supabaseUid}@supabase.user`,
+      fullName: fullName || (email ? email.split('@')[0] : 'CareChain User'),
+      role: assignedRole,
+      avatar,
+      supabaseUid,
+      title: pendingVerification ? 'Clinical Credentials Pending Verification' : (title || (assignedRole === 'family' ? 'Family Caregiver' : 'Patient')),
+      pendingVerification
+    });
+
+    const token = generateToken(newUser);
+
+    db.createAuditLog({
+      actorName: newUser.fullName,
+      actorRole: assignedRole === 'family' ? 'Family Member' : 'Patient',
+      action: 'Google OAuth Account Onboarded',
+      details: `New user onboarded via Google. Assigned role: ${assignedRole}${pendingVerification ? ' (Doctor/EMS requested - pending credential review)' : ''}`
+    });
+
+    return res.status(201).json({
+      success: true,
+      isNewUser: true,
+      message: pendingVerification
+        ? 'Google account created with patient access. Clinical credentials pending hospital verification.'
+        : 'Google account onboarded successfully',
+      token,
+      user: newUser
+    });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, error: error.message || 'OAuth synchronization failed' });
+  }
+});
+
 export default router;

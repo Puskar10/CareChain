@@ -15,7 +15,10 @@ export interface User {
   title?: string;
   avatar?: string;
   patientId?: string; // Associated patient if patient or family
+  supabaseUid?: string; // Immutable Supabase Auth UID
   createdAt: string;
+  authProvider?: 'password' | 'google';
+  pendingVerification?: boolean;
 }
 
 export interface UserWithPassword extends User {

@@ -44,27 +44,39 @@ export const DoctorView: React.FC = () => {
         {/* Patient identity */}
         <div className="lg:col-span-4 glass-light p-7 animate-drift-up">
           <span className="label-tag text-ink-muted block mb-4">PATIENT PROFILE</span>
-          <h2 className="text-2xl font-light text-ink-primary mb-1" style={{letterSpacing:'-0.02em'}}>{activePatient.fullName}</h2>
-          <p className="text-sm text-ink-secondary">{activePatient.age} yrs · {activePatient.sex} · {activePatient.bloodGroup}</p>
+          <h2 className="text-2xl font-light text-ink-primary mb-1" style={{letterSpacing:'-0.02em'}}>
+            {activePatient?.fullName || 'No Patient Selected'}
+          </h2>
+          <p className="text-sm text-ink-secondary">
+            {activePatient ? `${activePatient.age} yrs · ${activePatient.sex} · ${activePatient.bloodGroup}` : 'Awaiting patient assignment'}
+          </p>
 
           <div className="mt-5 space-y-3">
             <div>
               <span className="label-tag text-ink-muted block mb-1.5">CONDITIONS</span>
               <div className="flex flex-wrap gap-1.5">
-                {activePatient.conditions.map(c => <span key={c} className="pill pill-dark text-[10px]">{c}</span>)}
+                {activePatient?.conditions && activePatient.conditions.length > 0 ? (
+                  activePatient.conditions.map(c => <span key={c} className="pill pill-dark text-[10px]">{c}</span>)
+                ) : (
+                  <span className="text-xs text-ink-muted">None documented</span>
+                )}
               </div>
             </div>
             <div>
               <span className="label-tag text-ink-muted block mb-1.5">ALLERGIES</span>
               <div className="flex flex-wrap gap-1.5">
-                {activePatient.allergies.map(a => <span key={a} className="pill pill-red text-[10px]">{a}</span>)}
+                {activePatient?.allergies && activePatient.allergies.length > 0 ? (
+                  activePatient.allergies.map(a => <span key={a} className="pill pill-red text-[10px]">{a}</span>)
+                ) : (
+                  <span className="text-xs text-ink-muted">None documented</span>
+                )}
               </div>
             </div>
           </div>
 
           <div className="mt-4 pt-4 border-t border-black/[0.05]">
             <span className="label-tag text-ink-muted block mb-1">PRIMARY PHYSICIAN</span>
-            <p className="text-sm font-medium text-ink-primary">{activePatient.primaryPhysician}</p>
+            <p className="text-sm font-medium text-ink-primary">{activePatient?.primaryPhysician || 'Unassigned'}</p>
           </div>
         </div>
 

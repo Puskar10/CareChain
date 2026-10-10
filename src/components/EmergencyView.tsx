@@ -3,7 +3,27 @@ import { useCareChain } from '../context/CareChainContext';
 import { Phone, AlertTriangle } from 'lucide-react';
 
 export const EmergencyView: React.FC = () => {
-  const { activePatient, handoverSummary, events } = useCareChain();
+  const { activePatient, handoverSummary, events, setActiveTab } = useCareChain();
+
+  if (!activePatient) {
+    return (
+      <div className="min-h-screen emergency-surface flex items-center justify-center p-4">
+        <div className="glass-dark p-8 rounded-3xl max-w-md w-full text-center space-y-4">
+          <AlertTriangle className="w-12 h-12 text-emergency-DEFAULT mx-auto" />
+          <h2 className="text-xl font-bold font-carmen text-white">No Active Patient In ER Triage</h2>
+          <p className="text-sm text-white/60">
+            Emergency mode requires an active patient record. Please select a patient or await incoming EMS transport.
+          </p>
+          <button
+            onClick={() => setActiveTab('doctor-dashboard')}
+            className="btn-cyan !px-4 !py-2 !text-xs mx-auto cursor-pointer"
+          >
+            Return to Dashboard
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const criticalEvents = events.filter(e => e.severity === 'critical' || e.severity === 'severe')
     .sort((a,b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())

@@ -153,8 +153,141 @@ export interface AuditLogItem {
   details?: string;
 }
 
+export interface CarePlanItem {
+  id: string;
+  patientId: string;
+  title: string;
+  description: string;
+  category: 'medication' | 'lifestyle' | 'monitoring' | 'warning';
+  status: 'active' | 'completed';
+  prescribedBy: string;
+  updatedAt: string;
+}
+
+export interface ClinicalOrder {
+  id: string;
+  patientId: string;
+  doctorName: string;
+  type: 'medication' | 'lab' | 'imaging' | 'nursing' | 'respiratory';
+  title: string;
+  details: string;
+  status: 'ordered' | 'in-progress' | 'completed';
+  priority: 'routine' | 'urgent' | 'stat';
+  timestamp: string;
+}
+
+export interface CareTask {
+  id: string;
+  patientId: string;
+  title: string;
+  time: string;
+  category: 'medication' | 'vital' | 'nutrition' | 'hygiene' | 'exercise';
+  status: 'pending' | 'completed' | 'skipped';
+  notes?: string;
+  completedAt?: string;
+  completedBy?: string;
+}
+
+export interface CaregiverEscalation {
+  id: string;
+  patientId: string;
+  caregiverName: string;
+  urgency: 'routine' | 'urgent' | 'emergency';
+  symptom: string;
+  details: string;
+  timestamp: string;
+  status: 'open' | 'reviewed' | 'resolved';
+  doctorResponse?: string;
+}
+
+export interface EmsCase {
+  id: string;
+  patientId: string;
+  unitNumber: string;
+  paramedicName: string;
+  callReason: string;
+  triageLevel: 'emergent' | 'urgent' | 'non-urgent';
+  receivingHospital: string;
+  etaMinutes: number;
+  status: 'in-transit' | 'handover-complete';
+  interventions: {
+    id: string;
+    name: string;
+    timestamp: string;
+    notes?: string;
+  }[];
+  mistHandover: {
+    mechanism: string;
+    injuries: string;
+    signs: string;
+    treatment: string;
+  };
+  initiatedAt: string;
+  handoverCompletedAt?: string;
+}
+
+export interface Appointment {
+  id: string;
+  patientId: string;
+  doctorName: string;
+  specialty: string;
+  facility: string;
+  dateTime: string;
+  type: 'In-Person' | 'Telehealth' | 'Follow-Up';
+  status: 'confirmed' | 'pending' | 'completed';
+  instructions?: string;
+}
+
+export interface RolePermissions {
+  canSwitchPatient: boolean;
+  canEditDiagnosis: boolean;
+  canIssueClinicalOrders: boolean;
+  canCreateCarePlan: boolean;
+  canExportEHR: boolean;
+  canRecordObservations: boolean;
+  canManageCareTasks: boolean;
+  canEscalateConcern: boolean;
+  canLogEmergencyInterventions: boolean;
+  canTransmitHospitalHandover: boolean;
+  canLogPatientCheckin: boolean;
+  canViewInternalClinicalNotes: boolean;
+  canAccessSharingAudit: boolean;
+}
+
 export type UserRole = 'patient' | 'family' | 'doctor' | 'ems' | 'admin';
-export type AppTab = 'overview' | 'timeline' | 'handover' | 'emergency' | 'medications' | 'vitals' | 'reports' | 'doctor' | 'sharing';
+
+export type AppTab =
+  | 'overview'
+  | 'timeline'
+  | 'handover'
+  | 'emergency'
+  | 'medications'
+  | 'vitals'
+  | 'reports'
+  | 'doctor'
+  | 'sharing'
+  // Doctor tabs
+  | 'doctor-dashboard'
+  | 'doctor-queue'
+  | 'doctor-assessment'
+  | 'vitals-labs'
+  // Caregiver tabs
+  | 'caregiver-dashboard'
+  | 'caregiver-tasks'
+  | 'caregiver-observations'
+  | 'caregiver-escalate'
+  | 'caregiver-careplan'
+  // Patient tabs
+  | 'patient-dashboard'
+  | 'patient-careplan'
+  | 'patient-meds'
+  | 'patient-appointments'
+  | 'patient-careteam'
+  // EMS tabs
+  | 'ems-dashboard'
+  | 'ems-assessment'
+  | 'ems-vitals-interventions'
+  | 'ems-handover';
 
 export interface User {
   id: string;
@@ -165,7 +298,10 @@ export interface User {
   title?: string;
   avatar?: string;
   patientId?: string;
+  supabaseUid?: string;
   createdAt?: string;
+  authProvider?: 'password' | 'google';
+  pendingVerification?: boolean;
 }
 
 export interface DemoAccount {
@@ -176,3 +312,12 @@ export interface DemoAccount {
   title: string;
   description: string;
 }
+
+export type ProfileLoadingState =
+  | 'authLoading'           // Supabase session restoration is incomplete
+  | 'profileLoading'        // Authenticated account's application profile is being resolved
+  | 'patientProfileLoading' // Patient's linked clinical record is being fetched
+  | 'ready'                 // Required profile lookup completed
+  | 'unconfigured'          // Authenticated patient has no linked clinical record
+  | 'error';                // Request failed and can be retried
+

@@ -16,6 +16,14 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
 /* ═══════════════════════════════════════════════════════════
    CARECHAIN — LIQUID GLASS + FLUID UI DESIGN SYSTEM
    Material language: thickness · transparency · depth ·

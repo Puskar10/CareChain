@@ -16,12 +16,39 @@ import { AddEventModal } from './components/modals/AddEventModal';
 import { ShareModal } from './components/modals/ShareModal';
 import { AuthModal } from './components/modals/AuthModal';
 
+import { DoctorDashboardView } from './components/roles/DoctorDashboardView';
+import { CaregiverDashboardView } from './components/roles/CaregiverDashboardView';
+import { PatientDashboardView } from './components/roles/PatientDashboardView';
+import { EmsDashboardView } from './components/roles/EmsDashboardView';
+
 const MainContent: React.FC = () => {
-  const { activeTab } = useCareChain();
+  const { activeTab, currentRole } = useCareChain();
 
   return (
     <main className="flex-1">
-      {activeTab === 'overview'    && <DashboardView />}
+      {/* Role specific primary dashboards */}
+      {(activeTab === 'doctor-dashboard' || (activeTab === 'overview' && currentRole === 'doctor')) && <DoctorDashboardView />}
+      {(activeTab === 'caregiver-dashboard' || (activeTab === 'overview' && currentRole === 'family')) && <CaregiverDashboardView />}
+      {(activeTab === 'patient-dashboard' || (activeTab === 'overview' && currentRole === 'patient')) && <PatientDashboardView />}
+      {(activeTab === 'ems-dashboard' || (activeTab === 'overview' && currentRole === 'ems')) && <EmsDashboardView />}
+
+      {/* Role workflow tab aliases */}
+      {activeTab === 'doctor-queue' && <DoctorDashboardView />}
+      {activeTab === 'doctor-assessment' && <DoctorView />}
+      {activeTab === 'vitals-labs' && <VitalsView />}
+      {activeTab === 'caregiver-tasks' && <CaregiverDashboardView />}
+      {activeTab === 'caregiver-observations' && <CaregiverDashboardView />}
+      {activeTab === 'caregiver-escalate' && <CaregiverDashboardView />}
+      {activeTab === 'caregiver-careplan' && <CaregiverDashboardView />}
+      {activeTab === 'patient-careplan' && <PatientDashboardView />}
+      {activeTab === 'patient-meds' && <MedicationsView />}
+      {activeTab === 'patient-appointments' && <PatientDashboardView />}
+      {activeTab === 'patient-careteam' && <PatientDashboardView />}
+      {activeTab === 'ems-assessment' && <EmsDashboardView />}
+      {activeTab === 'ems-vitals-interventions' && <EmsDashboardView />}
+      {activeTab === 'ems-handover' && <EmsDashboardView />}
+
+      {/* Shared clinical views */}
       {activeTab === 'timeline'    && <TimelineView />}
       {activeTab === 'handover'    && <HandoverView />}
       {activeTab === 'emergency'   && <EmergencyView />}
@@ -37,7 +64,7 @@ const MainContent: React.FC = () => {
 export function App() {
   return (
     <CareChainProvider>
-      <div className="app-bg min-h-screen flex flex-col">
+      <div className="app-bg min-h-screen flex flex-col w-full max-w-full overflow-x-hidden">
         <Navbar />
         <DemoStoryBanner />
         <MainContent />

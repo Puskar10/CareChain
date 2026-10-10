@@ -53,7 +53,7 @@ export const AddEventModal: React.FC = () => {
       selectedType === 'visit' ? `Consult with ${doctorName}` : 'Health Event'
     );
 
-    await addEvent({ type: selectedType, severity, title: eventTitle, description: description || `${selectedType} event for ${activePatient.fullName}`, metadata });
+    await addEvent({ type: selectedType, severity, title: eventTitle, description: description || `${selectedType} event for ${activePatient?.fullName || 'patient'}`, metadata });
     confetti({ particleCount: 40, spread: 50, origin: { y: 0.6 } });
     setIsAddEventModalOpen(false);
   };

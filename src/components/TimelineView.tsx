@@ -11,6 +11,7 @@ export const TimelineView: React.FC = () => {
     evidenceHighlightIds,
     setIsAddEventModalOpen,
     deleteEvent,
+    currentRole,
   } = useCareChain();
 
   const filtered = useMemo(() => {
@@ -69,10 +70,12 @@ export const TimelineView: React.FC = () => {
               </button>
             ))}
           </div>
-          <button onClick={() => setIsAddEventModalOpen(true)} className="btn-primary pressable">
-            <Plus className="w-3.5 h-3.5"/>
-            <span>Add Event</span>
-          </button>
+          {currentRole !== 'patient' && (
+            <button onClick={() => setIsAddEventModalOpen(true)} className="btn-primary pressable">
+              <Plus className="w-3.5 h-3.5"/>
+              <span>{currentRole === 'doctor' ? 'Add Clinical Note' : currentRole === 'family' ? 'Record Observation' : 'Log EMS Event'}</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -215,12 +218,15 @@ export const TimelineView: React.FC = () => {
                                 evt.severity === 'critical' || evt.severity === 'severe' ? 'pill-red' :
                                 evt.severity === 'moderate' ? 'pill-warn' : 'pill-dark'
                               }`}>{evt.severity}</span>
-                              <button
-                                onClick={() => deleteEvent(evt.id)}
-                                className="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-ink-muted hover:text-emergency-DEFAULT pressable"
-                              >
-                                <Trash2 className="w-3.5 h-3.5"/>
-                              </button>
+                              {currentRole === 'doctor' && (
+                                <button
+                                  onClick={() => deleteEvent(evt.id)}
+                                  className="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-ink-muted hover:text-emergency-DEFAULT pressable"
+                                  title="Delete event (Doctor permission)"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5"/>
+                                </button>
+                              )}
                             </div>
                           </div>
 

@@ -194,29 +194,41 @@ export const DashboardView: React.FC = () => {
             <div className="flex items-start justify-between mb-6">
               <div>
                 <span className="label-tag text-ink-muted">ACTIVE PATIENT</span>
-                <h2 className="headline-md text-ink-primary mt-2">{activePatient.fullName}</h2>
-                <p className="text-sm text-ink-secondary mt-1">{activePatient.age} yrs · {activePatient.sex} · {activePatient.bloodGroup}</p>
+                <h2 className="headline-md text-ink-primary mt-2">{activePatient?.fullName || 'No Patient Selected'}</h2>
+                <p className="text-sm text-ink-secondary mt-1">
+                  {activePatient ? `${activePatient.age} yrs · ${activePatient.sex} · ${activePatient.bloodGroup}` : 'Awaiting clinical selection'}
+                </p>
               </div>
-              <span className={`pill ${activePatient.status === 'Critical' ? 'pill-red' : activePatient.status === 'Needs Attention' ? 'pill-warn' : 'pill-ok'}`}>
-                {activePatient.status}
-              </span>
+              {activePatient && (
+                <span className={`pill ${activePatient.status === 'Critical' ? 'pill-red' : activePatient.status === 'Needs Attention' ? 'pill-warn' : 'pill-ok'}`}>
+                  {activePatient.status}
+                </span>
+              )}
             </div>
 
             <div className="space-y-4">
               <div>
                 <span className="label-tag text-ink-muted block mb-1.5">ALLERGIES</span>
                 <div className="flex flex-wrap gap-1.5">
-                  {activePatient.allergies.map(a => (
-                    <span key={a} className="pill pill-red text-[10px]">{a}</span>
-                  ))}
+                  {activePatient?.allergies && activePatient.allergies.length > 0 ? (
+                    activePatient.allergies.map(a => (
+                      <span key={a} className="pill pill-red text-[10px]">{a}</span>
+                    ))
+                  ) : (
+                    <span className="text-xs text-ink-muted">None documented</span>
+                  )}
                 </div>
               </div>
               <div>
                 <span className="label-tag text-ink-muted block mb-1.5">CONDITIONS</span>
                 <div className="flex flex-wrap gap-1.5">
-                  {activePatient.conditions.map(c => (
-                    <span key={c} className="pill pill-dark text-[10px]">{c}</span>
-                  ))}
+                  {activePatient?.conditions && activePatient.conditions.length > 0 ? (
+                    activePatient.conditions.map(c => (
+                      <span key={c} className="pill pill-dark text-[10px]">{c}</span>
+                    ))
+                  ) : (
+                    <span className="text-xs text-ink-muted">None documented</span>
+                  )}
                 </div>
               </div>
               <div
@@ -224,12 +236,12 @@ export const DashboardView: React.FC = () => {
                 style={{ borderTop: '1px solid rgba(0,0,0,0.05)' }}
               >
                 <span className="label-tag text-ink-muted block mb-1">PHYSICIAN</span>
-                <p className="text-sm text-ink-primary">{activePatient.primaryPhysician}</p>
+                <p className="text-sm text-ink-primary">{activePatient?.primaryPhysician || 'Unassigned'}</p>
               </div>
               <div>
                 <span className="label-tag text-ink-muted block mb-1">EMERGENCY CONTACT</span>
-                <p className="text-sm text-ink-primary">{activePatient.emergencyContact.name}</p>
-                <p className="text-xs text-ink-secondary">{activePatient.emergencyContact.phone}</p>
+                <p className="text-sm text-ink-primary">{activePatient?.emergencyContact?.name || 'None listed'}</p>
+                <p className="text-xs text-ink-secondary">{activePatient?.emergencyContact?.phone || '--'}</p>
               </div>
             </div>
 

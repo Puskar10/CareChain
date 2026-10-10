@@ -13,7 +13,7 @@ export const ShareModal: React.FC = () => {
 
   if (!isShareModalOpen) return null;
 
-  const shareUrl = `https://carechain.health/emergency-handover/${activePatient.id}?scope=${scope}&exp=${expiry}h`;
+  const shareUrl = activePatient ? `https://carechain.health/emergency-handover/${activePatient.id}?scope=${scope}&exp=${expiry}h` : '';
 
   const handleCopy = () => {
     navigator.clipboard.writeText(shareUrl);

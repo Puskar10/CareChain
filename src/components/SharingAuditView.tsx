@@ -20,7 +20,7 @@ export const SharingAuditView: React.FC = () => {
         <div>
           <span className="label-tag text-ink-muted">DATA GOVERNANCE</span>
           <h1 className="headline-lg text-ink-primary mt-3">Sharing & Audit</h1>
-          <p className="text-sm text-ink-secondary mt-2">Complete access log for {activePatient.fullName}'s health data</p>
+          <p className="text-sm text-ink-secondary mt-2">Complete access log for {activePatient?.fullName || 'Patient'}'s health data</p>
         </div>
         <button onClick={() => setIsShareModalOpen(true)} className="btn-primary">
           <Shield className="w-3.5 h-3.5"/>
@@ -49,7 +49,7 @@ export const SharingAuditView: React.FC = () => {
           <div>
             <span className="label-tag text-ink-muted block mb-1">DATA OWNERSHIP</span>
             <p className="text-sm text-ink-secondary">
-              {activePatient.fullName} controls access to their health records. All accesses are logged.
+              {activePatient?.fullName || 'The patient'} controls access to their health records. All accesses are logged.
             </p>
           </div>
           <span className="pill pill-ok">Consent Active</span>

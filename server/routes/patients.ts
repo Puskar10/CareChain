@@ -5,9 +5,57 @@ import { optionalToken, AuthRequest } from '../middleware/auth';
 const router = Router();
 
 // GET /api/patients
-router.get('/', (_req: Request, res: Response) => {
-  const patients = db.getPatients();
-  res.json({ success: true, count: patients.length, data: patients });
+router.get('/', optionalToken, (req: AuthRequest, res: Response) => {
+  const allPatients = db.getPatients();
+
+  // If user is not authenticated: do not return clinical patients
+  if (!req.user) {
+    return res.json({ success: true, count: 0, data: [] });
+  }
+
+  // If user is a demo account (e.g. email ends with @carechain.health):
+  if (req.user.email.endsWith('@carechain.health')) {
+    if (req.user.role === 'doctor') {
+      return res.json({ success: true, count: allPatients.length, data: allPatients });
+    }
+    const filtered = allPatients.filter(p => p.id === req.user?.patientId);
+    return res.json({ success: true, count: filtered.length, data: filtered });
+  }
+
+  // Real authenticated user:
+  // Apply clinical authorization filters:
+  if (req.user.role === 'doctor') {
+    // Only return patients assigned to this doctor
+    const assigned = allPatients.filter(p =>
+      (p as any).assignedDoctorId === req.user?.id ||
+      (req.user?.fullName && p.primaryPhysician.toLowerCase().includes(req.user.fullName.toLowerCase()))
+    );
+    return res.json({ success: true, count: assigned.length, data: assigned });
+  }
+
+  if (req.user.role === 'family') {
+    // Only return patient assigned to this caregiver
+    const assigned = req.user.patientId
+      ? allPatients.filter(p => p.id === req.user?.patientId)
+      : [];
+    return res.json({ success: true, count: assigned.length, data: assigned });
+  }
+
+  if (req.user.role === 'patient') {
+    // Only return verified patient record belonging to this patient
+    const assigned = req.user.patientId
+      ? allPatients.filter(p => p.id === req.user?.patientId)
+      : [];
+    return res.json({ success: true, count: assigned.length, data: assigned });
+  }
+
+  if (req.user.role === 'ems') {
+    // Return active emergency cases assigned to this paramedic
+    const assigned = allPatients.filter(p => (p as any).assignedEmsUnit === req.user?.id);
+    return res.json({ success: true, count: assigned.length, data: assigned });
+  }
+
+  return res.json({ success: true, count: 0, data: [] });
 });
 
 // GET /api/patients/:id

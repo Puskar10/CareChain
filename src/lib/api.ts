@@ -140,6 +140,25 @@ class ApiClient {
       } finally {
         this.setToken(null);
       }
+    },
+
+    oauthSync: async (payload: {
+      email: string;
+      fullName?: string;
+      avatar?: string;
+      requestedRole?: string;
+      title?: string;
+      supabaseUid?: string;
+    }): Promise<{ success: boolean; user?: User; token?: string; error?: string; isNewUser?: boolean; message?: string }> => {
+      const res = await this.request<{ user: User; token: string; isNewUser?: boolean; message?: string }>('/auth/oauth-sync', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+      if (res.success && res.token && res.user) {
+        this.setToken(res.token);
+        return { success: true, user: res.user, token: res.token, isNewUser: res.isNewUser, message: res.message };
+      }
+      return { success: false, error: res.error || 'OAuth synchronization failed' };
     }
   };
 

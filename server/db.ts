@@ -509,8 +509,12 @@ class Database {
     return this.store.users.find(u => u.email.toLowerCase() === email.toLowerCase());
   }
 
+  findUserBySupabaseUid(uid: string): UserWithPassword | undefined {
+    return this.store.users.find(u => u.supabaseUid === uid);
+  }
+
   findUserById(id: string): User | undefined {
-    const user = this.store.users.find(u => u.id === id);
+    const user = this.store.users.find(u => u.id === id || (u.supabaseUid && u.supabaseUid === id));
     if (!user) return undefined;
     const { passwordHash, ...safe } = user;
     return safe;
@@ -543,6 +547,51 @@ class Database {
     this.saveStore();
 
     const { passwordHash: _, ...safeUser } = newUser;
+    return safeUser;
+  }
+
+  createOAuthUser(userData: {
+    email: string;
+    fullName: string;
+    role: 'patient' | 'family' | 'doctor' | 'ems';
+    avatar?: string;
+    phone?: string;
+    title?: string;
+    patientId?: string;
+    supabaseUid?: string;
+    pendingVerification?: boolean;
+  }): User {
+    const salt = bcrypt.genSaltSync(10);
+    const passwordHash = bcrypt.hashSync(`oauth-google-${Date.now()}-${Math.random()}`, salt);
+    const newUser: UserWithPassword = {
+      id: userData.supabaseUid ? `usr-sb-${userData.supabaseUid}` : `usr-oauth-${Date.now()}`,
+      supabaseUid: userData.supabaseUid,
+      email: userData.email.toLowerCase(),
+      passwordHash,
+      fullName: userData.fullName,
+      role: userData.role,
+      avatar: userData.avatar,
+      phone: userData.phone,
+      title: userData.title,
+      patientId: userData.patientId,
+      authProvider: 'google',
+      pendingVerification: userData.pendingVerification,
+      createdAt: new Date().toISOString()
+    };
+
+    this.store.users.push(newUser);
+    this.saveStore();
+
+    const { passwordHash: _, ...safeUser } = newUser;
+    return safeUser;
+  }
+
+  updateUser(id: string, updates: Partial<UserWithPassword>): User | undefined {
+    const idx = this.store.users.findIndex(u => u.id === id || (u.supabaseUid && u.supabaseUid === id));
+    if (idx === -1) return undefined;
+    this.store.users[idx] = { ...this.store.users[idx], ...updates };
+    this.saveStore();
+    const { passwordHash: _, ...safeUser } = this.store.users[idx];
     return safeUser;
   }
 

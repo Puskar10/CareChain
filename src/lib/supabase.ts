@@ -36,3 +36,18 @@ export async function checkSupabaseConnection(): Promise<{ connected: boolean; t
     };
   }
 }
+
+export async function signInWithGoogleOAuth() {
+  const redirectUrl = import.meta.env.VITE_AUTH_REDIRECT_URL || window.location.origin;
+  return await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: redirectUrl,
+      queryParams: {
+        access_type: 'offline',
+        prompt: 'consent'
+      }
+    }
+  });
+}
+

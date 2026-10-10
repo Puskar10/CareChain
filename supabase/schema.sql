@@ -137,3 +137,20 @@ values (
     'Dr. Arvind Mehta (Cardiology)',
     'Needs Attention'
 ) on conflict (id) do nothing;
+
+-- 8. User Profiles Table (for Google OAuth & Role Persistence)
+create table if not exists public.profiles (
+    id uuid primary key default gen_random_uuid(),
+    email text unique not null,
+    full_name text not null,
+    role text not null default 'patient', -- 'patient', 'family', 'doctor', 'ems'
+    avatar_url text,
+    phone text,
+    title text,
+    verified boolean default false,
+    created_at timestamptz default now()
+);
+
+alter table public.profiles enable row level security;
+create policy "Allow all actions for anon users on profiles" on public.profiles for all using (true) with check (true);
+
