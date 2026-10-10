@@ -153,5 +153,26 @@ export interface AuditLogItem {
   details?: string;
 }
 
-export type UserRole = 'patient' | 'family' | 'doctor' | 'admin';
+export type UserRole = 'patient' | 'family' | 'doctor' | 'ems' | 'admin';
 export type AppTab = 'overview' | 'timeline' | 'handover' | 'emergency' | 'medications' | 'vitals' | 'reports' | 'doctor' | 'sharing';
+
+export interface User {
+  id: string;
+  email: string;
+  fullName: string;
+  role: UserRole;
+  phone?: string;
+  title?: string;
+  avatar?: string;
+  patientId?: string;
+  createdAt?: string;
+}
+
+export interface DemoAccount {
+  email: string;
+  password?: string;
+  role: UserRole;
+  name: string;
+  title: string;
+  description: string;
+}

@@ -14,6 +14,7 @@ import { SharingAuditView } from './components/SharingAuditView';
 import { WhyModal } from './components/modals/WhyModal';
 import { AddEventModal } from './components/modals/AddEventModal';
 import { ShareModal } from './components/modals/ShareModal';
+import { AuthModal } from './components/modals/AuthModal';
 
 const MainContent: React.FC = () => {
   const { activeTab } = useCareChain();
@@ -44,6 +45,7 @@ export function App() {
         <WhyModal />
         <AddEventModal />
         <ShareModal />
+        <AuthModal />
         {/* Footer — glass */}
         <footer
           className="py-8 page-gutter"
@@ -61,12 +63,7 @@ export function App() {
                 What happened before the patient reached the hospital?
               </p>
             </div>
-            <div className="flex items-center gap-6 text-xs text-ink-muted">
-              <a href="https://github.com/deb76796/Carechain" target="_blank" rel="noreferrer" className="hover:text-ink-primary transition-colors pressable">
-                github.com/deb76796/Carechain
-              </a>
-              <span>Supabase · React · TypeScript</span>
-            </div>
+           
           </div>
         </footer>
 

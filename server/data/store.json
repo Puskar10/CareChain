@@ -1,0 +1,500 @@
+{
+  "users": [
+    {
+      "id": "usr-doc-1",
+      "email": "doctor@carechain.health",
+      "passwordHash": "$2b$10$W8HpX2J9Gi7NnBH9rtQrYO7lZkYJMGC9OH6wtoQVG5x.LxAC.mw3C",
+      "fullName": "Dr. Aarav Sharma, MD",
+      "role": "doctor",
+      "title": "Senior Attending Physician · Emergency Medicine",
+      "phone": "+1 (555) 901-2345",
+      "avatar": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80",
+      "createdAt": "2026-10-10T07:28:39.596Z"
+    },
+    {
+      "id": "usr-fam-1",
+      "email": "caregiver@carechain.health",
+      "passwordHash": "$2b$10$sa5aONmElx7JB.8p8N7mIeSaa4aIQUjsZDIvwFjxT3zxMxj24bOFi",
+      "fullName": "Pooja Sharma",
+      "role": "family",
+      "title": "Primary Family Caregiver",
+      "phone": "+1 (555) 234-8901",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
+      "createdAt": "2026-10-10T07:28:39.597Z"
+    },
+    {
+      "id": "usr-pat-1",
+      "email": "patient@carechain.health",
+      "passwordHash": "$2b$10$oseI0EaPn4Ai5PWcnTkEtu7D29KOfpm3nfh.zZAJUOXQTPKgF9F5y",
+      "fullName": "Rahul Sharma",
+      "role": "patient",
+      "title": "Patient (Self Access)",
+      "phone": "+1 (555) 234-8901",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+      "createdAt": "2026-10-10T07:28:39.597Z"
+    },
+    {
+      "id": "usr-ems-1",
+      "email": "paramedic@carechain.health",
+      "passwordHash": "$2b$10$d8QR4BJP2A2DFDD7.bB.BO8.C8MNRjfMdr95TC2/8GBipZtl.l6Ai",
+      "fullName": "Capt. Dave Miller",
+      "role": "ems",
+      "title": "EMS Critical Care Paramedic · Unit 4",
+      "phone": "+1 (555) 911-0004",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+      "createdAt": "2026-10-10T07:28:39.597Z"
+    }
+  ],
+  "patients": [
+    {
+      "id": "a1111111-1111-1111-1111-111111111111",
+      "fullName": "Rahul Sharma",
+      "age": 42,
+      "sex": "Male",
+      "bloodGroup": "B+",
+      "conditions": [
+        "Mild Hypertension",
+        "Seasonal Asthma"
+      ],
+      "allergies": [
+        "Penicillin (causes rash)",
+        "Sulfa Drugs"
+      ],
+      "emergencyContact": {
+        "name": "Pooja Sharma",
+        "phone": "+1 (555) 234-8901",
+        "relationship": "Spouse"
+      },
+      "primaryPhysician": "Dr. Arvind Mehta (Cardiology & Internal Med)",
+      "status": "Needs Attention",
+      "lastUpdated": "18 minutes ago"
+    },
+    {
+      "id": "b2222222-2222-2222-2222-222222222222",
+      "fullName": "Elena Rostova",
+      "age": 68,
+      "sex": "Female",
+      "bloodGroup": "O+",
+      "conditions": [
+        "Type 2 Diabetes",
+        "Atrial Fibrillation"
+      ],
+      "allergies": [
+        "Aspirin",
+        "Iodinated Contrast"
+      ],
+      "emergencyContact": {
+        "name": "Dmitri Rostov",
+        "phone": "+1 (555) 876-5432",
+        "relationship": "Son"
+      },
+      "primaryPhysician": "Dr. Sarah Lin (Endocrinology)",
+      "status": "Stable",
+      "lastUpdated": "2 hours ago"
+    },
+    {
+      "id": "c3333333-3333-3333-3333-333333333333",
+      "fullName": "Marcus Chen",
+      "age": 29,
+      "sex": "Male",
+      "bloodGroup": "A-",
+      "conditions": [
+        "Post-ACL Reconstruction",
+        "None Chronic"
+      ],
+      "allergies": [
+        "None known"
+      ],
+      "emergencyContact": {
+        "name": "Jennifer Chen",
+        "phone": "+1 (555) 345-6789",
+        "relationship": "Sister"
+      },
+      "primaryPhysician": "Dr. Robert Ross (Orthopedics)",
+      "status": "Stable",
+      "lastUpdated": "5 hours ago"
+    }
+  ],
+  "events": [
+    {
+      "id": "evt-1",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "symptom",
+      "timestamp": "2026-09-26T08:30:00Z",
+      "severity": "mild",
+      "title": "Mild fever & dry cough onset",
+      "description": "Patient woke up feeling fatigued with throat irritation and mild shivering.",
+      "source": "Patient",
+      "createdBy": "Rahul Sharma",
+      "metadata": {
+        "temperature": 99.8
+      }
+    },
+    {
+      "id": "evt-2",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "medication",
+      "timestamp": "2026-09-26T09:15:00Z",
+      "severity": "normal",
+      "title": "Paracetamol 650mg taken",
+      "description": "First dose taken after light breakfast. Mild relief in headache noted.",
+      "source": "Patient",
+      "createdBy": "Rahul Sharma",
+      "metadata": {
+        "medicineName": "Paracetamol",
+        "dose": "650mg",
+        "takenStatus": "taken"
+      }
+    },
+    {
+      "id": "evt-3",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "vital",
+      "timestamp": "2026-09-26T18:45:00Z",
+      "severity": "moderate",
+      "title": "Temperature spike 100.8°F, Pulse 88 bpm",
+      "description": "Evening temperature elevation logged via Omron digital thermometer.",
+      "source": "Family / Caregiver",
+      "createdBy": "Pooja Sharma",
+      "metadata": {
+        "temperature": 100.8,
+        "heartRate": 88,
+        "spo2": 98
+      }
+    },
+    {
+      "id": "evt-4",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "medication",
+      "timestamp": "2026-09-27T10:00:00Z",
+      "severity": "moderate",
+      "title": "Azithromycin 500mg missed (vomiting)",
+      "description": "Patient felt nauseous upon taking tablet and vomited 15 mins later. Dose skipped.",
+      "source": "Family / Caregiver",
+      "createdBy": "Pooja Sharma",
+      "metadata": {
+        "medicineName": "Azithromycin",
+        "dose": "500mg",
+        "takenStatus": "missed",
+        "missedReason": "Nausea & emesis"
+      }
+    },
+    {
+      "id": "evt-5",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "symptom",
+      "timestamp": "2026-09-27T14:20:00Z",
+      "severity": "moderate",
+      "title": "Persistent dry cough turning productive",
+      "description": "Sputum noted yellowish. Patient reporting retrosternal chest soreness on coughing.",
+      "source": "Patient",
+      "createdBy": "Rahul Sharma"
+    },
+    {
+      "id": "evt-6",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "vital",
+      "timestamp": "2026-09-27T21:10:00Z",
+      "severity": "moderate",
+      "title": "Temperature 101.8°F, SpO2 96%",
+      "description": "Night sweats and shivering. Cold sponging applied by spouse.",
+      "source": "Family / Caregiver",
+      "createdBy": "Pooja Sharma",
+      "metadata": {
+        "temperature": 101.8,
+        "heartRate": 94,
+        "spo2": 96
+      }
+    },
+    {
+      "id": "evt-7",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "medication",
+      "timestamp": "2026-09-28T09:00:00Z",
+      "severity": "normal",
+      "title": "Paracetamol 650mg + ORS Sachet taken",
+      "description": "Electrolyte hydration started. Morning fever suppressed temporarily to 100.2°F.",
+      "source": "Family / Caregiver",
+      "createdBy": "Pooja Sharma",
+      "metadata": {
+        "medicineName": "Paracetamol",
+        "dose": "650mg",
+        "takenStatus": "taken"
+      }
+    },
+    {
+      "id": "evt-8",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "vital",
+      "timestamp": "2026-09-28T15:30:00Z",
+      "severity": "severe",
+      "title": "High Spike: Temp 102.6°F, HR 104 bpm, SpO2 94%",
+      "description": "Patient flushed, confused when questioned about date. Tachycardia noted.",
+      "source": "Family / Caregiver",
+      "createdBy": "Pooja Sharma",
+      "metadata": {
+        "temperature": 102.6,
+        "heartRate": 104,
+        "spo2": 94,
+        "bpSystolic": 138,
+        "bpDiastolic": 88
+      }
+    },
+    {
+      "id": "evt-9",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "report",
+      "timestamp": "2026-09-28T17:00:00Z",
+      "severity": "moderate",
+      "title": "CBC & Inflammatory Markers Lab Report",
+      "description": "Leukocytosis (WBC 14,800/mcL, Neutrophils 82%), CRP elevated at 34 mg/L.",
+      "source": "Report",
+      "createdBy": "CarePath Labs",
+      "metadata": {
+        "reportType": "CBC Report",
+        "extractedValues": {
+          "WBC": "14,800 /mcL",
+          "Neutrophils": "82%",
+          "CRP": "34 mg/L",
+          "Platelets": "210,000 /mcL"
+        }
+      }
+    },
+    {
+      "id": "evt-10",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "symptom",
+      "timestamp": "2026-09-28T19:40:00Z",
+      "severity": "severe",
+      "title": "Postural dizziness & acute breathlessness on standing",
+      "description": "Patient felt faint trying to walk to bathroom. Supported by family.",
+      "source": "Family / Caregiver",
+      "createdBy": "Pooja Sharma"
+    },
+    {
+      "id": "evt-11",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "vital",
+      "timestamp": "2026-09-28T21:05:00Z",
+      "severity": "critical",
+      "title": "Critical Drop: SpO2 92%, BP 142/92, Pulse 112 bpm",
+      "description": "Marked respiratory distress, tachypneic at 26 breaths/min. Emergency transfer initiated.",
+      "source": "Device",
+      "createdBy": "SmartPulse Wearable",
+      "metadata": {
+        "temperature": 102.8,
+        "heartRate": 112,
+        "spo2": 92,
+        "bpSystolic": 142,
+        "bpDiastolic": 92
+      }
+    },
+    {
+      "id": "evt-12",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "emergency",
+      "timestamp": "2026-09-28T21:30:00Z",
+      "severity": "critical",
+      "title": "Emergency EMS Transfer to Apex Memorial ER",
+      "description": "Spouse dialed EMS. Paramedic oxygen supplement 4L/min via nasal cannula started in transit.",
+      "source": "Family / Caregiver",
+      "createdBy": "Pooja Sharma",
+      "metadata": {
+        "emergencyLevel": "high"
+      }
+    }
+  ],
+  "medications": [
+    {
+      "id": "med-1",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "name": "Paracetamol",
+      "dose": "650 mg",
+      "frequency": "TDS (Every 8 hours, PRN for temp > 100°F)",
+      "scheduleTimes": [
+        {
+          "time": "08:00 AM",
+          "status": "taken"
+        },
+        {
+          "time": "02:00 PM",
+          "status": "taken"
+        },
+        {
+          "time": "08:00 PM",
+          "status": "pending"
+        }
+      ],
+      "status": "active",
+      "notes": "Do not exceed 3000 mg in 24 hours."
+    },
+    {
+      "id": "med-2",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "name": "Azithromycin",
+      "dose": "500 mg",
+      "frequency": "OD (Once daily, 5-day course)",
+      "scheduleTimes": [
+        {
+          "time": "10:00 AM",
+          "status": "missed"
+        }
+      ],
+      "status": "active",
+      "notes": "Missed dose due to nausea/emesis on Day 2."
+    },
+    {
+      "id": "med-3",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "name": "Amlodipine",
+      "dose": "5 mg",
+      "frequency": "OD Morning (Chronic BP maintenance)",
+      "scheduleTimes": [
+        {
+          "time": "09:00 AM",
+          "status": "taken"
+        }
+      ],
+      "status": "active",
+      "notes": "Routine hypertension control."
+    }
+  ],
+  "reports": [
+    {
+      "id": "rep-1",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "title": "Complete Blood Count (CBC) with Differential",
+      "reportType": "CBC Report",
+      "fileName": "CBC_Sharma_28Sep.pdf",
+      "extractedData": {
+        "WBC Count": "14,800 /mcL (High)",
+        "Neutrophils": "82% (High)",
+        "Platelet Count": "210,000 /mcL (Normal)",
+        "Hemoglobin": "13.8 g/dL (Normal)",
+        "CRP": "34.2 mg/L (Significantly Elevated)"
+      },
+      "summary": "Acute bacterial inflammatory response indicated by neutrophil-predominant leukocytosis and high CRP.",
+      "uploadedAt": "Today · 5:00 PM",
+      "aiVerified": true
+    },
+    {
+      "id": "rep-2",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "title": "Outpatient Clinic Rx & Clinical Note",
+      "reportType": "Prescription",
+      "fileName": "DrMehta_Rx_26Sep.pdf",
+      "extractedData": {
+        "Prescribed by": "Dr. Arvind Mehta",
+        "Clinical Impression": "Upper respiratory tract infection",
+        "Prescribed Meds": "Azithromycin 500mg OD x 5d, Paracetamol 650mg SOS"
+      },
+      "summary": "Initial clinic assessment 3 days prior. Antibiotic therapy recommended with red flag advisories.",
+      "uploadedAt": "Sep 26 · 11:30 AM",
+      "aiVerified": true
+    }
+  ],
+  "vitals": [
+    {
+      "id": "vit-1",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "timestamp": "2026-09-26T08:30:00Z",
+      "temperature": 99.8,
+      "heartRate": 76,
+      "spo2": 98,
+      "bpSystolic": 122,
+      "bpDiastolic": 78,
+      "notes": "Baseline morning vitals"
+    },
+    {
+      "id": "vit-2",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "timestamp": "2026-09-26T18:45:00Z",
+      "temperature": 100.8,
+      "heartRate": 88,
+      "spo2": 98,
+      "bpSystolic": 126,
+      "bpDiastolic": 80
+    },
+    {
+      "id": "vit-3",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "timestamp": "2026-09-27T21:10:00Z",
+      "temperature": 101.8,
+      "heartRate": 94,
+      "spo2": 96,
+      "bpSystolic": 130,
+      "bpDiastolic": 84
+    },
+    {
+      "id": "vit-4",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "timestamp": "2026-09-28T15:30:00Z",
+      "temperature": 102.6,
+      "heartRate": 104,
+      "spo2": 94,
+      "bpSystolic": 138,
+      "bpDiastolic": 88
+    },
+    {
+      "id": "vit-5",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "timestamp": "2026-09-28T21:05:00Z",
+      "temperature": 102.8,
+      "heartRate": 112,
+      "spo2": 92,
+      "bpSystolic": 142,
+      "bpDiastolic": 92,
+      "notes": "Severe respiratory distress in transit"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "log-1791617897768",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791617370946",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "Opened 60-second Handover Summary",
+      "timestamp": "Just now",
+      "details": "Reviewed synthesized 72h acute trajectory, vitals progression, and evidence breakdown."
+    },
+    {
+      "id": "log-2",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Pooja Sharma",
+      "actorRole": "Family Member",
+      "action": "Generated Emergency Handover Link",
+      "timestamp": "18 min ago",
+      "details": "Created time-bounded 72h read-only handover link for ER intake."
+    },
+    {
+      "id": "log-3",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Pooja Sharma",
+      "actorRole": "Family Member",
+      "action": "Logged Missed Antibiotic Dose",
+      "timestamp": "1 day ago",
+      "details": "Marked Azithromycin 500mg missed due to nausea and vomiting."
+    }
+  ],
+  "shares": []
+}

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useCareChain } from '../context/CareChainContext';
 import type { UserRole, AppTab } from '../types';
-import { Play, RotateCcw, Plus, Menu, X, ChevronDown, Check } from 'lucide-react';
+import { Play, RotateCcw, Plus, Menu, X, ChevronDown, Check, LogIn, LogOut, User as UserIcon } from 'lucide-react';
 
 const NAV_ITEMS: { id: AppTab; label: string }[] = [
   { id: 'overview',    label: 'Overview' },
@@ -264,6 +264,147 @@ const PatientSelector: React.FC<PatientSelectorProps> = ({
   );
 };
 
+const UserAccountDropdown: React.FC = () => {
+  const { user, openAuthModal, logout, isBackendOnline } = useCareChain();
+  const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState<DropdownPos | null>(null);
+
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const updatePos = useCallback(() => {
+    if (!triggerRef.current || !panelRef.current) return;
+    const panelH = panelRef.current.offsetHeight || 160;
+    setPos(computePos(triggerRef.current, panelH));
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => {
+      const t = e.target as Node;
+      if (triggerRef.current?.contains(t) || panelRef.current?.contains(t)) return;
+      setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const raf = requestAnimationFrame(updatePos);
+    window.addEventListener('scroll', updatePos, { passive: true });
+    window.addEventListener('resize', updatePos, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', updatePos);
+      window.removeEventListener('resize', updatePos);
+    };
+  }, [open, updatePos]);
+
+  if (!user) {
+    return (
+      <button
+        onClick={openAuthModal}
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all pressable shrink-0 cursor-pointer"
+        style={{
+          background: 'rgba(255,255,255,0.65)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          border: '1px solid rgba(255,255,255,0.85)',
+          color: 'var(--ink-primary)',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+        }}
+      >
+        <LogIn className="w-3.5 h-3.5 text-accent-cyan" />
+        <span>Sign In</span>
+        {isBackendOnline && (
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse ml-0.5" title="Live API Online" />
+        )}
+      </button>
+    );
+  }
+
+  const panel = open ? (
+    <div
+      ref={panelRef}
+      style={{
+        position: 'fixed',
+        top: pos ? pos.top : -9999,
+        left: pos ? pos.left : -9999,
+        width: 220,
+        zIndex: 2147483647,
+        background: 'rgba(235, 242, 250, 0.94)',
+        backdropFilter: 'blur(28px) saturate(1.7)',
+        WebkitBackdropFilter: 'blur(28px) saturate(1.7)',
+        border: '1px solid rgba(255,255,255,0.88)',
+        borderRadius: '16px',
+        boxShadow: '0 12px 36px -4px rgba(16,96,216,0.18), 0 3px 12px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.95)',
+        padding: '10px',
+        animation: 'patient-dropdown-in 160ms cubic-bezier(0.22,1,0.36,1) both',
+      }}
+    >
+      <div className="px-2 py-1.5 mb-2 border-b border-black/[0.06]">
+        <div className="text-xs font-bold text-ink-primary truncate">{user.fullName}</div>
+        <div className="text-[10px] text-ink-muted truncate">{user.email}</div>
+        <div className="mt-1.5 flex items-center gap-1.5">
+          <span className="px-1.5 py-0.5 rounded-full text-[9px] font-semibold bg-accent-cyan/15 text-accent-cyan uppercase">
+            {user.role}
+          </span>
+          {isBackendOnline && (
+            <span className="text-[10px] text-emerald-600 flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              API Connected
+            </span>
+          )}
+        </div>
+      </div>
+
+      <button
+        onClick={() => { setOpen(false); openAuthModal(); }}
+        className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-ink-secondary hover:text-ink-primary hover:bg-white/70 transition-all pressable cursor-pointer text-left"
+      >
+        <UserIcon className="w-3.5 h-3.5 text-ink-muted" />
+        <span>Manage Account</span>
+      </button>
+
+      <button
+        onClick={async () => { setOpen(false); await logout(); }}
+        className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-rose-600 hover:bg-rose-50/80 transition-all pressable cursor-pointer text-left mt-1"
+      >
+        <LogOut className="w-3.5 h-3.5 text-rose-500" />
+        <span>Sign Out</span>
+      </button>
+    </div>
+  ) : null;
+
+  return (
+    <>
+      <button
+        ref={triggerRef}
+        onClick={() => setOpen(v => !v)}
+        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium transition-all pressable shrink-0 cursor-pointer"
+        style={{
+          background: open ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.65)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          border: '1px solid rgba(255,255,255,0.85)',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+        }}
+      >
+        <div className="w-5 h-5 rounded-full bg-accent-cyan/20 text-accent-cyan flex items-center justify-center font-bold text-[10px]">
+          {user.fullName.charAt(0)}
+        </div>
+        <span className="text-ink-primary font-medium max-w-[90px] truncate hidden sm:inline">
+          {user.fullName.split(' ')[0]}
+        </span>
+        <ChevronDown className="w-3 h-3 text-ink-muted" />
+      </button>
+
+      {panel && createPortal(panel, document.body)}
+    </>
+  );
+};
+
 export const Navbar: React.FC = () => {
   const {
     activeTab, setActiveTab,
@@ -404,6 +545,8 @@ export const Navbar: React.FC = () => {
               ))}
             </div>
 
+            <UserAccountDropdown />
+
             <button
               onClick={demoScene > 0 ? resetDemoData : startDemoStory}
               className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all pressable shrink-0"
@@ -496,6 +639,7 @@ export const Navbar: React.FC = () => {
                   </button>
                 ))}
               </div>
+              <UserAccountDropdown />
             </div>
           </nav>
         )}

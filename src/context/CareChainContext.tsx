@@ -10,7 +10,9 @@ import {
   UserRole,
   AppTab,
   EventType,
-  MedicationScheduleItem
+  MedicationScheduleItem,
+  User,
+  DemoAccount
 } from '../types';
 import {
   INITIAL_PATIENTS,
@@ -22,8 +24,20 @@ import {
   INITIAL_HANDOVER_SUMMARY
 } from '../lib/initialData';
 import { supabase, checkSupabaseConnection } from '../lib/supabase';
+import { api } from '../lib/api';
 
 interface CareChainContextType {
+  // Auth state
+  user: User | null;
+  isAuthenticated: boolean;
+  isAuthModalOpen: boolean;
+  demoAccounts: DemoAccount[];
+  isBackendOnline: boolean;
+  backendMessage: string;
+  isSupabaseOnline: boolean;
+  supabaseMessage: string;
+
+  // Clinical data state
   activePatient: Patient;
   patients: Patient[];
   events: HealthEvent[];
@@ -37,16 +51,21 @@ interface CareChainContextType {
   activeFilterTime: '24h' | '72h' | '7d' | '30d' | 'all';
   activeFilterType: 'all' | EventType;
   evidenceHighlightIds: string[];
-  demoScene: number; // 0 = idle, 1..6 = scenes
+  demoScene: number;
   isDemoPlaying: boolean;
   isAddEventModalOpen: boolean;
   isShareModalOpen: boolean;
   isWhyModalOpen: boolean;
   selectedWhyFinding: HandoverSummary['keyFindings'][0] | null;
-  isSupabaseOnline: boolean;
-  supabaseMessage: string;
 
   // Actions
+  openAuthModal: () => void;
+  closeAuthModal: () => void;
+  login: (email: string, password: string) => Promise<{ success: boolean; user?: User; error?: string }>;
+  register: (userData: any) => Promise<{ success: boolean; user?: User; error?: string }>;
+  logout: () => Promise<void>;
+  recheckBackend: () => Promise<void>;
+
   setActivePatientId: (id: string) => void;
   setCurrentRole: (role: UserRole) => void;
   setActiveTab: (tab: AppTab) => void;
@@ -76,6 +95,18 @@ const CareChainContext = createContext<CareChainContextType | undefined>(undefin
 const LOCAL_STORAGE_KEY = 'carechain_state_v1';
 
 export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // Auth state
+  const [user, setUser] = useState<User | null>(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [demoAccounts, setDemoAccounts] = useState<DemoAccount[]>([]);
+  const [isBackendOnline, setIsBackendOnline] = useState(false);
+  const [backendMessage, setBackendMessage] = useState('Checking backend API...');
+
+  // Supabase status
+  const [isSupabaseOnline, setIsSupabaseOnline] = useState(false);
+  const [supabaseMessage, setSupabaseMessage] = useState('Checking Supabase connection...');
+
+  // Clinical data state
   const [patients, setPatients] = useState<Patient[]>(() => {
     const saved = localStorage.getItem(`${LOCAL_STORAGE_KEY}_patients`);
     return saved ? JSON.parse(saved) : INITIAL_PATIENTS;
@@ -126,14 +157,10 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [isWhyModalOpen, setIsWhyModalOpen] = useState<boolean>(false);
   const [selectedWhyFinding, setSelectedWhyFinding] = useState<HandoverSummary['keyFindings'][0] | null>(null);
 
-  // Supabase status
-  const [isSupabaseOnline, setIsSupabaseOnline] = useState<boolean>(false);
-  const [supabaseMessage, setSupabaseMessage] = useState<string>('Checking Supabase connection...');
-
   // Active patient object
   const activePatient = patients.find(p => p.id === activePatientId) || patients[0];
 
-  // Save state to localStorage
+  // Save state to localStorage as fallback
   useEffect(() => {
     localStorage.setItem(`${LOCAL_STORAGE_KEY}_patients`, JSON.stringify(patients));
     localStorage.setItem(`${LOCAL_STORAGE_KEY}_events`, JSON.stringify(events));
@@ -143,7 +170,53 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     localStorage.setItem(`${LOCAL_STORAGE_KEY}_logs`, JSON.stringify(auditLogs));
   }, [patients, events, medications, reports, vitals, auditLogs]);
 
-  // Check Supabase connection on mount
+  // Sync with Backend API
+  const recheckBackend = useCallback(async () => {
+    try {
+      const health = await api.checkHealth();
+      setIsBackendOnline(health.online);
+      if (health.online) {
+        setBackendMessage('CareChain Live Backend Online');
+
+        // Check active session
+        const meRes = await api.auth.me();
+        if (meRes.success && meRes.user) {
+          setUser(meRes.user);
+          if (['doctor', 'family', 'patient', 'ems'].includes(meRes.user.role)) {
+            setCurrentRole(meRes.user.role as UserRole);
+          }
+        }
+
+        // Fetch demo accounts
+        const accounts = await api.auth.getDemoAccounts();
+        if (accounts.length > 0) setDemoAccounts(accounts);
+
+        // Fetch clinical data from backend
+        const [remotePatients, remoteEvents, remoteMeds, remoteVitals, remoteReports, remoteLogs] = await Promise.all([
+          api.patients.getAll(),
+          api.events.getAll(),
+          api.medications.getAll(),
+          api.vitals.getAll(),
+          api.reports.getAll(),
+          api.audit.getAll()
+        ]);
+
+        if (remotePatients.length > 0) setPatients(remotePatients);
+        if (remoteEvents.length > 0) setEvents(remoteEvents);
+        if (remoteMeds.length > 0) setMedications(remoteMeds);
+        if (remoteVitals.length > 0) setVitals(remoteVitals);
+        if (remoteReports.length > 0) setReports(remoteReports);
+        if (remoteLogs.length > 0) setAuditLogs(remoteLogs);
+      } else {
+        setBackendMessage('Backend offline — using local store');
+      }
+    } catch {
+      setIsBackendOnline(false);
+      setBackendMessage('Backend offline — using local store');
+    }
+  }, []);
+
+  // Check Supabase connection
   const recheckSupabase = useCallback(async () => {
     const res = await checkSupabaseConnection();
     setIsSupabaseOnline(res.connected);
@@ -151,11 +224,57 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   }, []);
 
   useEffect(() => {
+    recheckBackend();
     recheckSupabase();
-  }, [recheckSupabase]);
+  }, [recheckBackend, recheckSupabase]);
+
+  // Auth actions
+  const openAuthModal = () => setIsAuthModalOpen(true);
+  const closeAuthModal = () => setIsAuthModalOpen(false);
+
+  const login = async (email: string, pass: string) => {
+    const res = await api.auth.login(email, pass);
+    if (res.success && res.user) {
+      setUser(res.user);
+      if (['doctor', 'family', 'patient', 'ems'].includes(res.user.role)) {
+        setCurrentRole(res.user.role as UserRole);
+      }
+      // Refresh data
+      await recheckBackend();
+      return { success: true, user: res.user };
+    }
+    return { success: false, error: res.error || 'Authentication failed' };
+  };
+
+  const register = async (userData: any) => {
+    const res = await api.auth.register(userData);
+    if (res.success && res.user) {
+      setUser(res.user);
+      if (['doctor', 'family', 'patient', 'ems'].includes(res.user.role)) {
+        setCurrentRole(res.user.role as UserRole);
+      }
+      await recheckBackend();
+      return { success: true, user: res.user };
+    }
+    return { success: false, error: res.error || 'Registration failed' };
+  };
+
+  const logout = async () => {
+    await api.auth.logout();
+    setUser(null);
+  };
 
   // Dynamic Handover recalculator based on events
-  const refreshHandoverSummary = useCallback(() => {
+  const refreshHandoverSummary = useCallback(async () => {
+    if (isBackendOnline) {
+      const summary = await api.handover.getSummary(activePatient.id, activeFilterTime);
+      if (summary) {
+        setHandoverSummary(summary);
+        return;
+      }
+    }
+
+    // Local recalculation fallback
     const patientEvents = events.filter(e => e.patientId === activePatient.id);
     const tempEvents = patientEvents.filter(e => e.type === 'vital' && e.metadata?.temperature);
     const latestTemp = tempEvents.length > 0 ? `${tempEvents[tempEvents.length - 1].metadata?.temperature}°F` : '102.6°F';
@@ -181,7 +300,7 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     };
 
     setHandoverSummary(updatedSummary);
-  }, [events, activePatient.id, activeFilterTime]);
+  }, [events, activePatient.id, activeFilterTime, isBackendOnline]);
 
   const openWhyModal = (finding: HandoverSummary['keyFindings'][0]) => {
     setSelectedWhyFinding(finding);
@@ -195,6 +314,9 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   // Add Health Event
   const addEvent = async (eventData: Partial<HealthEvent>) => {
+    const creatorName = user?.fullName || (currentRole === 'doctor' ? 'Dr. Sharma' : currentRole === 'family' ? 'Caregiver' : activePatient.fullName);
+    const eventSource = currentRole === 'doctor' ? 'Clinician' : currentRole === 'family' ? 'Family / Caregiver' : 'Patient';
+
     const newEvent: HealthEvent = {
       id: `evt-${Date.now()}`,
       patientId: activePatient.id,
@@ -203,8 +325,8 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       severity: eventData.severity || 'mild',
       title: eventData.title || 'Untitled Event',
       description: eventData.description || '',
-      source: eventData.source || (currentRole === 'doctor' ? 'Clinician' : currentRole === 'family' ? 'Family / Caregiver' : 'Patient'),
-      createdBy: eventData.createdBy || (currentRole === 'doctor' ? 'Dr. Sharma' : currentRole === 'family' ? 'Caregiver' : activePatient.fullName),
+      source: eventData.source || eventSource,
+      createdBy: eventData.createdBy || creatorName,
       metadata: eventData.metadata || {},
       attachments: eventData.attachments || [],
       verified: currentRole === 'doctor'
@@ -225,6 +347,15 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     };
     setAuditLogs(prev => [newLog, ...prev]);
 
+    // Synchronize with live backend API
+    if (isBackendOnline) {
+      try {
+        await api.events.create(newEvent);
+      } catch (err) {
+        console.warn('Backend sync failed, saved locally', err);
+      }
+    }
+
     // Attempt to sync to Supabase if tables exist
     try {
       if (isSupabaseOnline) {
@@ -243,7 +374,7 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         });
       }
     } catch {
-      // Gracefully silent on local fallback
+      // Graceful fallback
     }
 
     refreshHandoverSummary();
@@ -252,6 +383,13 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   // Delete Health Event
   const deleteEvent = async (id: string) => {
     setEvents(prev => prev.filter(e => e.id !== id));
+    if (isBackendOnline) {
+      try {
+        await api.events.delete(id);
+      } catch (e) {
+        console.warn('Backend delete error', e);
+      }
+    }
     try {
       if (isSupabaseOnline) {
         await supabase.from('health_events').delete().eq('id', id);
@@ -277,6 +415,14 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       }
       return { ...m, scheduleTimes: updatedTimes };
     }));
+
+    if (isBackendOnline) {
+      try {
+        await api.medications.toggleDose(medId, timeIdx, newStatus, reason);
+      } catch (e) {
+        console.warn('Backend medication toggle error', e);
+      }
+    }
 
     const med = medications.find(m => m.id === medId);
     if (med) {
@@ -309,6 +455,14 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       notes: medData.notes || ''
     };
     setMedications(prev => [...prev, newMed]);
+
+    if (isBackendOnline) {
+      try {
+        await api.medications.create(newMed);
+      } catch (e) {
+        console.warn('Backend medication create error', e);
+      }
+    }
   };
 
   // Upload Medical Report
@@ -325,6 +479,14 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       aiVerified: true
     };
     setReports(prev => [newRep, ...prev]);
+
+    if (isBackendOnline) {
+      try {
+        await api.reports.create(newRep);
+      } catch (e) {
+        console.warn('Backend report create error', e);
+      }
+    }
 
     // Also add to timeline as report event
     await addEvent({
@@ -356,6 +518,14 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     };
     setVitals(prev => [...prev, newVital]);
 
+    if (isBackendOnline) {
+      try {
+        await api.vitals.create(newVital);
+      } catch (e) {
+        console.warn('Backend vital create error', e);
+      }
+    }
+
     // Add to timeline
     await addEvent({
       type: 'vital',
@@ -373,7 +543,15 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   // Reset Demo Data back to the original 14-event story
-  const resetDemoData = () => {
+  const resetDemoData = async () => {
+    if (isBackendOnline) {
+      try {
+        await api.resetBackend();
+      } catch (e) {
+        console.warn('Reset backend error', e);
+      }
+    }
+
     setPatients(INITIAL_PATIENTS);
     setActivePatientId(INITIAL_PATIENTS[0].id);
     setEvents(INITIAL_EVENTS);
@@ -399,32 +577,31 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const stepDemoScene = (sceneNum: number) => {
     setDemoScene(sceneNum);
     switch (sceneNum) {
-      case 1: // Patient develops fever
+      case 1:
         setActiveTab('timeline');
         setActiveFilterType('symptom');
         setEvidenceHighlightIds(['evt-1']);
         break;
-      case 2: // Family adds medication events
+      case 2:
         setActiveTab('medications');
         setEvidenceHighlightIds(['evt-2', 'evt-4', 'evt-7']);
         break;
-      case 3: // Vitals start changing: 100.4 -> 101.8 -> 102.6
+      case 3:
         setActiveTab('vitals');
         setEvidenceHighlightIds(['evt-3', 'evt-6', 'evt-8', 'evt-11']);
         break;
-      case 4: // Patient reports dizziness
+      case 4:
         setActiveTab('timeline');
         setActiveFilterType('all');
         setEvidenceHighlightIds(['evt-12']);
         break;
-      case 5: // Family takes patient to hospital / Emergency Mode
+      case 5:
         setActiveTab('emergency');
         setEvidenceHighlightIds(['evt-13']);
         break;
-      case 6: // Doctor opens CareChain -> 60s Handover + Show Evidence
+      case 6:
         setCurrentRole('doctor');
         setActiveTab('handover');
-        // Trigger the killer evidence highlight!
         setEvidenceHighlightIds(['evt-1', 'evt-3', 'evt-6', 'evt-10', 'evt-11', 'evt-12']);
         break;
       default:
@@ -435,6 +612,15 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   return (
     <CareChainContext.Provider
       value={{
+        user,
+        isAuthenticated: !!user,
+        isAuthModalOpen,
+        demoAccounts,
+        isBackendOnline,
+        backendMessage,
+        isSupabaseOnline,
+        supabaseMessage,
+
         activePatient,
         patients,
         events,
@@ -454,8 +640,13 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         isShareModalOpen,
         isWhyModalOpen,
         selectedWhyFinding,
-        isSupabaseOnline,
-        supabaseMessage,
+
+        openAuthModal,
+        closeAuthModal,
+        login,
+        register,
+        logout,
+        recheckBackend,
 
         setActivePatientId,
         setCurrentRole,
