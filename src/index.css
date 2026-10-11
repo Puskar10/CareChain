@@ -430,9 +430,10 @@ body {
   border: 1px solid var(--nav-capsule-border);
   border-radius: 999px;
   box-shadow: var(--nav-capsule-shadow);
-  padding: 4px;
+  padding: 3px 4px;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  position: relative;
 }
 
 /* ─────────────────────────────────────────
@@ -462,9 +463,9 @@ body {
     inset 1.5px 0 0 rgba(255, 255, 255, 0.22),
     inset -1.5px 0 0 rgba(255, 255, 255, 0.12);
   /* Bubble protrudes above and below capsule */
-  margin: -3px 0;
-  padding-top: 7px;
-  padding-bottom: 7px;
+  margin: -2px 0;
+  padding-top: 5px;
+  padding-bottom: 5px;
   z-index: 2;
   transition:
     background var(--dur-mid) var(--ease-fluid),
@@ -517,12 +518,14 @@ body {
 
 /* Scoped to desktop dark capsule */
 .nav-capsule .nav-pill-inactive {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.65);
   border: 1px solid transparent;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 .nav-capsule .nav-pill-inactive:hover {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.95);
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.12);
 }

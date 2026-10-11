@@ -85,6 +85,19 @@
       "role": "family",
       "title": "Family Caregiver",
       "createdAt": "2026-10-10T17:02:32.398Z"
+    },
+    {
+      "id": "usr-sb-04cef3e4-8c4d-4846-a8e5-ad31bb1dc68d",
+      "supabaseUid": "04cef3e4-8c4d-4846-a8e5-ad31bb1dc68d",
+      "email": "anishdas401@gmail.com",
+      "passwordHash": "$2b$10$wW//AuYrrh6cVoInF4cmuuo1J/cUAjZTSuLospfE7iaoBVDYnJpI2",
+      "fullName": "Anish Das",
+      "role": "patient",
+      "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKdBMknXUnbmROjeGI9YMTSL6Mm6ynjMj7Lv_9RrSUJcA3LT9NXrA=s96-c",
+      "title": "Patient",
+      "authProvider": "google",
+      "pendingVerification": false,
+      "createdAt": "2026-10-11T06:17:39.366Z"
     }
   ],
   "patients": [
@@ -532,6 +545,87 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "log-1791699459379",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Anish Das",
+      "actorRole": "Patient",
+      "action": "Google OAuth Account Onboarded",
+      "timestamp": "Just now",
+      "details": "New user onboarded via Google. Assigned role: patient"
+    },
+    {
+      "id": "log-1791698462126",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Pooja Sharma",
+      "actorRole": "Family Member",
+      "action": "User Logged Out",
+      "timestamp": "Just now",
+      "details": "Session terminated"
+    },
+    {
+      "id": "log-1791698112017",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Pooja Sharma",
+      "actorRole": "Family Member",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791696152476",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "User Logged Out",
+      "timestamp": "Just now",
+      "details": "Session terminated"
+    },
+    {
+      "id": "log-1791656957238",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791656613308",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791656561519",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791656374468",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791655215151",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
     {
       "id": "log-1791653927447",
       "patientId": "a1111111-1111-1111-1111-111111111111",

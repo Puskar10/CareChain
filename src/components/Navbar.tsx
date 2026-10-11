@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useCareChain } from '../context/CareChainContext';
 import type { UserRole, AppTab } from '../types';
+import { BrandLink } from './BrandLink';
 import {
   Play,
   RotateCcw,
@@ -693,6 +694,9 @@ export const Navbar: React.FC = () => {
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreDropdownRef = useRef<HTMLDivElement>(null);
+  const [windowWidth, setWindowWidth] = useState(() => typeof window !== 'undefined' ? window.innerWidth : 1440);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -700,7 +704,54 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    const onResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  // Close "More" dropdown when role or active tab changes
+  useEffect(() => {
+    setMoreOpen(false);
+  }, [currentRole, activeTab]);
+
+  // Handle outside click and Escape key to close "More" dropdown
+  useEffect(() => {
+    if (!moreOpen) return;
+    const onDown = (e: MouseEvent) => {
+      if (moreDropdownRef.current && !moreDropdownRef.current.contains(e.target as Node)) {
+        setMoreOpen(false);
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMoreOpen(false);
+    };
+    document.addEventListener('mousedown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [moreOpen]);
+
   const navItems = ROLE_NAV_ITEMS[currentRole] || ROLE_NAV_ITEMS.doctor;
+
+  // Adaptive threshold: partition nav items into visible tabs and a clean "More" dropdown
+  const getMaxVisibleTabs = (role: UserRole, width: number): number => {
+    if (width >= 1380) return 99; // Wide desktop (>=1380px): show all tabs
+    if (width >= 1200) {
+      // 1200px - 1379px: Doctor has 8 items, keep 5 visible + More. Others (6 items) fit directly.
+      return role === 'doctor' ? 5 : 99;
+    }
+    // 1024px - 1199px (compact desktop):
+    return role === 'doctor' ? 5 : 4;
+  };
+
+  const maxVisible = getMaxVisibleTabs(currentRole, windowWidth);
+  const visibleItems = navItems.slice(0, maxVisible);
+  const moreItems = navItems.length > maxVisible ? navItems.slice(maxVisible) : [];
+  const activeMoreItem = moreItems.find(item => item.id === activeTab);
+  const isMoreActive = Boolean(activeMoreItem);
 
   const renderPatientContext = (compact = false) => {
     if (!activePatient) {
@@ -854,81 +905,94 @@ export const Navbar: React.FC = () => {
       {/* ROW 1: PRIMARY NAVIGATION */}
       <div className="w-full px-3 sm:px-4 lg:px-6">
         <div className="flex items-center justify-between h-13 gap-2 sm:gap-3">
-          {/* Logo */}
-          <button
-            onClick={() => {
-              if (currentRole === 'doctor') setActiveTab('doctor-dashboard');
-              else if (currentRole === 'family') setActiveTab('caregiver-dashboard');
-              else if (currentRole === 'patient') setActiveTab('patient-dashboard');
-              else if (currentRole === 'ems') setActiveTab('ems-dashboard');
-            }}
-            className="flex items-center gap-2 shrink-0 group pressable cursor-pointer"
-          >
-            <img
-              src="/assets/Logo.png"
-              alt="CareChain logo"
-              style={{
-                height: '32px',
-                width: 'auto',
-                objectFit: 'contain',
-                objectPosition: 'center',
-                display: 'block',
-                flexShrink: 0,
-              }}
-            />
-            <div style={{ lineHeight: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '2px' }}>
-              <span
-                style={{
-                  fontFamily: "'Carmen Sans', 'Manrope', system-ui, sans-serif",
-                  fontWeight: 800,
-                  fontSize: '0.9375rem',
-                  letterSpacing: '-0.025em',
-                  color: 'var(--ink-primary)',
-                  lineHeight: 1,
-                  display: 'block',
-                }}
-              >
-                CareChain
-              </span>
-              <span
-                className="hidden sm:block"
-                style={{
-                  fontFamily: "'Manrope', system-ui, sans-serif",
-                  fontWeight: 400,
-                  fontSize: '0.625rem',
-                  letterSpacing: '0.02em',
-                  color: 'var(--ink-secondary)',
-                  lineHeight: 1,
-                  display: 'block',
-                  marginTop: '2px',
-                }}
-              >
-                Connect. Analyse. Save.
-              </span>
-            </div>
-          </button>
+          {/* Logo — links to the public homepage */}
+          <BrandLink />
 
-          {/* Role-Specific Primary Navigation Tabs */}
-          <nav className="hidden lg:flex items-center gap-0.5 nav-capsule shrink min-w-0 overflow-x-auto no-scrollbar">
-            {navItems.map(item => (
-              <button
-                key={item.id}
-                onClick={() => setActiveTab(item.id)}
-                className={`px-2.5 xl:px-3 py-1 rounded-full text-[11px] xl:text-xs font-medium transition-all pressable cursor-pointer whitespace-nowrap shrink-0 ${
-                  activeTab === item.id ? 'nav-pill-active text-ice' : 'nav-pill-inactive'
-                } ${item.id === 'emergency' && activeTab !== item.id ? 'text-emergency-DEFAULT' : ''}`}
-                style={
-                  activeTab === item.id
-                    ? {}
-                    : item.id === 'emergency'
-                    ? { color: '#BE2418' }
-                    : {}
-                }
-              >
-                {item.label}
-              </button>
-            ))}
-          </nav>
+          {/* Role-Specific Primary Navigation Tabs (Centered, never squished or clipped) */}
+          <div className="hidden lg:flex items-center justify-center flex-1 min-w-0 px-2">
+            <nav className="flex items-center gap-1 nav-capsule shrink-0 select-none">
+              {visibleItems.map(item => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setActiveTab(item.id)}
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-all pressable cursor-pointer whitespace-nowrap shrink-0 ${
+                    activeTab === item.id ? 'nav-pill-active text-ice' : 'nav-pill-inactive'
+                  } ${item.id === 'emergency' && activeTab !== item.id ? 'text-rose-400 font-semibold' : ''}`}
+                  style={
+                    activeTab === item.id
+                      ? {}
+                      : item.id === 'emergency'
+                      ? { color: '#F87171' }
+                      : {}
+                  }
+                >
+                  {item.label}
+                </button>
+              ))}
+
+              {moreItems.length > 0 && (
+                <div className="relative shrink-0" ref={moreDropdownRef}>
+                  <button
+                    type="button"
+                    onClick={() => setMoreOpen(v => !v)}
+                    aria-expanded={moreOpen}
+                    aria-haspopup="true"
+                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all pressable cursor-pointer whitespace-nowrap flex items-center gap-1 shrink-0 ${
+                      isMoreActive ? 'nav-pill-active text-ice' : 'nav-pill-inactive'
+                    }`}
+                  >
+                    <span>{activeMoreItem ? activeMoreItem.label : 'More'}</span>
+                    <ChevronDown
+                      className="w-3 h-3 transition-transform duration-200"
+                      style={{ transform: moreOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                    />
+                  </button>
+
+                  {moreOpen && (
+                    <div
+                      className="absolute right-0 top-full mt-2.5 py-1.5 px-1.5 rounded-2xl z-50 min-w-[190px] shadow-2xl border"
+                      style={{
+                        background: 'rgba(10, 14, 22, 0.96)',
+                        backdropFilter: 'blur(28px) saturate(1.8)',
+                        WebkitBackdropFilter: 'blur(28px) saturate(1.8)',
+                        borderColor: 'rgba(255, 255, 255, 0.18)',
+                        boxShadow: '0 16px 40px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                      }}
+                    >
+                      <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-white/10 mb-1">
+                        Additional Views
+                      </div>
+                      {moreItems.map(item => {
+                        const isActive = activeTab === item.id;
+                        const isEmergency = item.id === 'emergency';
+                        return (
+                          <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => {
+                              setActiveTab(item.id);
+                              setMoreOpen(false);
+                            }}
+                            className={`w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer text-left ${
+                              isActive
+                                ? 'bg-white/15 text-white font-semibold'
+                                : isEmergency
+                                ? 'text-rose-400 hover:bg-white/10 hover:text-rose-300'
+                                : 'text-slate-300 hover:bg-white/10 hover:text-white'
+                            }`}
+                          >
+                            <span>{item.label}</span>
+                            {isActive && <Check className="w-3.5 h-3.5 text-accent-cyan" />}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+            </nav>
+          </div>
 
           {/* Right Header Area (Account, Demo Story, Mobile menu toggle) */}
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
@@ -1001,21 +1065,17 @@ export const Navbar: React.FC = () => {
           style={{ borderColor: 'rgba(255,255,255,0.45)' }}
         >
           {/* Primary role navigation pills */}
-          <div className="flex flex-wrap gap-1.5 mb-3">
+          <div className="flex flex-wrap gap-2 mb-3">
             {navItems.map(item => (
               <button
                 key={item.id}
+                type="button"
                 onClick={() => { setActiveTab(item.id); setMobileOpen(false); }}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all pressable ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all pressable cursor-pointer ${
                   activeTab === item.id
-                    ? 'nav-pill-active text-ice'
-                    : 'nav-pill-inactive border'
-                }`}
-                style={
-                  activeTab !== item.id
-                    ? { borderColor: 'rgba(255,255,255,0.55)', background: 'rgba(255,255,255,0.35)' }
-                    : {}
-                }
+                    ? 'bg-slate-900 text-white shadow-md border border-white/20'
+                    : 'bg-white/60 text-ink-primary hover:bg-white/90 border border-white/80'
+                } ${item.id === 'emergency' && activeTab !== item.id ? 'text-rose-600 font-bold' : ''}`}
               >
                 {item.label}
               </button>
