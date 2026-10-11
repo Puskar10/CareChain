@@ -114,7 +114,7 @@ const AppShell: React.FC = () => {
       <AddEventModal />
       <ShareModal />
       <AuthModal />
-      {/* Footer — glass */}
+      {/* Footer - glass */}
       <footer
         className="py-8 page-gutter"
         style={{

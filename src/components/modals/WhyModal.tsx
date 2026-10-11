@@ -84,13 +84,13 @@ export const WhyModal: React.FC = () => {
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-medium text-ink-primary">{evt.title}</p>
                     <p className="text-xs text-ink-muted mt-0.5 leading-relaxed line-clamp-2">{evt.description}</p>
-                    <span className="text-[10px] text-ink-muted">by {evt.createdBy} · {evt.source}</span>
+                    <span className="text-[11px] text-ink-muted">by {evt.createdBy} · {evt.source}</span>
                   </div>
                   <div className="text-right shrink-0">
                     <span className="font-mono text-xs text-ink-primary block">
                       {new Date(evt.timestamp).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}
                     </span>
-                    <span className="font-mono text-[10px] text-ink-muted">
+                    <span className="font-mono text-[11px] text-ink-muted">
                       {new Date(evt.timestamp).toLocaleDateString('en-US',{month:'short',day:'numeric'})}
                     </span>
                   </div>

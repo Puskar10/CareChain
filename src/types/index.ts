@@ -321,3 +321,46 @@ export type ProfileLoadingState =
   | 'unconfigured'          // Authenticated patient has no linked clinical record
   | 'error';                // Request failed and can be retried
 
+// ── AI patient overview (server-generated; see server/ai) ──────────────────
+export interface AIOverviewAttentionPoint {
+  statement: string;
+  basis: string;
+  source_record_ids: string[];
+}
+
+export interface AIOverview {
+  headline: string;
+  summary: string;
+  recent_events: string[];
+  relevant_history: string[];
+  attention_points: AIOverviewAttentionPoint[];
+  patient_reported: string[];
+  doctor_recorded: string[];
+  cautious_observations: string[];
+  missing_information: string[];
+  clarifying_questions: string[];
+  source_record_ids: string[];
+}
+
+export interface AIOverviewRecordRef {
+  id: string;
+  kind: 'medical_event' | 'medication' | 'vital' | 'report' | 'patient_profile';
+  sourceId: string;
+  occurredAt: string;
+  title: string;
+  author: string;
+  via: 'semantic' | 'recent' | 'baseline';
+}
+
+export interface AIOverviewData {
+  overview: AIOverview;
+  records: AIOverviewRecordRef[];
+  meta: {
+    generatedAt: string;
+    model: string;
+    retrieval: 'semantic' | 'recency_fallback';
+    recordsConsidered: number;
+    cached: boolean;
+    notice: string;
+  };
+}

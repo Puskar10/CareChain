@@ -10,6 +10,8 @@ import reportRoutes from './routes/reports';
 import handoverRoutes from './routes/handover';
 import auditRoutes from './routes/audit';
 import shareRoutes from './routes/shares';
+import aiRoutes from './routes/ai';
+import { startAIIndexing } from './ai/indexer';
 import { db } from './db';
 
 dotenv.config();
@@ -65,6 +67,7 @@ app.use('/api/reports', reportRoutes);
 app.use('/api/handover', handoverRoutes);
 app.use('/api/audit', auditRoutes);
 app.use('/api/share', shareRoutes);
+app.use('/api/ai', aiRoutes);
 
 // 404 Fallback for API
 app.use('/api', (_req, res) => {
@@ -82,6 +85,7 @@ app.use((err: any, _req: express.Request, res: express.Response, _next: express.
 
 // Start Server
 app.listen(PORT, () => {
+  startAIIndexing();
   console.log(`====================================================`);
   console.log(`🚀 CareChain Backend Server running at http://localhost:${PORT}`);
   console.log(`📡 API Endpoints available at http://localhost:${PORT}/api`);

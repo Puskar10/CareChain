@@ -40,6 +40,12 @@ import {
 } from '../data/demoData';
 import { supabase, checkSupabaseConnection } from '../lib/supabase';
 import { api } from '../lib/api';
+import {
+  AI_OVERVIEW_LOADING_TEXT,
+  AI_OVERVIEW_UNAVAILABLE_TEXT,
+  overviewPlaceholder,
+  overviewToHandoverSummary,
+} from '../lib/aiOverview';
 
 export function getRolePermissions(role: UserRole): RolePermissions {
   switch (role) {
@@ -277,6 +283,9 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const activeSessionUidRef = useRef<string | null>(null);
   const activeRequestIdRef = useRef<number>(0);
   const isSyncingRef = useRef<boolean>(false);
+  // Doctor AI overview bookkeeping: which record state was last requested, and the latest request id.
+  const aiOverviewKeyRef = useRef<string | null>(null);
+  const aiOverviewRequestRef = useRef<number>(0);
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [demoAccounts, setDemoAccounts] = useState<DemoAccount[]>([]);
@@ -302,6 +311,8 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [realHandoverSummary, setRealHandoverSummary] = useState<HandoverSummary>(EMPTY_HANDOVER_SUMMARY);
 
   const clearRealClinicalState = useCallback(() => {
+    aiOverviewKeyRef.current = null;
+    aiOverviewRequestRef.current++;
     setRealPatients([]);
     setRealActivePatientId('');
     setRealEvents([]);
@@ -410,12 +421,14 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         setRealActivePatientId(firstId);
 
         // Fetch patient-specific clinical records in parallel
-        const [evts, meds, vts, reps, logs] = await Promise.all([
+        const [evts, meds, vts, reps, logs, cps, ords] = await Promise.all([
           api.events.getAll(firstId),
           api.medications.getAll(firstId),
           api.vitals.getAll(firstId),
           api.reports.getAll(firstId),
-          api.audit.getAll(firstId)
+          api.audit.getAll(firstId),
+          api.patients.getCarePlans(firstId),
+          api.patients.getClinicalOrders(firstId)
         ]);
         if (activeRequestIdRef.current !== requestId) return;
 
@@ -424,6 +437,8 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         setRealVitals(vts || []);
         setRealReports(reps || []);
         setRealAuditLogs(logs || []);
+        setRealCarePlans(cps || []);
+        setRealClinicalOrders(ords || []);
         setProfileState('ready');
       } else {
         // Zero patients returned from backend
@@ -434,6 +449,8 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         setRealVitals([]);
         setRealReports([]);
         setRealAuditLogs([]);
+        setRealCarePlans([]);
+        setRealClinicalOrders([]);
 
         if (targetUser.role === 'patient') {
           // Genuine patient account with no assigned patient chart yet
@@ -755,18 +772,22 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     } else {
       setRealActivePatientId(id);
       try {
-        const [evts, meds, vts, reps, logs] = await Promise.all([
+        const [evts, meds, vts, reps, logs, cps, ords] = await Promise.all([
           api.events.getAll(id),
           api.medications.getAll(id),
           api.vitals.getAll(id),
           api.reports.getAll(id),
-          api.audit.getAll(id)
+          api.audit.getAll(id),
+          api.patients.getCarePlans(id),
+          api.patients.getClinicalOrders(id)
         ]);
         setRealEvents(evts || []);
         setRealMedications(meds || []);
         setRealVitals(vts || []);
         setRealReports(reps || []);
         setRealAuditLogs(logs || []);
+        setRealCarePlans(cps || []);
+        setRealClinicalOrders(ords || []);
       } catch (err) {
         console.warn('Failed to load patient records for', id, err);
       }
@@ -864,7 +885,8 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       return;
     }
 
-    if (!isDemoMode && isBackendOnline) {
+    // Doctors get the AI overview (see effect below); the legacy server summary is template text, so it is not used for them.
+    if (!isDemoMode && isBackendOnline && currentRole !== 'doctor') {
       const summary = await api.handover.getSummary(activePatient.id, activeFilterTime);
       if (summary) {
         setRealHandoverSummary(summary);
@@ -879,7 +901,7 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const symptomEvents = patientEvents.filter(e => e.type === 'symptom');
 
     const updatedSummary: HandoverSummary = {
-      headline: `Clinical Handover — ${activePatient.fullName}`,
+      headline: `Clinical Handover: ${activePatient.fullName}`,
       coreNarrative: patientEvents.length > 0
         ? `Patient trajectory analyzed across ${patientEvents.length} events. Latest temperature recorded: ${latestTemp}. ${missedMeds.length} missed doses identified.`
         : 'No acute events logged in the selected window.',
@@ -915,9 +937,45 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         timespan: activeFilterTime === '24h' ? 'Last 24 Hours' : activeFilterTime === '72h' ? 'Last 72 Hours' : 'Full Timeline',
       });
     } else {
+      aiOverviewKeyRef.current = null; // the local baseline replaced any AI overview; allow a fresh one
       setRealHandoverSummary(updatedSummary);
     }
-  }, [activePatient, isDemoMode, isBackendOnline, activeFilterTime, events]);
+  }, [activePatient, isDemoMode, isBackendOnline, activeFilterTime, events, currentRole]);
+
+  // ─── AI PATIENT OVERVIEW (REAL MODE, DOCTOR ONLY) ─────────────────────────
+  // Gemini + ChromaDB run on the server. This only asks for an overview when a screen that shows it
+  // is open, and only when the patient's records have changed since the last request.
+  useEffect(() => {
+    if (isDemoMode || currentRole !== 'doctor' || !isBackendOnline || !activePatient || isLoadingData) return;
+    if (!['handover', 'doctor', 'doctor-assessment', 'emergency'].includes(activeTab)) return;
+
+    const patient = activePatient;
+    // While a patient switch is loading, `events` still belongs to the previous patient: wait for the new records.
+    if (events.some(e => e.patientId !== patient.id)) return;
+
+    const latestEvent = events.reduce((max, e) => (e.timestamp > max ? e.timestamp : max), '');
+    const key = [patient.id, events.length, latestEvent, medications.length, vitals.length, reports.length].join('|');
+    if (aiOverviewKeyRef.current === key) return;
+
+    // Debounced so several quick state changes (patient switch + records arriving) become one request.
+    const timer = setTimeout(() => {
+      aiOverviewKeyRef.current = key;
+      const requestId = ++aiOverviewRequestRef.current;
+      const ctx = { events, medications, vitals, reports };
+      setRealHandoverSummary(overviewPlaceholder(AI_OVERVIEW_LOADING_TEXT, patient, ctx));
+
+      api.ai.patientOverview(patient.id).then(res => {
+        if (aiOverviewRequestRef.current !== requestId) return; // superseded by a newer request or a sign-out
+        if (res.success && res.data) {
+          setRealHandoverSummary(overviewToHandoverSummary(res.data, { patient, ...ctx }));
+        } else {
+          aiOverviewKeyRef.current = null; // let the next visit retry
+          setRealHandoverSummary(overviewPlaceholder(AI_OVERVIEW_UNAVAILABLE_TEXT, patient, ctx));
+        }
+      });
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [isDemoMode, currentRole, isBackendOnline, activePatient, isLoadingData, activeTab, events, medications, vitals, reports]);
 
   const openWhyModal = (finding: HandoverSummary['keyFindings'][0]) => {
     setSelectedWhyFinding(finding);
@@ -931,8 +989,17 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   // ─── CLINICAL MUTATIONS (ISOLATED) ────────────────────────────────────────
   const addEvent = async (eventData: Partial<HealthEvent>) => {
-    if (!activePatient && !eventData.patientId) return;
-    const targetPatientId = eventData.patientId || activePatient?.id || '';
+    const targetPatientId =
+      eventData.patientId ||
+      activePatient?.id ||
+      (user?.role === 'patient' ? user.patientId : undefined) ||
+      patients[0]?.id ||
+      '';
+
+    if (!targetPatientId) {
+      console.warn('[MedicalEvent] No target patient available for health event');
+      throw new Error('Please select or configure a patient chart before adding an event.');
+    }
 
     const creatorName = user?.fullName || (currentRole === 'doctor' ? 'Dr. Sharma' : currentRole === 'family' ? 'Caregiver' : 'Patient');
     const eventSource = currentRole === 'doctor' ? 'Clinician' : currentRole === 'family' ? 'Family / Caregiver' : 'Patient';
@@ -958,9 +1025,14 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       setRealEvents(prev => [newEvent, ...prev]);
       if (isBackendOnline) {
         try {
-          await api.events.create(newEvent);
+          const savedEvent = await api.events.create(newEvent);
+          if (savedEvent) {
+            setRealEvents(prev => [savedEvent, ...prev.filter(e => e.id !== newEvent.id && e.id !== savedEvent.id)]);
+          }
         } catch (err) {
-          console.warn('Backend sync failed', err);
+          console.error('[MedicalEvent] Backend sync failed for event', err);
+          setRealEvents(prev => prev.filter(e => e.id !== newEvent.id));
+          throw err;
         }
       }
     }
@@ -1264,6 +1336,16 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       setDemoClinicalOrders(prev => [newOrder, ...prev]);
     } else {
       setRealClinicalOrders(prev => [newOrder, ...prev]);
+      if (isBackendOnline) {
+        try {
+          const savedOrder = await api.patients.createClinicalOrder(targetPatientId, newOrder);
+          if (savedOrder) {
+            setRealClinicalOrders(prev => [savedOrder, ...prev.filter(o => o.id !== newOrder.id)]);
+          }
+        } catch (err) {
+          console.warn('Backend sync failed for clinical order', err);
+        }
+      }
     }
 
     await addEvent({
@@ -1297,6 +1379,16 @@ export const CareChainProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       setDemoCarePlans(prev => [newItem, ...prev]);
     } else {
       setRealCarePlans(prev => [newItem, ...prev]);
+      if (isBackendOnline) {
+        try {
+          const savedPlan = await api.patients.createCarePlan(targetPatientId, newItem);
+          if (savedPlan) {
+            setRealCarePlans(prev => [savedPlan, ...prev.filter(p => p.id !== newItem.id)]);
+          }
+        } catch (err) {
+          console.warn('Backend sync failed for care plan', err);
+        }
+      }
     }
 
     await addEvent({

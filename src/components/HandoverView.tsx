@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCareChain } from '../context/CareChainContext';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Pill } from 'lucide-react';
 
 const SEVERITY_SCORE: Record<string, number> = {
   critical: 4, severe: 3, moderate: 2, mild: 1, normal: 0
@@ -36,13 +36,13 @@ export const HandoverView: React.FC = () => {
             <div>
               <div className="flex items-center gap-3 mb-8">
                 <span className="label-tag text-accent-cyan">AI PATIENT HANDOVER</span>
-                <span className="label-tag text-white/20">· FOR EMERGENCY TEAM</span>
+                <span className="label-tag text-white/50">· FOR EMERGENCY TEAM</span>
               </div>
               <h1 className="headline-xl text-white mb-4">60-Second<br/>Patient Summary</h1>
-              <p className="text-sm text-white/40 max-w-xs">{handoverSummary.timespan}</p>
+              <p className="text-sm text-white/60 max-w-xs">{handoverSummary.timespan}</p>
             </div>
 
-            {/* Urgency badge — glass */}
+            {/* Urgency badge - glass */}
             <div className="shrink-0">
               <div
                 className="px-8 py-6 text-center"
@@ -56,7 +56,7 @@ export const HandoverView: React.FC = () => {
                   boxShadow: `inset 0 1px 0 rgba(255,255,255,0.09), 0 0 30px -8px ${urgencyGlowColor}40`,
                 }}
               >
-                <span className="label-tag text-white/30 block mb-3">URGENCY LEVEL</span>
+                <span className="label-tag text-white/50 block mb-3">URGENCY LEVEL</span>
                 <div className="text-4xl font-light tracking-tight" style={{color: urgencyGlowColor}}>
                   {urgencyLevel}
                 </div>
@@ -77,7 +77,7 @@ export const HandoverView: React.FC = () => {
             ].map(s => (
               <div key={s.l} className="animate-drift-up">
                 <p className="text-4xl font-extralight text-white" style={{letterSpacing:'-0.04em'}}>{s.n}</p>
-                <span className="label-tag text-white/25 mt-1 block">{s.l}</span>
+                <span className="label-tag text-white/50 mt-1 block">{s.l}</span>
               </div>
             ))}
           </div>
@@ -106,7 +106,7 @@ export const HandoverView: React.FC = () => {
                 {handoverSummary.recommendedDoctorQuestions.map((a, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-ink-secondary">
                     <span
-                      className="w-5 h-5 rounded-full text-emergency-DEFAULT text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5"
+                      className="w-5 h-5 rounded-full text-emergency-DEFAULT text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5"
                       style={{ background: 'rgba(190,36,24,0.08)' }}
                     >
                       {i+1}
@@ -167,12 +167,13 @@ export const HandoverView: React.FC = () => {
           {handoverSummary.keyFindings.map((f, i) => (
             <div
               key={i}
-              className="glass-light p-6 group pressable transition-all"
+              // The lead finding gets double width on wide screens when that leaves the grid with no empty cell.
+              className={`glass-light p-6 group pressable transition-all ${i === 0 && handoverSummary.keyFindings.length % 3 === 2 ? 'xl:col-span-2' : ''}`}
               style={{ borderRadius: '1.5rem', animationDelay: `${i * 0.06}s` }}
             >
               <div className="flex items-start justify-between mb-4">
                 <span className="label-tag text-ink-muted">{f.category}</span>
-                <span className={`pill text-[10px] ${f.severity === 'severe' || f.severity === 'critical' ? 'pill-red' : 'pill-warn'}`}>
+                <span className={`pill text-[11px] ${f.severity === 'severe' || f.severity === 'critical' ? 'pill-red' : 'pill-warn'}`}>
                   {f.severity}
                 </span>
               </div>
@@ -256,12 +257,12 @@ export const HandoverView: React.FC = () => {
                   className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
                   style={{ background: 'rgba(30,207,224,0.08)', border: '1px solid rgba(30,207,224,0.12)' }}
                 >
-                  <span className="text-base">💊</span>
+                  <Pill className="w-4 h-4 text-accent-cyan" aria-hidden="true" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-ink-primary">{med}</p>
                 </div>
-                <span className="pill pill-ok text-[10px] shrink-0">Active</span>
+                <span className="pill pill-ok text-[11px] shrink-0">Active</span>
               </div>
             ))}
           </div>

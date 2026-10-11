@@ -160,3 +160,26 @@ export interface HandoverShare {
   accessCount: number;
   createdAt: string;
 }
+
+export interface CarePlanItem {
+  id: string;
+  patientId: string;
+  title: string;
+  description: string;
+  category: 'medication' | 'lifestyle' | 'monitoring' | 'warning';
+  status: 'active' | 'completed';
+  prescribedBy: string;
+  updatedAt: string;
+}
+
+export interface ClinicalOrder {
+  id: string;
+  patientId: string;
+  doctorName: string;
+  type: 'medication' | 'lab' | 'imaging' | 'nursing' | 'respiratory';
+  title: string;
+  details: string;
+  status: 'ordered' | 'in-progress' | 'completed';
+  priority: 'routine' | 'urgent' | 'stat';
+  timestamp: string;
+}

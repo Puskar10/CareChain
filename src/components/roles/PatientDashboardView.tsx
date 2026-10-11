@@ -135,7 +135,7 @@ export const PatientDashboardView: React.FC = () => {
             <div className="text-lg font-bold font-carmen mt-1 text-emerald-900">
               {activePatient ? 'Under Active Care' : 'Account Ready'}
             </div>
-            <div className="text-[10px] text-emerald-700 mt-0.5">
+            <div className="text-[11px] text-emerald-700 mt-0.5">
               {activePatient ? 'Continuous clinical monitoring' : 'Awaiting clinical linkage'}
             </div>
           </div>
@@ -148,7 +148,7 @@ export const PatientDashboardView: React.FC = () => {
             <div className="text-lg font-bold font-carmen mt-1 text-ink-primary">
               {latestVital?.heartRate ? `${latestVital.heartRate} bpm` : '--'}
             </div>
-            <div className="text-[10px] text-ink-muted mt-0.5">
+            <div className="text-[11px] text-ink-muted mt-0.5">
               {latestVital?.heartRate ? 'Telemetry synced' : 'Awaiting telemetry'}
             </div>
           </div>
@@ -161,7 +161,7 @@ export const PatientDashboardView: React.FC = () => {
             <div className="text-lg font-bold font-carmen mt-1 text-ink-primary truncate">
               {activePatient?.primaryPhysician || 'Care Team'}
             </div>
-            <div className="text-[10px] text-purple-700 mt-0.5">Assigned Clinician</div>
+            <div className="text-[11px] text-purple-700 mt-0.5">Assigned Clinician</div>
           </div>
 
           <div className="p-3 rounded-2xl bg-white/70 border border-black/[0.05]">
@@ -172,7 +172,7 @@ export const PatientDashboardView: React.FC = () => {
             <div className="text-lg font-bold font-carmen mt-1 text-ink-primary">
               {medications.length} Prescriptions
             </div>
-            <div className="text-[10px] text-amber-700 mt-0.5">Review schedule below</div>
+            <div className="text-[11px] text-amber-700 mt-0.5">Review schedule below</div>
           </div>
         </div>
       </div>
@@ -257,7 +257,7 @@ export const PatientDashboardView: React.FC = () => {
                   <p className="text-[11px] text-ink-muted">Share how you feel with your doctor and family caregiver</p>
                 </div>
               </div>
-              <span className="text-[10px] font-semibold text-cyan-700 bg-cyan-50 px-2.5 py-1 rounded-full">
+              <span className="text-[11px] font-semibold text-cyan-700 bg-cyan-50 px-2.5 py-1 rounded-full">
                 Synchronized
               </span>
             </div>
@@ -284,7 +284,7 @@ export const PatientDashboardView: React.FC = () => {
                   >
                     <Smile className={`w-6 h-6 mx-auto mb-1 ${selectedMood === 'better' ? 'text-emerald-600' : 'text-ink-muted'}`} />
                     <div className="text-xs font-bold">Feeling Better</div>
-                    <div className="text-[10px] text-ink-muted">Improving</div>
+                    <div className="text-[11px] text-ink-muted">Improving</div>
                   </button>
 
                   <button
@@ -298,7 +298,7 @@ export const PatientDashboardView: React.FC = () => {
                   >
                     <Meh className={`w-6 h-6 mx-auto mb-1 ${selectedMood === 'same' ? 'text-amber-600' : 'text-ink-muted'}`} />
                     <div className="text-xs font-bold">About the Same</div>
-                    <div className="text-[10px] text-ink-muted">Steady</div>
+                    <div className="text-[11px] text-ink-muted">Steady</div>
                   </button>
 
                   <button
@@ -312,7 +312,7 @@ export const PatientDashboardView: React.FC = () => {
                   >
                     <Frown className={`w-6 h-6 mx-auto mb-1 ${selectedMood === 'worse' ? 'text-rose-600' : 'text-ink-muted'}`} />
                     <div className="text-xs font-bold">Having Symptoms</div>
-                    <div className="text-[10px] text-ink-muted">Discomfort</div>
+                    <div className="text-[11px] text-ink-muted">Discomfort</div>
                   </button>
                 </div>
 
@@ -365,7 +365,7 @@ export const PatientDashboardView: React.FC = () => {
                 <div key={cp.id} className="p-3.5 rounded-2xl bg-white/80 border border-black/[0.06] text-xs space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-ink-primary">{cp.title}</span>
-                    <span className="text-[10px] font-semibold text-cyan-700 bg-cyan-50 px-2 py-0.2 rounded-md uppercase">
+                    <span className="text-[11px] font-semibold text-cyan-700 bg-cyan-50 px-2 py-0.2 rounded-md uppercase">
                       {cp.category}
                     </span>
                   </div>
@@ -438,7 +438,7 @@ export const PatientDashboardView: React.FC = () => {
                 <div key={apt.id} className="p-3.5 rounded-2xl bg-white/80 border border-black/[0.06] text-xs space-y-1.5">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-ink-primary">{apt.doctorName}</span>
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-100 text-purple-800">
+                    <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-purple-100 text-purple-800">
                       {apt.type}
                     </span>
                   </div>

@@ -203,6 +203,14 @@ router.post('/oauth-sync', (req, res: Response) => {
         existing.avatar = avatar;
       }
 
+      if (existing.role === 'patient' && !existing.patientId) {
+        const pat = db.ensurePatientForUser(existing);
+        existing.patientId = pat.id;
+      } else if (existing.role === 'family' && !existing.patientId) {
+        existing.patientId = db.getPatients()[0]?.id;
+        db.updateUser(existing.id, { patientId: existing.patientId });
+      }
+
       const { passwordHash: _, ...safeUser } = existing;
       const token = generateToken(safeUser);
 

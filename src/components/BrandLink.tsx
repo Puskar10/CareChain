@@ -17,7 +17,7 @@ export const BrandLink: React.FC = () => {
     <a
       href="/"
       onClick={handleClick}
-      aria-label="CareChain — go to homepage"
+      aria-label="CareChain: go to homepage"
       className="flex items-center gap-2 shrink-0 group pressable cursor-pointer"
       style={{ textDecoration: 'none' }}
     >

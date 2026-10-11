@@ -206,7 +206,7 @@ export const AuthModal: React.FC = () => {
               <div className="flex-1">
                 <div className="flex items-center gap-2">
                   <h3 className="font-semibold text-ink-primary text-sm">{user.fullName}</h3>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-accent-cyan/15 text-accent-cyan uppercase">
+                  <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-accent-cyan/15 text-accent-cyan uppercase">
                     {user.role}
                   </span>
                 </div>
@@ -256,7 +256,7 @@ export const AuthModal: React.FC = () => {
                   <Sparkles className="w-3.5 h-3.5 text-accent-cyan" />
                   Quick Demo Access (1-Click)
                 </span>
-                <span className="text-[10px] text-ink-muted">Pre-seeded with clinical roles</span>
+                <span className="text-[11px] text-ink-muted">Pre-seeded with clinical roles</span>
               </div>
 
               <div className="grid grid-cols-2 gap-2">
@@ -272,7 +272,7 @@ export const AuthModal: React.FC = () => {
                     </div>
                     <div className="overflow-hidden">
                       <div className="text-xs font-semibold text-ink-primary truncate">Doctor</div>
-                      <div className="text-[10px] text-ink-muted truncate">Dr. Aarav Sharma</div>
+                      <div className="text-[11px] text-ink-muted truncate">Dr. Aarav Sharma</div>
                     </div>
                   </div>
                 </button>
@@ -289,7 +289,7 @@ export const AuthModal: React.FC = () => {
                     </div>
                     <div className="overflow-hidden">
                       <div className="text-xs font-semibold text-ink-primary truncate">Caregiver</div>
-                      <div className="text-[10px] text-ink-muted truncate">Pooja Sharma</div>
+                      <div className="text-[11px] text-ink-muted truncate">Pooja Sharma</div>
                     </div>
                   </div>
                 </button>
@@ -306,7 +306,7 @@ export const AuthModal: React.FC = () => {
                     </div>
                     <div className="overflow-hidden">
                       <div className="text-xs font-semibold text-ink-primary truncate">Patient</div>
-                      <div className="text-[10px] text-ink-muted truncate">Rahul Sharma</div>
+                      <div className="text-[11px] text-ink-muted truncate">Rahul Sharma</div>
                     </div>
                   </div>
                 </button>
@@ -323,7 +323,7 @@ export const AuthModal: React.FC = () => {
                     </div>
                     <div className="overflow-hidden">
                       <div className="text-xs font-semibold text-ink-primary truncate">EMS Paramedic</div>
-                      <div className="text-[10px] text-ink-muted truncate">Capt. Dave Miller</div>
+                      <div className="text-[11px] text-ink-muted truncate">Capt. Dave Miller</div>
                     </div>
                   </div>
                 </button>
@@ -513,7 +513,7 @@ export const AuthModal: React.FC = () => {
               {/* Divider: OR CONTINUE WITH */}
               <div className="relative flex items-center justify-center my-3.5">
                 <div className="w-full border-t border-black/[0.08]" />
-                <span className="px-3 text-[10px] font-semibold tracking-wider text-ink-muted uppercase select-none shrink-0 bg-transparent">
+                <span className="px-3 text-[11px] font-semibold tracking-wider text-ink-muted uppercase select-none shrink-0 bg-transparent">
                   OR CONTINUE WITH
                 </span>
                 <div className="w-full border-t border-black/[0.08]" />

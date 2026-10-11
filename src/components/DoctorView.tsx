@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCareChain } from '../context/CareChainContext';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Pill } from 'lucide-react';
 
 export const DoctorView: React.FC = () => {
   const { activePatient, events, medications, handoverSummary, setActiveTab, openWhyModal } = useCareChain();
@@ -34,7 +34,7 @@ export const DoctorView: React.FC = () => {
           <p className="text-sm text-emergency-DEFAULT font-medium">
             {criticalEvents.length} critical event{criticalEvents.length > 1 ? 's' : ''} in patient history. Review immediately.
           </p>
-          <button onClick={() => setActiveTab('emergency')} className="ml-auto pill pill-red text-[10px]">Emergency Mode</button>
+          <button onClick={() => setActiveTab('emergency')} className="ml-auto pill pill-red text-[11px]">Emergency Mode</button>
         </div>
       )}
 
@@ -56,7 +56,7 @@ export const DoctorView: React.FC = () => {
               <span className="label-tag text-ink-muted block mb-1.5">CONDITIONS</span>
               <div className="flex flex-wrap gap-1.5">
                 {activePatient?.conditions && activePatient.conditions.length > 0 ? (
-                  activePatient.conditions.map(c => <span key={c} className="pill pill-dark text-[10px]">{c}</span>)
+                  activePatient.conditions.map(c => <span key={c} className="pill pill-dark text-[11px]">{c}</span>)
                 ) : (
                   <span className="text-xs text-ink-muted">None documented</span>
                 )}
@@ -66,7 +66,7 @@ export const DoctorView: React.FC = () => {
               <span className="label-tag text-ink-muted block mb-1.5">ALLERGIES</span>
               <div className="flex flex-wrap gap-1.5">
                 {activePatient?.allergies && activePatient.allergies.length > 0 ? (
-                  activePatient.allergies.map(a => <span key={a} className="pill pill-red text-[10px]">{a}</span>)
+                  activePatient.allergies.map(a => <span key={a} className="pill pill-red text-[11px]">{a}</span>)
                 ) : (
                   <span className="text-xs text-ink-muted">None documented</span>
                 )}
@@ -101,7 +101,7 @@ export const DoctorView: React.FC = () => {
                   <div className="w-12 h-1 rounded-full bg-black/[0.05] overflow-hidden">
                     <div className="h-full rounded-full bg-accent-cyan" style={{width:`${({'critical':100,'severe':75,'moderate':50,'mild':25,'normal':10} as Record<string,number>)[f.severity]||50}%`}}/>
                   </div>
-                  <span className={`pill text-[9px] ${f.severity==='severe'||f.severity==='critical'?'pill-red':'pill-warn'}`}>{f.severity}</span>
+                  <span className={`pill text-[11px] ${f.severity==='severe'||f.severity==='critical'?'pill-red':'pill-warn'}`}>{f.severity}</span>
                   <button onClick={() => openWhyModal(f as any)} className="text-xs text-accent-blue hover:text-void font-medium">Why?</button>
                 </div>
               </div>
@@ -124,13 +124,13 @@ export const DoctorView: React.FC = () => {
             const adherence = m.scheduleTimes.length ? Math.round((taken / m.scheduleTimes.length) * 100) : null;
             return (
             <div key={m.id} className="flex items-center gap-3 p-3 rounded-2xl border border-black/[0.05] bg-black/[0.015]">
-              <span className="text-lg">💊</span>
+              <Pill className="w-5 h-5 shrink-0 text-ink-secondary" aria-hidden="true" />
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-ink-primary truncate">{m.name}</p>
                 <p className="text-xs text-ink-muted">{m.dose} · {m.frequency}</p>
               </div>
               {adherence != null && (
-                <span className={`pill text-[9px] ${adherence < 70 ? 'pill-warn' : 'pill-ok'}`}>
+                <span className={`pill text-[11px] ${adherence < 70 ? 'pill-warn' : 'pill-ok'}`}>
                   {adherence}%
                 </span>
               )}
@@ -165,7 +165,7 @@ export const DoctorView: React.FC = () => {
                 </span>
                 <p className="font-mono text-xs text-ink-muted">{new Date(e.timestamp).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}</p>
               </div>
-              <span className={`pill text-[9px] shrink-0 ${e.severity==='critical'||e.severity==='severe'?'pill-red':e.severity==='moderate'?'pill-warn':'pill-dark'}`}>
+              <span className={`pill text-[11px] shrink-0 ${e.severity==='critical'||e.severity==='severe'?'pill-red':e.severity==='moderate'?'pill-warn':'pill-dark'}`}>
                 {e.severity}
               </span>
             </div>

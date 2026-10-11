@@ -217,29 +217,29 @@ export const EmsDashboardView: React.FC = () => {
         {/* Rapid Telemetry Bar */}
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-6 pt-6 border-t border-white/10 text-white">
           <div className="bg-white/5 rounded-2xl p-3 border border-white/5">
-            <div className="text-[10px] text-white/60 font-semibold uppercase tracking-wider">SpO2 Oxygen</div>
+            <div className="text-[11px] text-white/60 font-semibold uppercase tracking-wider">SpO2 Oxygen</div>
             <div className="text-xl font-bold font-carmen mt-0.5 text-cyan-300">95% (on 4L O2)</div>
-            <div className="text-[10px] text-rose-300">Baseline was 92%</div>
+            <div className="text-[11px] text-rose-300">Baseline was 92%</div>
           </div>
           <div className="bg-white/5 rounded-2xl p-3 border border-white/5">
-            <div className="text-[10px] text-white/60 font-semibold uppercase tracking-wider">Pulse Rate</div>
+            <div className="text-[11px] text-white/60 font-semibold uppercase tracking-wider">Pulse Rate</div>
             <div className="text-xl font-bold font-carmen mt-0.5 text-amber-300">108 bpm</div>
-            <div className="text-[10px] text-amber-300">Sinus Tachycardia</div>
+            <div className="text-[11px] text-amber-300">Sinus Tachycardia</div>
           </div>
           <div className="bg-white/5 rounded-2xl p-3 border border-white/5">
-            <div className="text-[10px] text-white/60 font-semibold uppercase tracking-wider">Blood Pressure</div>
+            <div className="text-[11px] text-white/60 font-semibold uppercase tracking-wider">Blood Pressure</div>
             <div className="text-xl font-bold font-carmen mt-0.5 text-white">138/88 mmHg</div>
-            <div className="text-[10px] text-white/60">Stage 1 Elevated</div>
+            <div className="text-[11px] text-white/60">Stage 1 Elevated</div>
           </div>
           <div className="bg-white/5 rounded-2xl p-3 border border-white/5">
-            <div className="text-[10px] text-white/60 font-semibold uppercase tracking-wider">Core Temperature</div>
+            <div className="text-[11px] text-white/60 font-semibold uppercase tracking-wider">Core Temperature</div>
             <div className="text-xl font-bold font-carmen mt-0.5 text-rose-300">102.4°F</div>
-            <div className="text-[10px] text-rose-300">Peak 102.8°F</div>
+            <div className="text-[11px] text-rose-300">Peak 102.8°F</div>
           </div>
           <div className="bg-white/5 rounded-2xl p-3 border border-white/5">
-            <div className="text-[10px] text-white/60 font-semibold uppercase tracking-wider">Respiratory Rate</div>
+            <div className="text-[11px] text-white/60 font-semibold uppercase tracking-wider">Respiratory Rate</div>
             <div className="text-xl font-bold font-carmen mt-0.5 text-white">22 /min</div>
-            <div className="text-[10px] text-white/60">Tachypneic</div>
+            <div className="text-[11px] text-white/60">Tachypneic</div>
           </div>
         </div>
       </div>
@@ -257,7 +257,7 @@ export const EmsDashboardView: React.FC = () => {
             </span>
           </div>
         </div>
-        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-rose-200 text-rose-900 shrink-0 uppercase">
+        <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-200 text-rose-900 shrink-0 uppercase">
           Verified on Record
         </span>
       </div>
@@ -279,7 +279,7 @@ export const EmsDashboardView: React.FC = () => {
                 </div>
               </div>
               {isVitalsLoggedSuccess && (
-                <span className="text-[10px] text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full font-bold animate-scale-in">
+                <span className="text-[11px] text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full font-bold animate-scale-in">
                   ✓ Recorded!
                 </span>
               )}
@@ -420,7 +420,7 @@ export const EmsDashboardView: React.FC = () => {
                   <p className="text-[11px] text-ink-muted">Standard pre-hospital clinical handover format</p>
                 </div>
               </div>
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 uppercase">
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-purple-100 text-purple-800 uppercase">
                 Ready for Transfer
               </span>
             </div>
@@ -429,7 +429,7 @@ export const EmsDashboardView: React.FC = () => {
               {/* M - Mechanism / History */}
               <div className="p-3.5 rounded-2xl bg-white/80 border border-black/[0.06] space-y-1">
                 <div className="flex items-center gap-1.5 font-bold text-purple-900 uppercase tracking-wider text-[11px]">
-                  <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-800 flex items-center justify-center text-[10px]">M</span>
+                  <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-800 flex items-center justify-center text-[11px]">M</span>
                   Mechanism of Incident / Medical History
                 </div>
                 <p className="text-ink-secondary pl-6 leading-relaxed">
@@ -440,7 +440,7 @@ export const EmsDashboardView: React.FC = () => {
               {/* I - Illness / Injuries */}
               <div className="p-3.5 rounded-2xl bg-white/80 border border-black/[0.06] space-y-1">
                 <div className="flex items-center gap-1.5 font-bold text-rose-900 uppercase tracking-wider text-[11px]">
-                  <span className="w-5 h-5 rounded-full bg-rose-100 text-rose-800 flex items-center justify-center text-[10px]">I</span>
+                  <span className="w-5 h-5 rounded-full bg-rose-100 text-rose-800 flex items-center justify-center text-[11px]">I</span>
                   Illness Found / Suspected Pathology
                 </div>
                 <p className="text-ink-secondary pl-6 leading-relaxed">
@@ -451,7 +451,7 @@ export const EmsDashboardView: React.FC = () => {
               {/* S - Signs & Vitals */}
               <div className="p-3.5 rounded-2xl bg-white/80 border border-black/[0.06] space-y-1">
                 <div className="flex items-center gap-1.5 font-bold text-amber-900 uppercase tracking-wider text-[11px]">
-                  <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-[10px]">S</span>
+                  <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-[11px]">S</span>
                   Signs & Physiological Parameters
                 </div>
                 <p className="text-ink-secondary pl-6 leading-relaxed font-mono text-[11px]">
@@ -462,7 +462,7 @@ export const EmsDashboardView: React.FC = () => {
               {/* T - Treatment Given */}
               <div className="p-3.5 rounded-2xl bg-white/80 border border-black/[0.06] space-y-1">
                 <div className="flex items-center gap-1.5 font-bold text-emerald-900 uppercase tracking-wider text-[11px]">
-                  <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-[10px]">T</span>
+                  <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-[11px]">T</span>
                   Treatment Administered En-Route
                 </div>
                 <p className="text-ink-secondary pl-6 leading-relaxed">
@@ -502,7 +502,7 @@ export const EmsDashboardView: React.FC = () => {
                     <span className="font-bold text-ink-primary">{int.name}</span>
                     <div className="text-[11px] text-ink-muted">{int.notes}</div>
                   </div>
-                  <span className="font-mono text-[10px] text-cyan-700 bg-cyan-50 px-2 py-0.5 rounded-md font-semibold">
+                  <span className="font-mono text-[11px] text-cyan-700 bg-cyan-50 px-2 py-0.5 rounded-md font-semibold">
                     {int.timestamp}
                   </span>
                 </div>

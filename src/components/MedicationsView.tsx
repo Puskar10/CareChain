@@ -1,5 +1,6 @@
 import React from 'react';
 import { useCareChain } from '../context/CareChainContext';
+import { Pill } from 'lucide-react';
 
 export const MedicationsView: React.FC = () => {
   const { medications, events, toggleMedicationDose } = useCareChain();
@@ -62,9 +63,9 @@ export const MedicationsView: React.FC = () => {
                         WebkitBackdropFilter: 'blur(8px)',
                       }}
                     >
-                      💊
+                      <Pill className="w-4 h-4" aria-hidden="true" />
                     </div>
-                    <span className="pill pill-ok text-[10px]">Active</span>
+                    <span className="pill pill-ok text-[11px]">Active</span>
                   </div>
 
                   <h3 className="text-base font-semibold text-ink-primary" style={{letterSpacing:'-0.01em'}}>{m.name}</h3>
@@ -116,7 +117,7 @@ export const MedicationsView: React.FC = () => {
                   {/* Missed doses */}
                   {missedCount > 0 && (
                     <div className="mt-3 flex items-center gap-2">
-                      <span className="pill pill-warn text-[9px]">{missedCount} missed dose{missedCount > 1 ? 's' : ''}</span>
+                      <span className="pill pill-warn text-[11px]">{missedCount} missed dose{missedCount > 1 ? 's' : ''}</span>
                     </div>
                   )}
 
@@ -129,8 +130,8 @@ export const MedicationsView: React.FC = () => {
                           <button
                             key={idx}
                             onClick={() => toggleMedicationDose(m.id, idx, st.status === 'taken' ? 'missed' : 'taken')}
-                            title={`${st.time} — ${st.status}`}
-                            className={`px-2 py-1 rounded-lg text-[10px] font-medium pressable transition-all ${
+                            title={`${st.time}: ${st.status}`}
+                            className={`px-2 py-1 rounded-lg text-[11px] font-medium pressable transition-all ${
                               st.status === 'taken'  ? 'bg-ok/10 text-ok border border-ok/20' :
                               st.status === 'missed' ? 'bg-emergency-dim text-emergency-DEFAULT border border-emergency-border' :
                               ''
@@ -168,14 +169,14 @@ export const MedicationsView: React.FC = () => {
                 className="flex items-center gap-4 p-5 pressable"
                 style={idx > 0 ? { borderTop: '1px solid rgba(0,0,0,0.05)' } : {}}
               >
-                <div className="text-xl opacity-40">💊</div>
+                <div className="text-xl opacity-40"><Pill className="w-5 h-5" aria-hidden="true" /></div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-ink-primary">
                     {m.name} <span className="text-ink-muted font-normal">· {m.dose}</span>
                   </p>
                   <p className="text-xs text-ink-muted mt-0.5">{m.frequency}</p>
                 </div>
-                <span className={`pill text-[10px] ${m.status === 'paused' ? 'pill-warn' : 'pill-dark'}`}>{m.status}</span>
+                <span className={`pill text-[11px] ${m.status === 'paused' ? 'pill-warn' : 'pill-dark'}`}>{m.status}</span>
               </div>
             ))}
           </div>

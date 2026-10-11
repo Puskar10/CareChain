@@ -91,7 +91,7 @@ export const NavigationTabs: React.FC = () => {
                 <span>{tab.label}</span>
                 {tab.badge && (
                   <span
-                    className={`text-[10px] px-1.5 py-0.5 rounded-full font-semibold ${
+                    className={`text-[11px] px-1.5 py-0.5 rounded-full font-semibold ${
                       isActive ? 'bg-white/20 text-white' : tab.badgeColor || 'bg-slate-100 text-slate-600'
                     }`}
                   >

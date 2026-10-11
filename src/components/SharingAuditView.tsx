@@ -97,7 +97,7 @@ export const SharingAuditView: React.FC = () => {
                 <div className="text-right shrink-0">
                   <span className="font-mono text-xs text-ink-muted">{log.timestamp}</span>
                 </div>
-                <span className={`pill text-[10px] shrink-0 ${
+                <span className={`pill text-[11px] shrink-0 ${
                   log.actorRole === 'Doctor' ? 'pill-cyan' :
                   log.actorRole === 'Emergency EMS' ? 'pill-red' : 'pill-dark'
                 }`}>

@@ -9,7 +9,10 @@ import {
   HandoverSummary,
   DemoAccount,
   EventType,
-  MedicationScheduleItem
+  MedicationScheduleItem,
+  AIOverviewData,
+  CarePlanItem,
+  ClinicalOrder
 } from '../types';
 
 const API_BASE = '/api';
@@ -188,6 +191,32 @@ class ApiClient {
         body: JSON.stringify(updates)
       });
       return res.data || null;
+    },
+
+    getCarePlans: async (patientId: string): Promise<CarePlanItem[]> => {
+      const res = await this.request<CarePlanItem[]>(`/patients/${patientId}/care-plans`);
+      return res.data || [];
+    },
+
+    createCarePlan: async (patientId: string, plan: Partial<CarePlanItem>): Promise<CarePlanItem | null> => {
+      const res = await this.request<CarePlanItem>(`/patients/${patientId}/care-plans`, {
+        method: 'POST',
+        body: JSON.stringify(plan)
+      });
+      return res.data || null;
+    },
+
+    getClinicalOrders: async (patientId: string): Promise<ClinicalOrder[]> => {
+      const res = await this.request<ClinicalOrder[]>(`/patients/${patientId}/orders`);
+      return res.data || [];
+    },
+
+    createClinicalOrder: async (patientId: string, order: Partial<ClinicalOrder>): Promise<ClinicalOrder | null> => {
+      const res = await this.request<ClinicalOrder>(`/patients/${patientId}/orders`, {
+        method: 'POST',
+        body: JSON.stringify(order)
+      });
+      return res.data || null;
     }
   };
 
@@ -204,17 +233,23 @@ class ApiClient {
       return res.data || [];
     },
 
-    create: async (event: Partial<HealthEvent>): Promise<HealthEvent | null> => {
+    create: async (event: Partial<HealthEvent>): Promise<HealthEvent> => {
       const res = await this.request<HealthEvent>('/events', {
         method: 'POST',
         body: JSON.stringify(event)
       });
-      return res.data || null;
+      if (!res.success || !res.data) {
+        throw new Error(res.error || 'Failed to save health event');
+      }
+      return res.data;
     },
 
     delete: async (id: string): Promise<boolean> => {
       const res = await this.request(`/events/${id}`, { method: 'DELETE' });
-      return !!res.success;
+      if (!res.success) {
+        throw new Error(res.error || 'Failed to delete health event');
+      }
+      return true;
     },
 
     verify: async (id: string): Promise<HealthEvent | null> => {
@@ -293,6 +328,17 @@ class ApiClient {
       const qs = timespan ? `?timespan=${timespan}` : '';
       const res = await this.request<HandoverSummary>(`/handover/${patientId}${qs}`);
       return res.data || null;
+    }
+  };
+
+  // --- AI patient overview (doctor-only; Gemini + ChromaDB run on the server) ---
+  ai = {
+    patientOverview: async (patientId: string): Promise<{ success: boolean; data?: AIOverviewData; error?: string }> => {
+      const res = await this.request<AIOverviewData>('/ai/patient-overview', {
+        method: 'POST',
+        body: JSON.stringify({ patientId })
+      });
+      return res.success && res.data ? { success: true, data: res.data } : { success: false, error: res.error };
     }
   };
 

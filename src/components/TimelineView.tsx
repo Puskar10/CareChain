@@ -58,7 +58,7 @@ export const TimelineView: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
-          {/* Time filter — glass track */}
+          {/* Time filter - glass track */}
           <div className="filter-track flex items-center gap-0.5">
             {timeFilters.map(f => (
               <button key={f} onClick={() => setActiveFilterTime(f)}
@@ -79,7 +79,7 @@ export const TimelineView: React.FC = () => {
         </div>
       </div>
 
-      {/* Type filter chips — glass */}
+      {/* Type filter chips - glass */}
       <div className="flex items-center gap-2 flex-wrap mb-10 animate-drift-up animate-drift-up-delay-1">
         {typeFilters.map(f => (
           <button key={f} onClick={() => setActiveFilterType(f)}
@@ -114,7 +114,7 @@ export const TimelineView: React.FC = () => {
             boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.60)',
           }}
         >
-          <div className="w-1.5 h-1.5 rounded-full bg-accent-cyan shrink-0" style={{animation:'pulseDot 2s ease-in-out infinite'}}/>
+          <div className="w-1.5 h-1.5 rounded-full bg-accent-cyan shrink-0" style={{animation:'pulseDot 2s ease-in-out 3'}}/>
           <p className="text-xs text-ink-secondary">
             Highlighting <strong className="text-ink-primary">{evidenceHighlightIds.length} events</strong> referenced in the AI handover analysis.
           </p>
@@ -179,7 +179,7 @@ export const TimelineView: React.FC = () => {
                           }}
                         />
 
-                        {/* Card — glass-light */}
+                        {/* Card - glass-light */}
                         <div
                           className={`flex-1 glass-light p-5 pressable transition-all group-hover:shadow-glass-hover ${
                             isHighlighted ? '' : isMajor ? '' : ''
@@ -214,7 +214,7 @@ export const TimelineView: React.FC = () => {
                               )}
                             </div>
                             <div className="flex items-center gap-2">
-                              <span className={`pill text-[10px] ${
+                              <span className={`pill text-[11px] ${
                                 evt.severity === 'critical' || evt.severity === 'severe' ? 'pill-red' :
                                 evt.severity === 'moderate' ? 'pill-warn' : 'pill-dark'
                               }`}>{evt.severity}</span>

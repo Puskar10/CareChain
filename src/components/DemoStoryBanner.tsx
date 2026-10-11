@@ -3,7 +3,7 @@ import { useCareChain } from '../context/CareChainContext';
 import { ArrowRight, X } from 'lucide-react';
 
 const SCENES = [
-  { num: 1, label: 'Fever onset', detail: 'Sept 25 — 100.4°F with chills' },
+  { num: 1, label: 'Fever onset', detail: 'Sept 25: 100.4°F with chills' },
   { num: 2, label: 'Medication events', detail: 'Dr. Mehta prescribes antibiotics' },
   { num: 3, label: 'Vitals worsen', detail: '100.4°F → 101.8°F → 102.6°F' },
   { num: 4, label: 'Acute dizziness', detail: '108 bpm + orthostatic vertigo' },
@@ -45,7 +45,7 @@ export const DemoStoryBanner: React.FC = () => {
               style={{ width: `${progress}%` }}
             />
           </div>
-          <span className="text-xs text-white/40 shrink-0">{current.detail}</span>
+          <span className="text-xs text-white/60 shrink-0">{current.detail}</span>
         </div>
 
         {/* Steps */}
@@ -72,7 +72,7 @@ export const DemoStoryBanner: React.FC = () => {
               <ArrowRight className="w-3 h-3"/>
             </button>
           )}
-          <button onClick={resetDemoData} className="p-1.5 text-white/30 hover:text-white/60 transition-colors">
+          <button onClick={resetDemoData} className="p-1.5 text-white/50 hover:text-white/60 transition-colors">
             <X className="w-3.5 h-3.5"/>
           </button>
         </div>

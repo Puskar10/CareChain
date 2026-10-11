@@ -36,8 +36,8 @@ export default {
         // Text
         ink: {
           primary: '#18202A',
-          secondary: '#6B7885',
-          muted: '#95A2AE',
+          secondary: '#4C5966',
+          muted: '#5E6B78',
           ghost: '#B8C4CC',
         },
         // Emergency
@@ -117,8 +117,8 @@ export default {
           to: { opacity: '1', transform: 'translateY(0)' },
         },
         driftUp: {
-          from: { opacity: '0', transform: 'translateY(36px) scale(0.98)', filter: 'blur(4px)' },
-          to: { opacity: '1', transform: 'translateY(0) scale(1)', filter: 'blur(0px)' },
+          from: { opacity: '0', transform: 'translateY(10px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
         },
         scaleIn: {
           from: { opacity: '0', transform: 'scale(0.94) translateY(12px)', filter: 'blur(3px)' },

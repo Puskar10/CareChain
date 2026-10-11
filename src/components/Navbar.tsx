@@ -905,7 +905,7 @@ export const Navbar: React.FC = () => {
       {/* ROW 1: PRIMARY NAVIGATION */}
       <div className="w-full px-3 sm:px-4 lg:px-6">
         <div className="flex items-center justify-between h-13 gap-2 sm:gap-3">
-          {/* Logo — links to the public homepage */}
+          {/* Logo - links to the public homepage */}
           <BrandLink />
 
           {/* Role-Specific Primary Navigation Tabs (Centered, never squished or clipped) */}

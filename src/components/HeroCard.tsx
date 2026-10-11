@@ -16,7 +16,7 @@ const MiniEvent: React.FC<{ time: string; title: string; value?: string; severit
       />
       <div className="flex-1 min-w-0">
         <p className="text-[11px] sm:text-xs text-white/80 font-medium truncate">{title}</p>
-        <p className="label-tag text-[9px] text-white/30 mt-0.5">{time}</p>
+        <p className="label-tag text-[11px] text-white/50 mt-0.5">{time}</p>
       </div>
       {value && <span className="text-[11px] font-mono text-white/55 shrink-0">{value}</span>}
     </div>
@@ -154,7 +154,7 @@ export const HeroCard: React.FC<HeroCardProps> = ({ events, onViewHandover, onRu
           {/* LEFT: editorial headline + data */}
           <div className="relative z-10 flex-1 flex flex-col justify-between p-6 sm:p-9 lg:p-8 xl:p-10 lg:max-w-[46%] xl:max-w-[48%]">
             <div>
-              {/* Status tag — glass float */}
+              {/* Status tag - glass float */}
               <div className="flex items-center gap-2.5 mb-7 lg:mb-8">
                 <div
                   className="flex items-center gap-2 px-2.5 py-1 rounded-full"
@@ -166,24 +166,24 @@ export const HeroCard: React.FC<HeroCardProps> = ({ events, onViewHandover, onRu
                     boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)',
                   }}
                 >
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent-cyan" style={{animation: 'pulseDot 2s ease-in-out infinite'}}/>
-                  <span className="label-tag text-[9.5px] text-accent-cyan">PATIENT HEALTH INTELLIGENCE</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent-cyan" style={{animation: 'pulseDot 2s ease-in-out 3'}}/>
+                  <span className="label-tag text-[11px] text-accent-cyan">PATIENT HEALTH INTELLIGENCE</span>
                 </div>
-                <span className="label-tag text-[9.5px] text-white/20">CARECHAIN</span>
+                <span className="label-tag text-[11px] text-white/50">CARECHAIN</span>
               </div>
 
               {/* HEADLINE */}
               <h1 className="headline-display text-white mb-5 animate-fade-up">
                 THE STORY
                 <br />
-                <span className="text-white/20">BEHIND</span>
+                <span className="text-[rgba(255,255,255,0.4)]">BEHIND</span>
                 <br />
                 <span className="text-white">THE</span>
                 <br />
                 <span className="shimmer-text">EMERGENCY.</span>
               </h1>
 
-              <p className="text-xs sm:text-[13px] text-white/40 max-w-[270px] leading-relaxed mb-7 lg:mb-8 animate-fade-up animate-fade-up-delay-1">
+              <p className="text-xs sm:text-[13px] text-white/60 max-w-[270px] leading-relaxed mb-7 lg:mb-8 animate-fade-up animate-fade-up-delay-1">
                 Know what happened before the patient reached the hospital.
                 72 hours of clinical context, compiled in 60 seconds.
               </p>
@@ -210,12 +210,12 @@ export const HeroCard: React.FC<HeroCardProps> = ({ events, onViewHandover, onRu
               style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}
             >
               {[
-                { label: 'TEMPERATURE', value: '102.6°F', delta: '↑ +2.2°F', color: '#BE2418' },
+                { label: 'TEMPERATURE', value: '102.6°F', delta: '↑ +2.2°F', color: '#F0685C' },
                 { label: 'PULSE', value: '108 bpm', delta: 'Tachycardic', color: '#CC7A08' },
                 { label: 'EVENTS', value: String(events.length), delta: 'Last 72h', color: '#1ECFE0' },
               ].map(m => (
                 <div key={m.label} className="animate-drift-up">
-                  <span className="label-tag text-[9.5px]" style={{color: 'rgba(255,255,255,0.25)'}}>{m.label}</span>
+                  <span className="label-tag text-[11px]" style={{color: 'rgba(255,255,255,0.5)'}}>{m.label}</span>
                   <p className="text-xl sm:text-[1.375rem] font-light text-white mt-1 tracking-tight" style={{letterSpacing: '-0.03em'}}>{m.value}</p>
                   <p className="text-[11px] mt-0.5" style={{color: m.color, opacity: 0.85}}>{m.delta}</p>
                 </div>
@@ -232,26 +232,26 @@ export const HeroCard: React.FC<HeroCardProps> = ({ events, onViewHandover, onRu
               />
               <AnatomyVideo />
 
-              {/* Floating chip — temperature — glass */}
+              {/* Floating chip - temperature - glass */}
               <div
                 className="chip-dark absolute top-6 lg:top-8 right-1 lg:right-2 px-2 py-1 text-right z-10"
               >
-                <span className="label-tag text-[9px] text-white/40">TEMP</span>
+                <span className="label-tag text-[11px] text-white/60">TEMP</span>
                 <p className="text-sm font-light text-white" style={{letterSpacing: '-0.03em'}}>102.6°F</p>
               </div>
 
-              {/* Floating chip — pulse — glass */}
+              {/* Floating chip - pulse - glass */}
               <div
                 className="chip-dark absolute bottom-1/5 lg:bottom-1/4 -left-1 lg:left-0 px-2 py-1 z-10"
               >
-                <span className="label-tag text-[9px] text-white/40">PULSE</span>
+                <span className="label-tag text-[11px] text-white/60">PULSE</span>
                 <p className="text-xs font-light text-white" style={{letterSpacing: '-0.03em'}}>108 bpm</p>
               </div>
             </div>
 
             {/* Recent events mini list */}
             <div className="w-full lg:w-[155px] xl:w-44 2xl:w-48 flex-shrink-0">
-              <span className="label-tag text-[9.5px] text-white/25 block mb-2.5">RECENT EVENTS</span>
+              <span className="label-tag text-[11px] text-white/50 block mb-2.5">RECENT EVENTS</span>
               {recentEvents.map(e => (
                 <MiniEvent
                   key={e.id}

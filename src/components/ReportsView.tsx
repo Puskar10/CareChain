@@ -1,17 +1,17 @@
 import React from 'react';
 import { useCareChain } from '../context/CareChainContext';
-import { ArrowUpRight, ArrowRight } from 'lucide-react';
+import { ArrowUpRight, ArrowRight, ClipboardList, FileSignature, FileText, FlaskConical, Paperclip, ScanLine } from 'lucide-react';
 
 export const ReportsView: React.FC = () => {
   const { reports } = useCareChain();
 
   const typeIcon = (t: string) => {
-    if (t === 'CBC Report' || t === 'Lab Report') return '🧪';
-    if (t === 'Imaging') return '🩻';
-    if (t === 'Discharge Summary') return '📋';
-    if (t === 'Prescription') return '📝';
-    if (t === 'Biochemistry') return '⚗️';
-    return '📄';
+    const cls = 'w-[1em] h-[1em] inline-block align-[-0.125em]';
+    if (t === 'CBC Report' || t === 'Lab Report' || t === 'Biochemistry') return <FlaskConical className={cls} aria-hidden="true" />;
+    if (t === 'Imaging') return <ScanLine className={cls} aria-hidden="true" />;
+    if (t === 'Discharge Summary') return <ClipboardList className={cls} aria-hidden="true" />;
+    if (t === 'Prescription') return <FileSignature className={cls} aria-hidden="true" />;
+    return <FileText className={cls} aria-hidden="true" />;
   };
 
   const grouped: Record<string, typeof reports> = {};
@@ -45,7 +45,7 @@ export const ReportsView: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     {report.aiVerified && (
-                      <span className="pill pill-cyan text-[9px]">AI Verified</span>
+                      <span className="pill pill-cyan text-[11px]">AI Verified</span>
                     )}
                     {report.fileUrl && (
                       <a href={report.fileUrl} target="_blank" rel="noreferrer"
@@ -73,8 +73,8 @@ export const ReportsView: React.FC = () => {
                   <div className="mt-4 pt-4 border-t border-black/[0.05] grid grid-cols-2 gap-2">
                     {Object.entries(report.extractedData).slice(0, 6).map(([k,v]) => (
                       <div key={k} className="flex items-start justify-between gap-1">
-                        <span className="text-[10px] text-ink-muted truncate">{k}</span>
-                        <span className="font-mono text-[10px] text-ink-primary font-medium ml-1 shrink-0 text-right" style={{maxWidth:'50%'}}>{String(v)}</span>
+                        <span className="text-[11px] text-ink-muted truncate">{k}</span>
+                        <span className="font-mono text-[11px] text-ink-primary font-medium ml-1 shrink-0 text-right" style={{maxWidth:'50%'}}>{String(v)}</span>
                       </div>
                     ))}
                   </div>
@@ -82,7 +82,7 @@ export const ReportsView: React.FC = () => {
 
                 {/* File name */}
                 <div className="mt-3 flex items-center gap-2">
-                  <span className="text-[10px] text-ink-muted">📎 {report.fileName}</span>
+                  <span className="text-[11px] text-ink-muted inline-flex items-center gap-1"><Paperclip className="w-3 h-3" aria-hidden="true" />{report.fileName}</span>
                 </div>
               </div>
             ))}

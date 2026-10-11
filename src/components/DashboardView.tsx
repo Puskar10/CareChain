@@ -22,7 +22,7 @@ export const DashboardView: React.FC = () => {
       <section className="px-4 sm:px-6 lg:px-8 pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 max-w-screen-xl mx-auto">
 
-          {/* Patient profile card — glass-light */}
+          {/* Patient profile card - glass-light */}
           <div className="lg:col-span-4 glass-light p-8 animate-drift-up">
             <div className="flex items-start justify-between mb-6">
               <div>
@@ -45,7 +45,7 @@ export const DashboardView: React.FC = () => {
                 <div className="flex flex-wrap gap-1.5">
                   {activePatient?.allergies && activePatient.allergies.length > 0 ? (
                     activePatient.allergies.map(a => (
-                      <span key={a} className="pill pill-red text-[10px]">{a}</span>
+                      <span key={a} className="pill pill-red text-[11px]">{a}</span>
                     ))
                   ) : (
                     <span className="text-xs text-ink-muted">None documented</span>
@@ -57,7 +57,7 @@ export const DashboardView: React.FC = () => {
                 <div className="flex flex-wrap gap-1.5">
                   {activePatient?.conditions && activePatient.conditions.length > 0 ? (
                     activePatient.conditions.map(c => (
-                      <span key={c} className="pill pill-dark text-[10px]">{c}</span>
+                      <span key={c} className="pill pill-dark text-[11px]">{c}</span>
                     ))
                   ) : (
                     <span className="text-xs text-ink-muted">None documented</span>
@@ -87,7 +87,7 @@ export const DashboardView: React.FC = () => {
             </button>
           </div>
 
-          {/* AI Handover teaser — glass-dark */}
+          {/* AI Handover teaser - glass-dark */}
           <div
             className="lg:col-span-8 glass-dark relative overflow-hidden p-8 sm:p-10 flex flex-col animate-drift-up animate-drift-up-delay-1"
             style={{ borderRadius: '1.75rem' }}
@@ -106,7 +106,7 @@ export const DashboardView: React.FC = () => {
                       60-Second Summary
                     </h3>
                   </div>
-                  <div className="label-tag text-white/25">{handoverSummary.timespan}</div>
+                  <div className="label-tag text-white/50">{handoverSummary.timespan}</div>
                 </div>
 
                 <blockquote
@@ -131,7 +131,7 @@ export const DashboardView: React.FC = () => {
                   ].map(s => (
                     <div key={s.label}>
                       <p className="text-2xl font-light text-white" style={{letterSpacing: '-0.04em'}}>{s.n}</p>
-                      <span className="label-tag text-white/25">{s.label}</span>
+                      <span className="label-tag text-white/50">{s.label}</span>
                     </div>
                   ))}
                 </div>
@@ -174,7 +174,7 @@ export const DashboardView: React.FC = () => {
               >
                 <div className="flex items-start justify-between mb-4">
                   <span className="label-tag text-ink-muted">{f.category}</span>
-                  <span className={`pill text-[10px] ${f.severity === 'severe' || f.severity === 'critical' ? 'pill-red' : 'pill-warn'}`}>
+                  <span className={`pill text-[11px] ${f.severity === 'severe' || f.severity === 'critical' ? 'pill-red' : 'pill-warn'}`}>
                     {f.severity}
                   </span>
                 </div>

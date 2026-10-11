@@ -61,7 +61,7 @@ export const VitalsView: React.FC = () => {
           {
             label: 'TEMPERATURE',
             value: latestTemp ? `${latestTemp}°F` : 'N/A',
-            sub: latestTemp ? (latestTemp >= 100.4 ? 'Febrile' : 'Normal') : '—',
+            sub: latestTemp ? (latestTemp >= 100.4 ? 'Febrile' : 'Normal') : '--',
             trend: tempReadings.map(r => r.v),
             color: statusColor(tempStatus),
             trendColor: '#C5281A',
@@ -115,17 +115,17 @@ export const VitalsView: React.FC = () => {
                 <span className="label-tag text-ink-muted">TEMPERATURE TREND</span>
                 <p className="text-lg font-light text-ink-primary mt-1" style={{letterSpacing:'-0.02em'}}>{tempReadings.length} readings</p>
               </div>
-              <span className="pill pill-red text-[10px]">{latestTemp}°F</span>
+              <span className="pill pill-red text-[11px]">{latestTemp}°F</span>
             </div>
             <div className="h-48 relative">
               <SparkLine values={tempReadings.map(r=>r.v)} color="#C5281A" height={192}/>
               {/* Reference lines */}
               <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute w-full border-t border-dashed border-emergency-DEFAULT/20" style={{top:'25%'}}>
-                  <span className="absolute right-0 -top-3 text-[9px] text-emergency-DEFAULT/50">103°F</span>
+                  <span className="absolute right-0 -top-3 text-[11px] text-emergency-DEFAULT/50">103°F</span>
                 </div>
                 <div className="absolute w-full border-t border-dashed border-warn/20" style={{top:'55%'}}>
-                  <span className="absolute right-0 -top-3 text-[9px] text-warn/50">100.4°F</span>
+                  <span className="absolute right-0 -top-3 text-[11px] text-warn/50">100.4°F</span>
                 </div>
               </div>
             </div>
@@ -148,7 +148,7 @@ export const VitalsView: React.FC = () => {
                 <span className="label-tag text-ink-muted">PULSE RATE</span>
                 <p className="text-lg font-light text-ink-primary mt-1" style={{letterSpacing:'-0.02em'}}>{pulseReadings.length} readings</p>
               </div>
-              <span className={`pill text-[10px] ${latestPulse && latestPulse > 100 ? 'pill-warn' : 'pill-ok'}`}>
+              <span className={`pill text-[11px] ${latestPulse && latestPulse > 100 ? 'pill-warn' : 'pill-ok'}`}>
                 {latestPulse} bpm
               </span>
             </div>
@@ -192,22 +192,22 @@ export const VitalsView: React.FC = () => {
                   <td className="px-5 py-3">
                     {e.metadata?.temperature
                       ? <span className={`font-mono text-xs font-medium ${Number(e.metadata.temperature) >= 100.4 ? 'text-emergency-DEFAULT' : 'text-ok'}`}>{e.metadata.temperature}°F</span>
-                      : <span className="text-ink-muted text-xs">—</span>}
+                      : <span className="text-ink-muted text-xs">--</span>}
                   </td>
                   <td className="px-5 py-3">
                     {e.metadata?.heartRate
                       ? <span className="font-mono text-xs text-ink-primary">{e.metadata.heartRate} bpm</span>
-                      : <span className="text-ink-muted text-xs">—</span>}
+                      : <span className="text-ink-muted text-xs">--</span>}
                   </td>
                   <td className="px-5 py-3">
                     {e.metadata?.bpSystolic
                       ? <span className="font-mono text-xs text-ink-primary">{e.metadata.bpSystolic}/{e.metadata.bpDiastolic} mmHg</span>
-                      : <span className="text-ink-muted text-xs">—</span>}
+                      : <span className="text-ink-muted text-xs">--</span>}
                   </td>
                   <td className="px-5 py-3">
                     {e.metadata?.oxygenSat
                       ? <span className="font-mono text-xs text-ink-primary">{e.metadata.oxygenSat}%</span>
-                      : <span className="text-ink-muted text-xs">—</span>}
+                      : <span className="text-ink-muted text-xs">--</span>}
                   </td>
                   <td className="px-5 py-3 text-xs text-ink-muted">{e.source}</td>
                 </tr>

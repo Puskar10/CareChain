@@ -10,7 +10,9 @@ import {
   MedicalReport,
   VitalRecord,
   AuditLogItem,
-  HandoverShare
+  HandoverShare,
+  CarePlanItem,
+  ClinicalOrder
 } from './types';
 
 // Initial Patients matching front-end rich clinical dataset
@@ -435,6 +437,54 @@ const DEFAULT_USERS: UserWithPassword[] = [
   }
 ];
 
+const DEFAULT_CARE_PLANS: CarePlanItem[] = [
+  {
+    id: 'cp-1',
+    patientId: 'a1111111-1111-1111-1111-111111111111',
+    title: 'Hydration & Antipyretic Fever Curve Monitoring',
+    description: 'Ensure 2.5L oral fluid intake daily with electrolyte supplementation. Record digital temperature every 4 hours.',
+    category: 'monitoring',
+    status: 'active',
+    prescribedBy: 'Dr. Aarav Sharma, MD',
+    updatedAt: 'Today · 09:30 AM'
+  },
+  {
+    id: 'cp-2',
+    patientId: 'a1111111-1111-1111-1111-111111111111',
+    title: 'Respiratory Warning Trigger Checklist',
+    description: 'Immediate ER protocol activation if pulse oximetry SpO2 drops below 94% on room air or resting tachypnea > 22 bpm.',
+    category: 'warning',
+    status: 'active',
+    prescribedBy: 'Dr. Aarav Sharma, MD',
+    updatedAt: 'Today · 10:15 AM'
+  }
+];
+
+const DEFAULT_CLINICAL_ORDERS: ClinicalOrder[] = [
+  {
+    id: 'ord-1',
+    patientId: 'a1111111-1111-1111-1111-111111111111',
+    doctorName: 'Dr. Aarav Sharma, MD',
+    type: 'imaging',
+    title: 'High-Resolution Chest CT Scan (HRCT)',
+    details: 'Evaluate bilateral lower lobe patchy opacities and rule out acute consolidation.',
+    status: 'ordered',
+    priority: 'urgent',
+    timestamp: '2 hours ago'
+  },
+  {
+    id: 'ord-2',
+    patientId: 'a1111111-1111-1111-1111-111111111111',
+    doctorName: 'Dr. Aarav Sharma, MD',
+    type: 'lab',
+    title: 'Repeat Serum Procalcitonin & Blood Cultures x2',
+    details: 'Assess bacterial pyogenic escalation prior to initiating second-line IV cephalosporin regimen.',
+    status: 'ordered',
+    priority: 'stat',
+    timestamp: '1 hour ago'
+  }
+];
+
 export interface DatabaseStore {
   users: UserWithPassword[];
   patients: Patient[];
@@ -444,15 +494,42 @@ export interface DatabaseStore {
   vitals: VitalRecord[];
   auditLogs: AuditLogItem[];
   shares: HandoverShare[];
+  carePlans: CarePlanItem[];
+  clinicalOrders: ClinicalOrder[];
 }
 
+/**
+ * Change notifications for derived indexes (e.g. the AI vector index).
+ * Emitted after the store has been saved; listener failures never affect the write.
+ */
+export type DbChange =
+  | { type: 'upsert'; kind: 'event' | 'medication' | 'vital' | 'report' | 'patient'; id: string; patientId: string }
+  | { type: 'delete'; kind: 'event'; id: string; patientId: string }
+  | { type: 'reset' };
+
 class Database {
+  private changeListeners: Array<(change: DbChange) => void> = [];
+
+  onChange(listener: (change: DbChange) => void): () => void {
+    this.changeListeners.push(listener);
+    return () => {
+      this.changeListeners = this.changeListeners.filter(l => l !== listener);
+    };
+  }
+
+  private emit(change: DbChange) {
+    for (const listener of this.changeListeners) {
+      try { listener(change); } catch { /* derived indexes must never break a write */ }
+    }
+  }
+
   private dataDir = path.join(process.cwd(), 'server', 'data');
   private storeFile = path.join(this.dataDir, 'store.json');
   private store: DatabaseStore;
 
   constructor() {
     this.store = this.loadStore();
+    this.ensureDefaultRelationships();
   }
 
   private loadStore(): DatabaseStore {
@@ -464,6 +541,8 @@ class Database {
         if (!parsed.users || parsed.users.length === 0) {
           parsed.users = DEFAULT_USERS;
         }
+        if (!parsed.carePlans) parsed.carePlans = DEFAULT_CARE_PLANS;
+        if (!parsed.clinicalOrders) parsed.clinicalOrders = DEFAULT_CLINICAL_ORDERS;
         return parsed;
       }
     } catch (e) {
@@ -478,7 +557,9 @@ class Database {
       reports: DEFAULT_REPORTS,
       vitals: DEFAULT_VITALS,
       auditLogs: DEFAULT_AUDIT_LOGS,
-      shares: []
+      shares: [],
+      carePlans: DEFAULT_CARE_PLANS,
+      clinicalOrders: DEFAULT_CLINICAL_ORDERS
     };
 
     this.saveStore(initial);
@@ -544,10 +625,95 @@ class Database {
     };
 
     this.store.users.push(newUser);
+    if (newUser.role === 'patient') {
+      this.ensurePatientForUser(newUser);
+    } else if (newUser.role === 'family' && !newUser.patientId) {
+      newUser.patientId = this.store.patients[0]?.id;
+    }
     this.saveStore();
 
     const { passwordHash: _, ...safeUser } = newUser;
     return safeUser;
+  }
+
+  ensurePatientForUser(user: UserWithPassword | User): Patient {
+    if (user.patientId) {
+      const existing = this.getPatientById(user.patientId);
+      if (existing) return existing;
+    }
+    // Try finding patient with same full name or email
+    let patient = this.store.patients.find(
+      p => p.fullName.toLowerCase() === (user.fullName || '').toLowerCase()
+    );
+    if (!patient) {
+      const baseName = user.fullName || (user.email ? user.email.split('@')[0] : 'Patient');
+      patient = {
+        id: `pat-${user.id.replace(/^usr-/, '')}`,
+        fullName: baseName,
+        age: 38,
+        sex: 'Other',
+        bloodGroup: 'O+',
+        conditions: [],
+        allergies: [],
+        emergencyContact: {
+          name: 'Emergency Contact',
+          phone: user.phone || '+1 (555) 000-0000',
+          relationship: 'Family'
+        },
+        primaryPhysician: 'Dr. Aarav Sharma, MD',
+        status: 'Stable',
+        lastUpdated: new Date().toISOString()
+      };
+      this.store.patients.push(patient);
+    }
+    user.patientId = patient.id;
+    const userInStore = this.store.users.find(u => u.id === user.id);
+    if (userInStore) {
+      userInStore.patientId = patient.id;
+    }
+    this.saveStore();
+    return patient;
+  }
+
+  ensureDefaultRelationships() {
+    let changed = false;
+    for (const u of this.store.users) {
+      if (u.role === 'patient') {
+        let pat = u.patientId ? this.store.patients.find(p => p.id === u.patientId) : undefined;
+        if (!pat) {
+          pat = this.store.patients.find(p => p.fullName.toLowerCase() === (u.fullName || '').toLowerCase());
+          if (!pat) {
+            pat = {
+              id: `pat-${u.id.replace(/^usr-/, '')}`,
+              fullName: u.fullName || (u.email ? u.email.split('@')[0] : 'Patient'),
+              age: 38,
+              sex: 'Other',
+              bloodGroup: 'O+',
+              conditions: [],
+              allergies: [],
+              emergencyContact: {
+                name: 'Emergency Contact',
+                phone: u.phone || '+1 (555) 000-0000',
+                relationship: 'Family'
+              },
+              primaryPhysician: 'Dr. Aarav Sharma, MD',
+              status: 'Stable',
+              lastUpdated: new Date().toISOString()
+            };
+            this.store.patients.push(pat);
+            changed = true;
+          }
+          u.patientId = pat.id;
+          changed = true;
+        }
+      } else if (u.role === 'family' && !u.patientId) {
+        u.patientId = this.store.patients[0]?.id;
+        changed = true;
+      }
+    }
+    if (changed) {
+      this.saveStore();
+    }
   }
 
   createOAuthUser(userData: {
@@ -580,6 +746,11 @@ class Database {
     };
 
     this.store.users.push(newUser);
+    if (newUser.role === 'patient') {
+      this.ensurePatientForUser(newUser);
+    } else if (newUser.role === 'family' && !newUser.patientId) {
+      newUser.patientId = this.store.patients[0]?.id;
+    }
     this.saveStore();
 
     const { passwordHash: _, ...safeUser } = newUser;
@@ -621,6 +792,7 @@ class Database {
 
     this.store.patients.push(newPatient);
     this.saveStore();
+    this.emit({ type: 'upsert', kind: 'patient', id: newPatient.id, patientId: newPatient.id });
     return newPatient;
   }
 
@@ -634,6 +806,7 @@ class Database {
       lastUpdated: 'Just now'
     };
     this.saveStore();
+    this.emit({ type: 'upsert', kind: 'patient', id, patientId: id });
     return this.store.patients[idx];
   }
 
@@ -655,7 +828,7 @@ class Database {
 
   createEvent(eventData: Partial<HealthEvent>): HealthEvent {
     const newEvent: HealthEvent = {
-      id: `evt-${Date.now()}`,
+      id: eventData.id || `evt-${Date.now()}`,
       patientId: eventData.patientId || this.store.patients[0].id,
       type: eventData.type || 'symptom',
       timestamp: eventData.timestamp || new Date().toISOString(),
@@ -681,14 +854,17 @@ class Database {
     });
 
     this.saveStore();
+    this.emit({ type: 'upsert', kind: 'event', id: newEvent.id, patientId: newEvent.patientId });
     return newEvent;
   }
 
   deleteEvent(id: string): boolean {
     const initialLen = this.store.events.length;
+    const removed = this.store.events.find(e => e.id === id);
     this.store.events = this.store.events.filter(e => e.id !== id);
     if (this.store.events.length !== initialLen) {
       this.saveStore();
+      if (removed) this.emit({ type: 'delete', kind: 'event', id, patientId: removed.patientId });
       return true;
     }
     return false;
@@ -706,6 +882,7 @@ class Database {
       details: 'Clinician validated symptom/reading'
     });
     this.saveStore();
+    this.emit({ type: 'upsert', kind: 'event', id: ev.id, patientId: ev.patientId });
     return ev;
   }
 
@@ -728,6 +905,7 @@ class Database {
     };
     this.store.medications.push(newMed);
     this.saveStore();
+    this.emit({ type: 'upsert', kind: 'medication', id: newMed.id, patientId: newMed.patientId });
     return newMed;
   }
 
@@ -763,6 +941,7 @@ class Database {
     });
 
     this.saveStore();
+    this.emit({ type: 'upsert', kind: 'medication', id: med.id, patientId: med.patientId });
     return med;
   }
 
@@ -810,6 +989,7 @@ class Database {
     });
 
     this.saveStore();
+    this.emit({ type: 'upsert', kind: 'vital', id: newVital.id, patientId: newVital.patientId });
     return newVital;
   }
 
@@ -848,6 +1028,7 @@ class Database {
     });
 
     this.saveStore();
+    this.emit({ type: 'upsert', kind: 'report', id: newReport.id, patientId: newReport.patientId });
     return newReport;
   }
 
@@ -909,9 +1090,61 @@ class Database {
       reports: DEFAULT_REPORTS,
       vitals: DEFAULT_VITALS,
       auditLogs: DEFAULT_AUDIT_LOGS,
-      shares: []
+      shares: [],
+      carePlans: DEFAULT_CARE_PLANS,
+      clinicalOrders: DEFAULT_CLINICAL_ORDERS
     };
     this.saveStore();
+    this.emit({ type: 'reset' });
+  }
+
+  // --- Care Plans ---
+  getCarePlans(patientId?: string): CarePlanItem[] {
+    const list = this.store.carePlans || [];
+    if (!patientId) return list;
+    return list.filter(cp => cp.patientId === patientId);
+  }
+
+  createCarePlan(planData: Partial<CarePlanItem>): CarePlanItem {
+    if (!this.store.carePlans) this.store.carePlans = [];
+    const newPlan: CarePlanItem = {
+      id: planData.id || `cp-${Date.now()}`,
+      patientId: planData.patientId || this.store.patients[0].id,
+      title: planData.title || 'Care Plan Instruction',
+      description: planData.description || '',
+      category: planData.category || 'monitoring',
+      status: planData.status || 'active',
+      prescribedBy: planData.prescribedBy || 'Attending Physician',
+      updatedAt: planData.updatedAt || new Date().toISOString()
+    };
+    this.store.carePlans.unshift(newPlan);
+    this.saveStore();
+    return newPlan;
+  }
+
+  // --- Clinical Orders ---
+  getClinicalOrders(patientId?: string): ClinicalOrder[] {
+    const list = this.store.clinicalOrders || [];
+    if (!patientId) return list;
+    return list.filter(o => o.patientId === patientId);
+  }
+
+  createClinicalOrder(orderData: Partial<ClinicalOrder>): ClinicalOrder {
+    if (!this.store.clinicalOrders) this.store.clinicalOrders = [];
+    const newOrder: ClinicalOrder = {
+      id: orderData.id || `ord-${Date.now()}`,
+      patientId: orderData.patientId || this.store.patients[0].id,
+      doctorName: orderData.doctorName || 'Attending Physician',
+      type: orderData.type || 'medication',
+      title: orderData.title || 'Clinical Order',
+      details: orderData.details || '',
+      status: orderData.status || 'ordered',
+      priority: orderData.priority || 'routine',
+      timestamp: orderData.timestamp || 'Just now'
+    };
+    this.store.clinicalOrders.unshift(newOrder);
+    this.saveStore();
+    return newOrder;
   }
 }
 

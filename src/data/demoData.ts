@@ -473,7 +473,7 @@ export const DEMO_AUDIT_LOGS: AuditLogItem[] = [
 ];
 
 export const DEMO_HANDOVER_SUMMARY: HandoverSummary = {
-  headline: 'Patient Handover — 60 sec',
+  headline: 'Patient Handover: 60 sec',
   coreNarrative: 'Fever began approximately 3 days ago and progressively increased. Medication was taken inconsistently. Temperature reached 102.6°F this morning with sinus tachycardia (108 bpm). The patient subsequently reported severe dizziness and worsening symptoms before hospital arrival.',
   timespan: 'Last 72 Hours (Sept 25 – Sept 28)',
   totalEventsAnalyzed: 14,
@@ -686,7 +686,7 @@ export const DEMO_CARE_TASKS: CareTask[] = [
     status: 'skipped',
     completedAt: '02:20 PM',
     completedBy: 'Pooja Sharma',
-    notes: 'Skipped — patient experienced severe nausea and vomited 15 mins post-intake.'
+    notes: 'Skipped. Patient experienced severe nausea and vomited 15 mins post-intake.'
   },
   {
     id: 'tsk-4',
@@ -750,7 +750,7 @@ export const DEMO_EMS_CASE: EmsCase = {
   paramedicName: 'Capt. Dave Miller',
   callReason: 'Acute fever escalation (102.8°F), tachypnea, orthostatic vertigo & SpO2 desaturation',
   triageLevel: 'emergent',
-  receivingHospital: 'Apex Memorial Hospital — Emergency Dept Triage',
+  receivingHospital: 'Apex Memorial Hospital, Emergency Dept Triage',
   etaMinutes: 6,
   status: 'in-transit',
   interventions: [
@@ -794,7 +794,7 @@ export const DEMO_APPOINTMENTS: Appointment[] = [
     patientId: 'a1111111-1111-1111-1111-111111111111',
     doctorName: 'Dr. Aarav Sharma, MD',
     specialty: 'Emergency Medicine & Acute Care Follow-up',
-    facility: 'Apex Memorial Hospital — Outpatient Care Suite 204',
+    facility: 'Apex Memorial Hospital, Outpatient Care Suite 204',
     dateTime: 'Oct 14, 2026 · 10:30 AM',
     type: 'In-Person',
     status: 'confirmed',

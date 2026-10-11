@@ -57,7 +57,8 @@
       "authProvider": "google",
       "pendingVerification": false,
       "createdAt": "2026-10-10T14:19:35.627Z",
-      "supabaseUid": "a603b127-55f7-48e8-b3dc-f17b4bd82420"
+      "supabaseUid": "a603b127-55f7-48e8-b3dc-f17b4bd82420",
+      "patientId": "pat-oauth-1791641975627"
     },
     {
       "id": "usr-1791651732269",
@@ -75,7 +76,8 @@
       "fullName": "Jane Authenticated",
       "role": "patient",
       "title": "Patient",
-      "createdAt": "2026-10-10T17:02:32.328Z"
+      "createdAt": "2026-10-10T17:02:32.328Z",
+      "patientId": "pat-1791651752328"
     },
     {
       "id": "usr-1791651752398",
@@ -84,7 +86,58 @@
       "fullName": "Sarah Caregiver",
       "role": "family",
       "title": "Family Caregiver",
-      "createdAt": "2026-10-10T17:02:32.398Z"
+      "createdAt": "2026-10-10T17:02:32.398Z",
+      "patientId": "a1111111-1111-1111-1111-111111111111"
+    },
+    {
+      "id": "usr-sb-809c51d3-c6ed-4686-a29e-80230c40938d",
+      "supabaseUid": "809c51d3-c6ed-4686-a29e-80230c40938d",
+      "email": "debmallick.bpc@gmail.com",
+      "passwordHash": "$2b$10$IRl2yxqeP43DZQmEUiDlfe2ypxGGqaeWgD0ckxLMd44B4c8G4Hdhi",
+      "fullName": "Deb Mallick",
+      "role": "patient",
+      "avatar": "https://lh3.googleusercontent.com/a/ACg8ocISeR5CXqNR9b1q6bkBgH4zeZPRHFVjoJw3pMIuLnf5H5Fgug=s96-c",
+      "title": "Clinical Credentials Pending Verification",
+      "authProvider": "google",
+      "pendingVerification": true,
+      "createdAt": "2026-10-11T08:53:56.611Z",
+      "patientId": "pat-oauth-1791641975627"
+    },
+    {
+      "id": "usr-1791714974026",
+      "email": "indonashiya793@gmail.com",
+      "passwordHash": "$2b$10$fqUCpaUoXzHyvjLfruPCYuVghp51VrYly7JsbIGPOB3Usy/jJOCDG",
+      "fullName": "Deb Nigga",
+      "role": "doctor",
+      "phone": "123456789",
+      "title": "sex",
+      "createdAt": "2026-10-11T10:36:14.026Z"
+    },
+    {
+      "id": "usr-sb-sb-1791715430310",
+      "supabaseUid": "sb-1791715430310",
+      "email": "test.patient.1791715430310@gmail.com",
+      "passwordHash": "$2b$10$ie3basI36GrEjTGQM.a8d.3y.G7G2wjnareVJ45cuXOclfRwvmtR2",
+      "fullName": "New Test Patient",
+      "role": "patient",
+      "title": "Patient",
+      "authProvider": "google",
+      "pendingVerification": false,
+      "createdAt": "2026-10-11T10:43:50.402Z",
+      "patientId": "pat-sb-sb-1791715430310"
+    },
+    {
+      "id": "usr-sb-sb-1791716932320",
+      "supabaseUid": "sb-1791716932320",
+      "email": "test.patient.1791716932320@gmail.com",
+      "passwordHash": "$2b$10$R6qr8y4LO4/P5UO5W3gyCO1gI5LWyhSOGSykGI80l7T4yYUt/Y2gG",
+      "fullName": "New Test Patient",
+      "role": "patient",
+      "title": "Patient",
+      "patientId": "pat-sb-sb-1791715430310",
+      "authProvider": "google",
+      "pendingVerification": false,
+      "createdAt": "2026-10-11T11:08:52.393Z"
     }
   ],
   "patients": [
@@ -155,6 +208,57 @@
       "primaryPhysician": "Dr. Robert Ross (Orthopedics)",
       "status": "Stable",
       "lastUpdated": "5 hours ago"
+    },
+    {
+      "id": "pat-oauth-1791641975627",
+      "fullName": "Deb Mallick",
+      "age": 38,
+      "sex": "Other",
+      "bloodGroup": "O+",
+      "conditions": [],
+      "allergies": [],
+      "emergencyContact": {
+        "name": "Emergency Contact",
+        "phone": "+1 (555) 000-0000",
+        "relationship": "Family"
+      },
+      "primaryPhysician": "Dr. Aarav Sharma, MD",
+      "status": "Stable",
+      "lastUpdated": "2026-10-11T11:08:28.310Z"
+    },
+    {
+      "id": "pat-1791651752328",
+      "fullName": "Jane Authenticated",
+      "age": 38,
+      "sex": "Other",
+      "bloodGroup": "O+",
+      "conditions": [],
+      "allergies": [],
+      "emergencyContact": {
+        "name": "Emergency Contact",
+        "phone": "+1 (555) 000-0000",
+        "relationship": "Family"
+      },
+      "primaryPhysician": "Dr. Aarav Sharma, MD",
+      "status": "Stable",
+      "lastUpdated": "2026-10-11T11:08:28.310Z"
+    },
+    {
+      "id": "pat-sb-sb-1791715430310",
+      "fullName": "New Test Patient",
+      "age": 38,
+      "sex": "Other",
+      "bloodGroup": "O+",
+      "conditions": [],
+      "allergies": [],
+      "emergencyContact": {
+        "name": "Emergency Contact",
+        "phone": "+1 (555) 000-0000",
+        "relationship": "Family"
+      },
+      "primaryPhysician": "Dr. Aarav Sharma, MD",
+      "status": "Stable",
+      "lastUpdated": "2026-10-11T11:08:28.310Z"
     }
   ],
   "events": [
@@ -422,6 +526,518 @@
       },
       "attachments": [],
       "verified": false
+    },
+    {
+      "id": "evt-audit-1791711000560",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "symptom",
+      "timestamp": "2026-10-11T09:30:00.560Z",
+      "severity": "moderate",
+      "title": "Persistent Nocturnal Cough with Wheezing",
+      "description": "Cough worsening when lying flat, mild shortness of breath observed.",
+      "source": "Patient",
+      "createdBy": "Rahul Sharma",
+      "metadata": {
+        "trigger": "cold air",
+        "duration": "2 hours"
+      },
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791711000618",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "visit",
+      "timestamp": "2026-10-11T09:30:00.618Z",
+      "severity": "moderate",
+      "title": "Clinical Order: Nebulization & Peak Flow Assessment",
+      "description": "URGENT priority order by Dr. Aarav Sharma, MD: Administer 2.5mg Albuterol via nebulizer stat. Reassess peak expiratory flow in 30 mins.",
+      "source": "Clinician",
+      "createdBy": "Dr. Aarav Sharma, MD",
+      "metadata": {},
+      "attachments": [],
+      "verified": true
+    },
+    {
+      "id": "evt-1791711000673",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "visit",
+      "timestamp": "2026-10-11T09:30:00.673Z",
+      "severity": "normal",
+      "title": "Care Plan Updated: Peak Flow Monitoring Protocol",
+      "description": "Record peak flow daily before morning bronchodilator. Notify clinic if < 80% baseline.",
+      "source": "Clinician",
+      "createdBy": "Dr. Aarav Sharma, MD",
+      "metadata": {},
+      "attachments": [],
+      "verified": true
+    },
+    {
+      "id": "evt-emerg-1791711000712",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "emergency",
+      "timestamp": "2026-10-11T09:30:00.712Z",
+      "severity": "critical",
+      "title": "Acute Exacerbation with Severe Dyspnea",
+      "description": "Sudden onset respiratory distress, pulse oximetry dropping, severe wheezing.",
+      "source": "Patient",
+      "createdBy": "Rahul Sharma",
+      "metadata": {
+        "emergencyLevel": "high",
+        "spo2": 89,
+        "heartRate": 118
+      },
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-audit-1791711201906",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "symptom",
+      "timestamp": "2026-10-11T09:33:21.906Z",
+      "severity": "moderate",
+      "title": "Persistent Nocturnal Cough with Wheezing",
+      "description": "Cough worsening when lying flat, mild shortness of breath observed.",
+      "source": "Patient",
+      "createdBy": "Rahul Sharma",
+      "metadata": {
+        "trigger": "cold air",
+        "duration": "2 hours"
+      },
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791711201985",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "visit",
+      "timestamp": "2026-10-11T09:33:21.985Z",
+      "severity": "moderate",
+      "title": "Clinical Order: Nebulization & Peak Flow Assessment",
+      "description": "URGENT priority order by Dr. Aarav Sharma, MD: Administer 2.5mg Albuterol via nebulizer stat. Reassess peak expiratory flow in 30 mins.",
+      "source": "Clinician",
+      "createdBy": "Dr. Aarav Sharma, MD",
+      "metadata": {},
+      "attachments": [],
+      "verified": true
+    },
+    {
+      "id": "evt-1791711202036",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "visit",
+      "timestamp": "2026-10-11T09:33:22.036Z",
+      "severity": "normal",
+      "title": "Care Plan Updated: Peak Flow Monitoring Protocol",
+      "description": "Record peak flow daily before morning bronchodilator. Notify clinic if < 80% baseline.",
+      "source": "Clinician",
+      "createdBy": "Dr. Aarav Sharma, MD",
+      "metadata": {},
+      "attachments": [],
+      "verified": true
+    },
+    {
+      "id": "evt-emerg-1791711202082",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "emergency",
+      "timestamp": "2026-10-11T09:33:22.082Z",
+      "severity": "critical",
+      "title": "Acute Exacerbation with Severe Dyspnea",
+      "description": "Sudden onset respiratory distress, pulse oximetry dropping, severe wheezing.",
+      "source": "Patient",
+      "createdBy": "Rahul Sharma",
+      "metadata": {
+        "emergencyLevel": "high",
+        "spo2": 89,
+        "heartRate": 118
+      },
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791715075721",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "symptom",
+      "timestamp": "2026-10-11T10:37:55.721Z",
+      "severity": "moderate",
+      "title": "Severe Headache",
+      "description": "Testing event save",
+      "source": "Patient",
+      "createdBy": "Rahul Sharma",
+      "metadata": {
+        "duration": "2 hours",
+        "trigger": "Upon standing"
+      },
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791715429961",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "symptom",
+      "timestamp": "2026-10-11T10:43:49.961Z",
+      "severity": "moderate",
+      "title": "Migraine with nausea",
+      "description": "Severe left-sided throbbing headache",
+      "source": "Patient",
+      "createdBy": "Rahul Sharma",
+      "metadata": {},
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791715429999",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "symptom",
+      "timestamp": "2026-10-11T10:43:49.999Z",
+      "severity": "mild",
+      "title": "Headache without patientId",
+      "description": "Testing missing patientId",
+      "source": "Patient",
+      "createdBy": "Rahul Sharma",
+      "metadata": {},
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791715430127",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "symptom",
+      "timestamp": "2026-10-11T10:43:50.127Z",
+      "severity": "moderate",
+      "title": "Migraine with nausea",
+      "description": "Severe left-sided throbbing headache",
+      "source": "Clinician",
+      "createdBy": "Dr. Aarav Sharma, MD",
+      "metadata": {},
+      "attachments": [],
+      "verified": true
+    },
+    {
+      "id": "evt-1791715430259",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "symptom",
+      "timestamp": "2026-10-11T10:43:50.259Z",
+      "severity": "moderate",
+      "title": "Migraine with nausea",
+      "description": "Severe left-sided throbbing headache",
+      "source": "Family / Caregiver",
+      "createdBy": "Pooja Sharma",
+      "metadata": {},
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791716931882",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "symptom",
+      "timestamp": "2026-10-11T11:08:51.882Z",
+      "severity": "moderate",
+      "title": "Migraine with nausea",
+      "description": "Severe left-sided throbbing headache",
+      "source": "Patient",
+      "createdBy": "Rahul Sharma",
+      "metadata": {},
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791716931937",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "symptom",
+      "timestamp": "2026-10-11T11:08:51.937Z",
+      "severity": "mild",
+      "title": "Headache without patientId",
+      "description": "Testing missing patientId",
+      "source": "Patient",
+      "createdBy": "Rahul Sharma",
+      "metadata": {},
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791716932049",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "symptom",
+      "timestamp": "2026-10-11T11:08:52.049Z",
+      "severity": "moderate",
+      "title": "Migraine with nausea",
+      "description": "Severe left-sided throbbing headache",
+      "source": "Clinician",
+      "createdBy": "Dr. Aarav Sharma, MD",
+      "metadata": {},
+      "attachments": [],
+      "verified": true
+    },
+    {
+      "id": "evt-1791716932073",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "symptom",
+      "timestamp": "2026-10-11T11:08:52.073Z",
+      "severity": "mild",
+      "title": "Headache without patientId",
+      "description": "Testing missing patientId",
+      "source": "Clinician",
+      "createdBy": "Dr. Aarav Sharma, MD",
+      "metadata": {},
+      "attachments": [],
+      "verified": true
+    },
+    {
+      "id": "evt-1791716932188",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "symptom",
+      "timestamp": "2026-10-11T11:08:52.188Z",
+      "severity": "moderate",
+      "title": "Migraine with nausea",
+      "description": "Severe left-sided throbbing headache",
+      "source": "Family / Caregiver",
+      "createdBy": "Pooja Sharma",
+      "metadata": {},
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791716932221",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "symptom",
+      "timestamp": "2026-10-11T11:08:52.221Z",
+      "severity": "mild",
+      "title": "Headache without patientId",
+      "description": "Testing missing patientId",
+      "source": "Family / Caregiver",
+      "createdBy": "Pooja Sharma",
+      "metadata": {},
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791716932263",
+      "patientId": "pat-oauth-1791641975627",
+      "type": "symptom",
+      "timestamp": "2026-10-11T11:08:52.263Z",
+      "severity": "moderate",
+      "title": "Migraine with nausea",
+      "description": "Severe left-sided throbbing headache",
+      "source": "Patient",
+      "createdBy": "Deb Mallick",
+      "metadata": {},
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791716932293",
+      "patientId": "pat-oauth-1791641975627",
+      "type": "symptom",
+      "timestamp": "2026-10-11T11:08:52.293Z",
+      "severity": "mild",
+      "title": "Headache without patientId",
+      "description": "Testing missing patientId",
+      "source": "Patient",
+      "createdBy": "Deb Mallick",
+      "metadata": {},
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791716932429",
+      "patientId": "pat-sb-sb-1791715430310",
+      "type": "symptom",
+      "timestamp": "2026-10-11T11:08:52.429Z",
+      "severity": "moderate",
+      "title": "Migraine with nausea",
+      "description": "Severe left-sided throbbing headache",
+      "source": "Patient",
+      "createdBy": "New Test Patient",
+      "metadata": {},
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791716932453",
+      "patientId": "pat-sb-sb-1791715430310",
+      "type": "symptom",
+      "timestamp": "2026-10-11T11:08:52.453Z",
+      "severity": "mild",
+      "title": "Headache without patientId",
+      "description": "Testing missing patientId",
+      "source": "Patient",
+      "createdBy": "New Test Patient",
+      "metadata": {},
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791716958701",
+      "patientId": "pat-oauth-1791641975627",
+      "type": "symptom",
+      "timestamp": "2026-10-11T11:09:18.701Z",
+      "severity": "moderate",
+      "title": "Acute Asthma Wheezing Flare #1791716958697",
+      "description": "Patient reports severe nocturnal coughing and audible expiratory wheeze.",
+      "source": "Patient",
+      "createdBy": "Deb Mallick",
+      "metadata": {
+        "duration": "3 hours",
+        "trigger": "Cold dry air"
+      },
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791716958828",
+      "patientId": "pat-oauth-1791641975627",
+      "type": "visit",
+      "timestamp": "2026-10-11T11:09:18.828Z",
+      "severity": "normal",
+      "title": "Clinical Evaluation & Nebulization Order #1791716958826",
+      "description": "Administered Duolin nebulization. Wheezing reduced.",
+      "source": "Clinician",
+      "createdBy": "Dr. Aarav Sharma, MD",
+      "metadata": {},
+      "attachments": [],
+      "verified": true
+    },
+    {
+      "id": "evt-1791717391238",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "type": "symptom",
+      "timestamp": "2026-10-11T11:16:31.238Z",
+      "severity": "severe",
+      "title": "New symtom",
+      "description": "Dizzynes and vomiting.",
+      "source": "Patient",
+      "createdBy": "Rahul Sharma",
+      "metadata": {
+        "duration": "3 hours",
+        "trigger": "Upon standing"
+      },
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791717500975",
+      "patientId": "pat-oauth-1791641975627",
+      "type": "symptom",
+      "timestamp": "2026-10-11T11:18:20.975Z",
+      "severity": "moderate",
+      "title": "Health Event",
+      "description": "symptom event for Deb Mallick",
+      "source": "Patient",
+      "createdBy": "Deb Mallick",
+      "metadata": {
+        "duration": "2 hours",
+        "trigger": "Upon standing"
+      },
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791717574080",
+      "patientId": "pat-oauth-1791641975627",
+      "type": "symptom",
+      "timestamp": "2026-10-11T11:19:34.080Z",
+      "severity": "moderate",
+      "title": "Health Event",
+      "description": "symptom event for Deb Mallick",
+      "source": "Patient",
+      "createdBy": "Deb Mallick",
+      "metadata": {
+        "duration": "2 hours",
+        "trigger": "Upon standing"
+      },
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791717622595",
+      "patientId": "pat-oauth-1791641975627",
+      "type": "symptom",
+      "timestamp": "2026-10-11T11:20:22.595Z",
+      "severity": "moderate",
+      "title": "Health Event",
+      "description": "symptom event for Deb Mallick",
+      "source": "Patient",
+      "createdBy": "Deb Mallick",
+      "metadata": {
+        "duration": "2 hours",
+        "trigger": "Upon standing"
+      },
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791717749535",
+      "patientId": "pat-oauth-1791641975627",
+      "type": "symptom",
+      "timestamp": "2026-10-11T11:22:29.535Z",
+      "severity": "moderate",
+      "title": "Health Event",
+      "description": "symptom event for Deb Mallick",
+      "source": "Patient",
+      "createdBy": "Deb Mallick",
+      "metadata": {
+        "duration": "2 hours",
+        "trigger": "Upon standing"
+      },
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791717805018",
+      "patientId": "pat-oauth-1791641975627",
+      "type": "symptom",
+      "timestamp": "2026-10-11T11:23:25.018Z",
+      "severity": "moderate",
+      "title": "Health Event",
+      "description": "symptom event for Deb Mallick",
+      "source": "Patient",
+      "createdBy": "Deb Mallick",
+      "metadata": {
+        "duration": "2 hours",
+        "trigger": "Upon standing"
+      },
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791717872441",
+      "patientId": "pat-oauth-1791641975627",
+      "type": "vital",
+      "timestamp": "2026-10-11T11:24:32.441Z",
+      "severity": "moderate",
+      "title": "E2E Authenticated Pulse 84 bpm #1791717872425",
+      "description": "vital event for Deb Mallick",
+      "source": "Patient",
+      "createdBy": "Deb Mallick",
+      "metadata": {
+        "temperature": 101.5,
+        "heartRate": 95,
+        "bpSystolic": 130,
+        "bpDiastolic": 85,
+        "oxygenSat": 98
+      },
+      "attachments": [],
+      "verified": false
+    },
+    {
+      "id": "evt-1791717951347",
+      "patientId": "pat-oauth-1791641975627",
+      "type": "vital",
+      "timestamp": "2026-10-11T11:25:51.347Z",
+      "severity": "moderate",
+      "title": "E2E Authenticated Pulse 84 bpm #1791717951330",
+      "description": "vital event for Deb Mallick",
+      "source": "Patient",
+      "createdBy": "Deb Mallick",
+      "metadata": {
+        "temperature": 101.5,
+        "heartRate": 95,
+        "bpSystolic": 130,
+        "bpDiastolic": 85,
+        "oxygenSat": 98
+      },
+      "attachments": [],
+      "verified": false
     }
   ],
   "medications": [
@@ -568,6 +1184,1185 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "log-1791717951353",
+      "patientId": "pat-oauth-1791641975627",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Logged vital: E2E Authenticated Pulse 84 bpm #1791717951330",
+      "timestamp": "Just now",
+      "details": "vital event for Deb Mallick"
+    },
+    {
+      "id": "log-1791717946770",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791717872447",
+      "patientId": "pat-oauth-1791641975627",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Logged vital: E2E Authenticated Pulse 84 bpm #1791717872425",
+      "timestamp": "Just now",
+      "details": "vital event for Deb Mallick"
+    },
+    {
+      "id": "log-1791717867859",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791717848569",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Pooja Sharma",
+      "actorRole": "Family Member",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791717844127",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791717831849",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Capt. Dave Miller",
+      "actorRole": "Patient",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791717827237",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791717818220",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791717805024",
+      "patientId": "pat-oauth-1791641975627",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Logged symptom: Health Event",
+      "timestamp": "Just now",
+      "details": "symptom event for Deb Mallick"
+    },
+    {
+      "id": "log-1791717800436",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791717749545",
+      "patientId": "pat-oauth-1791641975627",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Logged symptom: Health Event",
+      "timestamp": "Just now",
+      "details": "symptom event for Deb Mallick"
+    },
+    {
+      "id": "log-1791717745422",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791717622601",
+      "patientId": "pat-oauth-1791641975627",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Logged symptom: Health Event",
+      "timestamp": "Just now",
+      "details": "symptom event for Deb Mallick"
+    },
+    {
+      "id": "log-1791717618504",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791717574087",
+      "patientId": "pat-oauth-1791641975627",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Logged symptom: Health Event",
+      "timestamp": "Just now",
+      "details": "symptom event for Deb Mallick"
+    },
+    {
+      "id": "log-1791717570017",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791717500979",
+      "patientId": "pat-oauth-1791641975627",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Logged symptom: Health Event",
+      "timestamp": "Just now",
+      "details": "symptom event for Deb Mallick"
+    },
+    {
+      "id": "log-1791717496911",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791717415562",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791717400602",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "User Logged Out",
+      "timestamp": "Just now",
+      "details": "Session terminated"
+    },
+    {
+      "id": "log-1791717391243",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "Logged symptom: New symtom",
+      "timestamp": "Just now",
+      "details": "Dizzynes and vomiting."
+    },
+    {
+      "id": "log-1791717338757",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791717331692",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791717181484",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Nigga",
+      "actorRole": "Doctor",
+      "action": "User Logged Out",
+      "timestamp": "Just now",
+      "details": "Session terminated"
+    },
+    {
+      "id": "log-1791716958828",
+      "patientId": "pat-oauth-1791641975627",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "Logged visit: Clinical Evaluation & Nebulization Order #1791716958826",
+      "timestamp": "Just now",
+      "details": "Administered Duolin nebulization. Wheezing reduced."
+    },
+    {
+      "id": "log-1791716958815",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791716958701",
+      "patientId": "pat-oauth-1791641975627",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Logged symptom: Acute Asthma Wheezing Flare #1791716958697",
+      "timestamp": "Just now",
+      "details": "Patient reports severe nocturnal coughing and audible expiratory wheeze."
+    },
+    {
+      "id": "log-1791716958679",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791716932453",
+      "patientId": "pat-sb-sb-1791715430310",
+      "actorName": "New Test Patient",
+      "actorRole": "Patient",
+      "action": "Logged symptom: Headache without patientId",
+      "timestamp": "Just now",
+      "details": "Testing missing patientId"
+    },
+    {
+      "id": "log-1791716932429",
+      "patientId": "pat-sb-sb-1791715430310",
+      "actorName": "New Test Patient",
+      "actorRole": "Patient",
+      "action": "Logged symptom: Migraine with nausea",
+      "timestamp": "Just now",
+      "details": "Severe left-sided throbbing headache"
+    },
+    {
+      "id": "log-1791716932413",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "New Test Patient",
+      "actorRole": "Patient",
+      "action": "Google OAuth Account Onboarded",
+      "timestamp": "Just now",
+      "details": "New user onboarded via Google. Assigned role: patient"
+    },
+    {
+      "id": "log-1791716932293",
+      "patientId": "pat-oauth-1791641975627",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Logged symptom: Headache without patientId",
+      "timestamp": "Just now",
+      "details": "Testing missing patientId"
+    },
+    {
+      "id": "log-1791716932263",
+      "patientId": "pat-oauth-1791641975627",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Logged symptom: Migraine with nausea",
+      "timestamp": "Just now",
+      "details": "Severe left-sided throbbing headache"
+    },
+    {
+      "id": "log-1791716932248",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791716932221",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Pooja Sharma",
+      "actorRole": "Family Member",
+      "action": "Logged symptom: Headache without patientId",
+      "timestamp": "Just now",
+      "details": "Testing missing patientId"
+    },
+    {
+      "id": "log-1791716932188",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Pooja Sharma",
+      "actorRole": "Family Member",
+      "action": "Logged symptom: Migraine with nausea",
+      "timestamp": "Just now",
+      "details": "Severe left-sided throbbing headache"
+    },
+    {
+      "id": "log-1791716932172",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Pooja Sharma",
+      "actorRole": "Family Member",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791716932073",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "Logged symptom: Headache without patientId",
+      "timestamp": "Just now",
+      "details": "Testing missing patientId"
+    },
+    {
+      "id": "log-1791716932049",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "Logged symptom: Migraine with nausea",
+      "timestamp": "Just now",
+      "details": "Severe left-sided throbbing headache"
+    },
+    {
+      "id": "log-1791716932034",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791716931937",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "Logged symptom: Headache without patientId",
+      "timestamp": "Just now",
+      "details": "Testing missing patientId"
+    },
+    {
+      "id": "log-1791716931882",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "Logged symptom: Migraine with nausea",
+      "timestamp": "Just now",
+      "details": "Severe left-sided throbbing headache"
+    },
+    {
+      "id": "log-1791716931857",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791715930527",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "User Logged Out",
+      "timestamp": "Just now",
+      "details": "Session terminated"
+    },
+    {
+      "id": "log-1791715563551",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791715492234",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "User Logged Out",
+      "timestamp": "Just now",
+      "details": "Session terminated"
+    },
+    {
+      "id": "log-1791715430416",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "New Test Patient",
+      "actorRole": "Patient",
+      "action": "Google OAuth Account Onboarded",
+      "timestamp": "Just now",
+      "details": "New user onboarded via Google. Assigned role: patient"
+    },
+    {
+      "id": "log-1791715430291",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791715430259",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Pooja Sharma",
+      "actorRole": "Family Member",
+      "action": "Logged symptom: Migraine with nausea",
+      "timestamp": "Just now",
+      "details": "Severe left-sided throbbing headache"
+    },
+    {
+      "id": "log-1791715430238",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Pooja Sharma",
+      "actorRole": "Family Member",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791715430127",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "Logged symptom: Migraine with nausea",
+      "timestamp": "Just now",
+      "details": "Severe left-sided throbbing headache"
+    },
+    {
+      "id": "log-1791715430111",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791715429999",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "Logged symptom: Headache without patientId",
+      "timestamp": "Just now",
+      "details": "Testing missing patientId"
+    },
+    {
+      "id": "log-1791715429961",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "Logged symptom: Migraine with nausea",
+      "timestamp": "Just now",
+      "details": "Severe left-sided throbbing headache"
+    },
+    {
+      "id": "log-1791715429930",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791715075731",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "Logged symptom: Severe Headache",
+      "timestamp": "Just now",
+      "details": "Testing event save"
+    },
+    {
+      "id": "log-1791714974078",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Nigga",
+      "actorRole": "Doctor",
+      "action": "Account Registered",
+      "timestamp": "Just now",
+      "details": "New account created with role doctor"
+    },
+    {
+      "id": "log-1791714837061",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "User Logged Out",
+      "timestamp": "Just now",
+      "details": "Session terminated"
+    },
+    {
+      "id": "log-1791714804592",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791714624248",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791714623743",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791714623026",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791714622443",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791714621903",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791714621268",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791714620698",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791714620155",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791714616319",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791714615693",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791714614978",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791714613786",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791714611633",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791714055151",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791713953297",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791713765213",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791713214737",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791712363293",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791712360270",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791712359325",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791712356612",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791712123544",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791712114325",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791712031929",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791711920758",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "User Logged Out",
+      "timestamp": "Just now",
+      "details": "Session terminated"
+    },
+    {
+      "id": "log-1791711913061",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick.bpc@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791711911439",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick.bpc@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791711675230",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick.bpc@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791711645450",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick.bpc@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791711644777",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick.bpc@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791711458245",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791711202084",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "Logged emergency: Acute Exacerbation with Severe Dyspnea",
+      "timestamp": "Just now",
+      "details": "Sudden onset respiratory distress, pulse oximetry dropping, severe wheezing."
+    },
+    {
+      "id": "log-1791711202066",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "Prescribed Care Plan Instruction",
+      "timestamp": "Just now",
+      "details": "Peak Flow Monitoring Protocol (monitoring)"
+    },
+    {
+      "id": "log-1791711202036",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "Logged visit: Care Plan Updated: Peak Flow Monitoring Protocol",
+      "timestamp": "Just now",
+      "details": "Record peak flow daily before morning bronchodilator. Notify clinic if < 80% baseline."
+    },
+    {
+      "id": "log-1791711202011",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "Issued Clinical Order",
+      "timestamp": "Just now",
+      "details": "[URGENT] Nebulization & Peak Flow Assessment"
+    },
+    {
+      "id": "log-1791711201985",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "Logged visit: Clinical Order: Nebulization & Peak Flow Assessment",
+      "timestamp": "Just now",
+      "details": "URGENT priority order by Dr. Aarav Sharma, MD: Administer 2.5mg Albuterol via nebulizer stat. Reassess peak expiratory flow in 30 mins."
+    },
+    {
+      "id": "log-1791711201912",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "Logged symptom: Persistent Nocturnal Cough with Wheezing",
+      "timestamp": "Just now",
+      "details": "Cough worsening when lying flat, mild shortness of breath observed."
+    },
+    {
+      "id": "log-1791711201894",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791711201805",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791711000715",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "Logged emergency: Acute Exacerbation with Severe Dyspnea",
+      "timestamp": "Just now",
+      "details": "Sudden onset respiratory distress, pulse oximetry dropping, severe wheezing."
+    },
+    {
+      "id": "log-1791711000697",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "Prescribed Care Plan Instruction",
+      "timestamp": "Just now",
+      "details": "Peak Flow Monitoring Protocol (monitoring)"
+    },
+    {
+      "id": "log-1791711000673",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "Logged visit: Care Plan Updated: Peak Flow Monitoring Protocol",
+      "timestamp": "Just now",
+      "details": "Record peak flow daily before morning bronchodilator. Notify clinic if < 80% baseline."
+    },
+    {
+      "id": "log-1791711000644",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "Issued Clinical Order",
+      "timestamp": "Just now",
+      "details": "[URGENT] Nebulization & Peak Flow Assessment"
+    },
+    {
+      "id": "log-1791711000618",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "Logged visit: Clinical Order: Nebulization & Peak Flow Assessment",
+      "timestamp": "Just now",
+      "details": "URGENT priority order by Dr. Aarav Sharma, MD: Administer 2.5mg Albuterol via nebulizer stat. Reassess peak expiratory flow in 30 mins."
+    },
+    {
+      "id": "log-1791711000566",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "Logged symptom: Persistent Nocturnal Cough with Wheezing",
+      "timestamp": "Just now",
+      "details": "Cough worsening when lying flat, mild shortness of breath observed."
+    },
+    {
+      "id": "log-1791711000545",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791711000437",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Rahul Sharma",
+      "actorRole": "Patient",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791710956815",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791710894160",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791710845065",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Dr. Aarav Sharma, MD",
+      "actorRole": "Doctor",
+      "action": "User Logged In",
+      "timestamp": "Just now",
+      "details": "Session initiated from CareChain Web Client"
+    },
+    {
+      "id": "log-1791710771793",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick.bpc@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791710607024",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick.bpc@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791710606466",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick.bpc@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791708930187",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick.bpc@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791708927779",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick.bpc@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791708926670",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick.bpc@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791708899586",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick.bpc@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791708882620",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick.bpc@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791708875486",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick.bpc@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791708836625",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Account Onboarded",
+      "timestamp": "Just now",
+      "details": "New user onboarded via Google. Assigned role: patient (Doctor/EMS requested - pending credential review)"
+    },
+    {
+      "id": "log-1791708798909",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "User Logged Out",
+      "timestamp": "Just now",
+      "details": "Session terminated"
+    },
+    {
+      "id": "log-1791708786288",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791708714082",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791708707963",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791708705468",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791706650883",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791706159340",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791706150894",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791705545789",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
+    {
+      "id": "log-1791705535558",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "User Logged Out",
+      "timestamp": "Just now",
+      "details": "Session terminated"
+    },
+    {
+      "id": "log-1791705530748",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "actorName": "Deb Mallick",
+      "actorRole": "Patient",
+      "action": "Google OAuth Sign-In",
+      "timestamp": "Just now",
+      "details": "Restored session for existing account (debmallick7679@gmail.com) with verified role patient"
+    },
     {
       "id": "log-1791703195568",
       "patientId": "a1111111-1111-1111-1111-111111111111",
@@ -75989,5 +77784,93 @@
       "details": "Marked Azithromycin 500mg missed due to nausea and vomiting."
     }
   ],
-  "shares": []
+  "shares": [],
+  "carePlans": [
+    {
+      "id": "cp-audit-1791711201968",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "title": "Peak Flow Monitoring Protocol",
+      "description": "Record peak flow daily before morning bronchodilator. Notify clinic if < 80% baseline.",
+      "category": "monitoring",
+      "status": "active",
+      "prescribedBy": "Dr. Aarav Sharma, MD",
+      "updatedAt": "2026-10-11T09:33:22.024Z"
+    },
+    {
+      "id": "cp-1791711000660",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "title": "Peak Flow Monitoring Protocol",
+      "description": "Record peak flow daily before morning bronchodilator. Notify clinic if < 80% baseline.",
+      "category": "monitoring",
+      "status": "active",
+      "prescribedBy": "Dr. Aarav Sharma, MD",
+      "updatedAt": "2026-10-11T09:30:00.660Z"
+    },
+    {
+      "id": "cp-1",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "title": "Hydration & Antipyretic Fever Curve Monitoring",
+      "description": "Ensure 2.5L oral fluid intake daily with electrolyte supplementation. Record digital temperature every 4 hours.",
+      "category": "monitoring",
+      "status": "active",
+      "prescribedBy": "Dr. Aarav Sharma, MD",
+      "updatedAt": "Today · 09:30 AM"
+    },
+    {
+      "id": "cp-2",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "title": "Respiratory Warning Trigger Checklist",
+      "description": "Immediate ER protocol activation if pulse oximetry SpO2 drops below 94% on room air or resting tachypnea > 22 bpm.",
+      "category": "warning",
+      "status": "active",
+      "prescribedBy": "Dr. Aarav Sharma, MD",
+      "updatedAt": "Today · 10:15 AM"
+    }
+  ],
+  "clinicalOrders": [
+    {
+      "id": "ord-audit-1791711201968",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "doctorName": "Dr. Aarav Sharma, MD",
+      "type": "respiratory",
+      "title": "Nebulization & Peak Flow Assessment",
+      "details": "Administer 2.5mg Albuterol via nebulizer stat. Reassess peak expiratory flow in 30 mins.",
+      "status": "ordered",
+      "priority": "urgent",
+      "timestamp": "Just now"
+    },
+    {
+      "id": "ord-1791711000606",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "doctorName": "Dr. Aarav Sharma, MD",
+      "type": "respiratory",
+      "title": "Nebulization & Peak Flow Assessment",
+      "details": "Administer 2.5mg Albuterol via nebulizer stat. Reassess peak expiratory flow in 30 mins.",
+      "status": "ordered",
+      "priority": "urgent",
+      "timestamp": "Just now"
+    },
+    {
+      "id": "ord-1",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "doctorName": "Dr. Aarav Sharma, MD",
+      "type": "imaging",
+      "title": "High-Resolution Chest CT Scan (HRCT)",
+      "details": "Evaluate bilateral lower lobe patchy opacities and rule out acute consolidation.",
+      "status": "ordered",
+      "priority": "urgent",
+      "timestamp": "2 hours ago"
+    },
+    {
+      "id": "ord-2",
+      "patientId": "a1111111-1111-1111-1111-111111111111",
+      "doctorName": "Dr. Aarav Sharma, MD",
+      "type": "lab",
+      "title": "Repeat Serum Procalcitonin & Blood Cultures x2",
+      "details": "Assess bacterial pyogenic escalation prior to initiating second-line IV cephalosporin regimen.",
+      "status": "ordered",
+      "priority": "stat",
+      "timestamp": "1 hour ago"
+    }
+  ]
 }

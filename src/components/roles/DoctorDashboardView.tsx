@@ -115,7 +115,7 @@ export const DoctorDashboardView: React.FC = () => {
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold bg-cyan-500/20 text-cyan-300 uppercase tracking-wider border border-cyan-400/20 shrink-0">
+                <span className="px-2.5 py-0.5 rounded-full text-[11px] sm:text-[11px] font-bold bg-cyan-500/20 text-cyan-300 uppercase tracking-wider border border-cyan-400/20 shrink-0">
                   Doctor Clinical Cockpit
                 </span>
                 <span className="text-[11px] sm:text-xs text-white/60">Emergency Department · Apex Memorial</span>
@@ -154,7 +154,7 @@ export const DoctorDashboardView: React.FC = () => {
               <span>Active Queue</span>
             </div>
             <div className="text-xl font-bold font-carmen mt-1 text-white truncate">{patients.length} Patients</div>
-            <div className="text-[10px] text-emerald-400 mt-0.5 truncate">All monitored in real-time</div>
+            <div className="text-[11px] text-emerald-400 mt-0.5 truncate">All monitored in real-time</div>
           </div>
           <div className="bg-white/5 rounded-2xl p-3 border border-white/5 min-w-0 overflow-hidden">
             <div className="text-[11px] text-white/60 flex items-center gap-1.5 truncate">
@@ -162,7 +162,7 @@ export const DoctorDashboardView: React.FC = () => {
               <span>Triage Level 2</span>
             </div>
             <div className="text-xl font-bold font-carmen mt-1 text-rose-300 truncate">{emergentPatients.length} Emergent</div>
-            <div className="text-[10px] text-rose-300 mt-0.5 truncate">
+            <div className="text-[11px] text-rose-300 mt-0.5 truncate">
               {emergentPatients[0]?.fullName ? `${emergentPatients[0].fullName} (${emergentPatients[0].status})` : 'No emergent patients'}
             </div>
           </div>
@@ -174,7 +174,7 @@ export const DoctorDashboardView: React.FC = () => {
             <div className="text-xl font-bold font-carmen mt-1 text-amber-300 truncate">
               {emsCase && emsCase.status === 'in-transit' ? 'ETA 6 min' : 'No Inbound'}
             </div>
-            <div className="text-[10px] text-amber-300 mt-0.5 truncate">
+            <div className="text-[11px] text-amber-300 mt-0.5 truncate">
               {emsCase && emsCase.status === 'in-transit' ? `${emsCase.unitNumber} · ${emsCase.paramedicName}` : 'All units standing by'}
             </div>
           </div>
@@ -184,7 +184,7 @@ export const DoctorDashboardView: React.FC = () => {
               <span>Pending Orders</span>
             </div>
             <div className="text-xl font-bold font-carmen mt-1 text-white truncate">{clinicalOrders.length} Active</div>
-            <div className="text-[10px] text-cyan-300 mt-0.5 truncate">Directives in-progress</div>
+            <div className="text-[11px] text-cyan-300 mt-0.5 truncate">Directives in-progress</div>
           </div>
         </div>
       </div>
@@ -258,12 +258,12 @@ export const DoctorDashboardView: React.FC = () => {
                 <span className="text-xs font-bold text-rose-700 uppercase tracking-wide">
                   Caregiver Escalation Alert
                 </span>
-                <span className="text-[10px] px-2 py-0.2 rounded-full bg-rose-100 text-rose-800 font-semibold">
+                <span className="text-[11px] px-2 py-0.2 rounded-full bg-rose-100 text-rose-800 font-semibold">
                   URGENT
                 </span>
               </div>
               <p className="text-xs text-ink-primary font-medium mt-0.5 break-words">
-                {caregiverEscalations[0].caregiverName} reported: "{caregiverEscalations[0].symptom}" — {caregiverEscalations[0].details}
+                {caregiverEscalations[0].caregiverName} reported: "{caregiverEscalations[0].symptom}" · {caregiverEscalations[0].details}
               </p>
             </div>
           </div>
@@ -343,7 +343,7 @@ export const DoctorDashboardView: React.FC = () => {
                         <div>
                           <div className="text-xs font-bold text-ink-primary flex items-center gap-1.5">
                             {p.fullName}
-                            {isSelected && <span className="text-[10px] text-cyan-600 font-semibold">(Active)</span>}
+                            {isSelected && <span className="text-[11px] text-cyan-600 font-semibold">(Active)</span>}
                           </div>
                           <div className="text-[11px] text-ink-muted">
                             {p.age}y · {p.sex} · Blood {p.bloodGroup}
@@ -351,7 +351,7 @@ export const DoctorDashboardView: React.FC = () => {
                         </div>
                       </div>
 
-                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                      <span className={`px-2 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider ${
                         isNeedsAttention ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'
                       }`}>
                         {p.status}
@@ -446,32 +446,32 @@ export const DoctorDashboardView: React.FC = () => {
                 {/* Acute Telemetry Glance */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 py-4 border-b border-black/[0.06]">
                   <div className="p-2.5 sm:p-3 rounded-2xl bg-black/[0.02] border border-black/[0.04] min-w-0 overflow-hidden">
-                    <div className="text-[10px] text-ink-muted uppercase tracking-wider font-semibold truncate">Body Temp</div>
+                    <div className="text-[11px] text-ink-muted uppercase tracking-wider font-semibold truncate">Body Temp</div>
                     <div className="text-base font-bold text-rose-600 font-carmen mt-0.5 truncate">
                       {latestVital?.temperature ? `${latestVital.temperature}°F` : '102.8°F'}
                     </div>
-                    <div className="text-[10px] text-rose-500 mt-0.5 truncate">High Pyrexia Peak</div>
+                    <div className="text-[11px] text-rose-500 mt-0.5 truncate">High Pyrexia Peak</div>
                   </div>
                   <div className="p-2.5 sm:p-3 rounded-2xl bg-black/[0.02] border border-black/[0.04] min-w-0 overflow-hidden">
-                    <div className="text-[10px] text-ink-muted uppercase tracking-wider font-semibold truncate">Pulse Rate</div>
+                    <div className="text-[11px] text-ink-muted uppercase tracking-wider font-semibold truncate">Pulse Rate</div>
                     <div className="text-base font-bold text-amber-600 font-carmen mt-0.5 truncate">
                       {latestVital?.heartRate ? `${latestVital.heartRate} bpm` : '112 bpm'}
                     </div>
-                    <div className="text-[10px] text-amber-500 mt-0.5 truncate">Sinus Tachycardia</div>
+                    <div className="text-[11px] text-amber-500 mt-0.5 truncate">Sinus Tachycardia</div>
                   </div>
                   <div className="p-2.5 sm:p-3 rounded-2xl bg-black/[0.02] border border-black/[0.04] min-w-0 overflow-hidden">
-                    <div className="text-[10px] text-ink-muted uppercase tracking-wider font-semibold truncate">SpO2 Oxygen</div>
+                    <div className="text-[11px] text-ink-muted uppercase tracking-wider font-semibold truncate">SpO2 Oxygen</div>
                     <div className="text-base font-bold text-rose-600 font-carmen mt-0.5 truncate">
                       {latestVital?.spo2 ? `${latestVital.spo2}%` : '92%'}
                     </div>
-                    <div className="text-[10px] text-rose-500 mt-0.5 truncate">Acute Desaturation</div>
+                    <div className="text-[11px] text-rose-500 mt-0.5 truncate">Acute Desaturation</div>
                   </div>
                   <div className="p-2.5 sm:p-3 rounded-2xl bg-black/[0.02] border border-black/[0.04] min-w-0 overflow-hidden">
-                    <div className="text-[10px] text-ink-muted uppercase tracking-wider font-semibold truncate">Blood Pressure</div>
+                    <div className="text-[11px] text-ink-muted uppercase tracking-wider font-semibold truncate">Blood Pressure</div>
                     <div className="text-base font-bold text-ink-primary font-carmen mt-0.5 truncate">
                       {latestVital?.bpSystolic ? `${latestVital.bpSystolic}/${latestVital.bpDiastolic}` : '142/92'}
                     </div>
-                    <div className="text-[10px] text-ink-muted mt-0.5 truncate">Stage 1 Hypertensive</div>
+                    <div className="text-[11px] text-ink-muted mt-0.5 truncate">Stage 1 Hypertensive</div>
                   </div>
                 </div>
 
@@ -499,7 +499,7 @@ export const DoctorDashboardView: React.FC = () => {
                       </span>
                       <button
                         onClick={() => setIsEditingDiagnosis(!isEditingDiagnosis)}
-                        className="text-[10px] text-cyan-700 hover:underline font-semibold cursor-pointer"
+                        className="text-[11px] text-cyan-700 hover:underline font-semibold cursor-pointer"
                       >
                         {isEditingDiagnosis ? 'Cancel' : '+ Add Diagnosis'}
                       </button>
@@ -546,7 +546,7 @@ export const DoctorDashboardView: React.FC = () => {
                         <p className="text-[11px] text-ink-muted">From {emsCase.paramedicName} ({emsCase.unitNumber})</p>
                       </div>
                     </div>
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 uppercase">
+                    <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 uppercase">
                       {emsCase.status === 'in-transit' ? 'In-Transit (ETA 6m)' : 'Handover Received'}
                     </span>
                   </div>
@@ -561,7 +561,7 @@ export const DoctorDashboardView: React.FC = () => {
                       <ul className="mt-1 space-y-1 pl-4 list-disc text-ink-secondary">
                         {emsCase.interventions.map(i => (
                           <li key={i.id}>
-                            <span className="font-semibold text-ink-primary">{i.name}</span> — {i.notes}
+                            <span className="font-semibold text-ink-primary">{i.name}</span>: {i.notes}
                           </li>
                         ))}
                       </ul>
@@ -613,19 +613,19 @@ export const DoctorDashboardView: React.FC = () => {
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-ink-primary">{ord.title}</span>
-                      <span className={`px-2 py-0.2 rounded-full text-[9px] font-bold uppercase ${
+                      <span className={`px-2 py-0.2 rounded-full text-[11px] font-bold uppercase ${
                         ord.priority === 'stat' ? 'bg-rose-100 text-rose-700' : ord.priority === 'urgent' ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-700'
                       }`}>
                         {ord.priority}
                       </span>
                     </div>
                     <p className="text-ink-secondary">{ord.details}</p>
-                    <div className="text-[10px] text-ink-muted">
+                    <div className="text-[11px] text-ink-muted">
                       Prescribed by {ord.doctorName} · {ord.timestamp}
                     </div>
                   </div>
 
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 shrink-0">
+                  <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 shrink-0">
                     {ord.status}
                   </span>
                 </div>

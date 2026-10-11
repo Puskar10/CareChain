@@ -1,12 +1,16 @@
 import { Router, Request, Response } from 'express';
 import { db } from '../db';
 import { optionalToken, AuthRequest } from '../middleware/auth';
+import { canUserAccessPatient } from '../ai/authz';
 
 const router = Router();
 
 // GET /api/reports?patientId=...
-router.get('/', (req: Request, res: Response) => {
+router.get('/', optionalToken, (req: AuthRequest, res: Response) => {
   const { patientId } = req.query as { patientId?: string };
+  if (req.user && patientId && !canUserAccessPatient(req.user, patientId)) {
+    return res.status(403).json({ success: false, error: 'Unauthorized to view reports for this patient' });
+  }
   const reports = db.getReports(patientId);
   return res.json({ success: true, count: reports.length, data: reports });
 });
@@ -19,8 +23,17 @@ router.post('/', optionalToken, (req: AuthRequest, res: Response) => {
       return res.status(400).json({ success: false, error: 'Report title is required' });
     }
 
+    const patientId = reportData.patientId || (req.user?.role === 'patient' ? req.user.patientId : undefined);
+    if (!patientId) {
+      return res.status(400).json({ success: false, error: 'patientId is required' });
+    }
+
+    if (req.user && !canUserAccessPatient(req.user, patientId)) {
+      return res.status(403).json({ success: false, error: 'Unauthorized to upload reports for this patient' });
+    }
+
     const actorName = req.user?.fullName || 'Diagnostic Lab / Clinician';
-    const report = db.createReport(reportData, actorName);
+    const report = db.createReport({ ...reportData, patientId }, actorName);
 
     db.createAuditLog({
       patientId: report.patientId,

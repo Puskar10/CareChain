@@ -159,7 +159,7 @@ export const CaregiverDashboardView: React.FC = () => {
             <div className="text-xl font-bold font-carmen mt-1 text-ink-primary">
               {completedCount} of {patientTasks.length} Done
             </div>
-            <div className="text-[10px] text-emerald-600 mt-0.5">{pendingCount} remaining today</div>
+            <div className="text-[11px] text-emerald-600 mt-0.5">{pendingCount} remaining today</div>
           </div>
 
           <div className="p-3 rounded-2xl bg-white/70 border border-black/[0.05]">
@@ -170,7 +170,7 @@ export const CaregiverDashboardView: React.FC = () => {
             <div className="text-xl font-bold font-carmen mt-1 text-rose-600">
               {latestVitalTemp ? `${latestVitalTemp}°F` : '--'}
             </div>
-            <div className="text-[10px] text-rose-600 mt-0.5">
+            <div className="text-[11px] text-rose-600 mt-0.5">
               {latestVitalTemp && latestVitalTemp >= 101 ? 'Fever elevated' : 'Stable temperature'}
             </div>
           </div>
@@ -181,7 +181,7 @@ export const CaregiverDashboardView: React.FC = () => {
               Hydration Goal
             </div>
             <div className="text-xl font-bold font-carmen mt-1 text-cyan-700">1.8 / 2.5 L</div>
-            <div className="text-[10px] text-cyan-700 mt-0.5">ORS fluids tolerated</div>
+            <div className="text-[11px] text-cyan-700 mt-0.5">ORS fluids tolerated</div>
           </div>
 
           <div className="p-3 rounded-2xl bg-white/70 border border-black/[0.05]">
@@ -192,7 +192,7 @@ export const CaregiverDashboardView: React.FC = () => {
             <div className="text-xl font-bold font-carmen mt-1 text-ink-primary truncate">
               {activePatient?.primaryPhysician || 'Care Team'}
             </div>
-            <div className="text-[10px] text-ink-muted mt-0.5">Direct channel active</div>
+            <div className="text-[11px] text-ink-muted mt-0.5">Direct channel active</div>
           </div>
         </div>
       </div>
@@ -302,7 +302,7 @@ export const CaregiverDashboardView: React.FC = () => {
                         }`}
                       >
                         {isCompleted && <CheckCircle2 className="w-3.5 h-3.5" />}
-                        {isSkipped && <span className="font-bold text-[10px]">!</span>}
+                        {isSkipped && <span className="font-bold text-[11px]">!</span>}
                       </button>
 
                       <div className="space-y-0.5">
@@ -329,7 +329,7 @@ export const CaregiverDashboardView: React.FC = () => {
                     <div className="flex items-center gap-1 shrink-0">
                       <button
                         onClick={() => toggleCareTask(task.id, isSkipped ? 'pending' : 'skipped', 'Patient nauseous')}
-                        className={`px-2 py-1 rounded-lg text-[10px] font-semibold transition-all pressable ${
+                        className={`px-2 py-1 rounded-lg text-[11px] font-semibold transition-all pressable ${
                           isSkipped ? 'bg-amber-200 text-amber-900 font-bold' : 'text-ink-muted hover:bg-black/5'
                         }`}
                       >
@@ -370,11 +370,11 @@ export const CaregiverDashboardView: React.FC = () => {
                   <div key={obs.id} className="p-3 rounded-2xl bg-white/70 border border-black/[0.06] text-xs space-y-1">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-ink-primary">{obs.title}</span>
-                      <span className="text-[10px] text-ink-muted font-mono">{new Date(obs.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                      <span className="text-[11px] text-ink-muted font-mono">{new Date(obs.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                     </div>
                     <p className="text-ink-secondary">{obs.description}</p>
                     {obs.metadata?.temperature && (
-                      <span className="inline-block text-[10px] font-semibold text-rose-700 bg-rose-50 px-2 py-0.2 rounded-md">
+                      <span className="inline-block text-[11px] font-semibold text-rose-700 bg-rose-50 px-2 py-0.2 rounded-md">
                         Temp: {obs.metadata.temperature}°F
                       </span>
                     )}
@@ -399,7 +399,7 @@ export const CaregiverDashboardView: React.FC = () => {
                   <p className="text-[11px] text-ink-muted">Prescribed by Dr. Aarav Sharma, MD</p>
                 </div>
               </div>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-100 text-cyan-800">
+              <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-cyan-100 text-cyan-800">
                 Active Protocol
               </span>
             </div>
@@ -409,7 +409,7 @@ export const CaregiverDashboardView: React.FC = () => {
                 <div key={cp.id} className="p-3 rounded-2xl bg-white/80 border border-black/[0.06] text-xs space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-ink-primary">{cp.title}</span>
-                    <span className="text-[10px] uppercase font-semibold text-cyan-700">{cp.category}</span>
+                    <span className="text-[11px] uppercase font-semibold text-cyan-700">{cp.category}</span>
                   </div>
                   <p className="text-ink-secondary leading-relaxed">{cp.description}</p>
                 </div>
@@ -447,7 +447,7 @@ export const CaregiverDashboardView: React.FC = () => {
                 <div key={esc.id} className="p-3.5 rounded-2xl bg-white/90 border border-black/[0.06] text-xs space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-ink-primary">{esc.symptom}</span>
-                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase ${
+                    <span className={`px-2 py-0.5 rounded-full text-[11px] font-bold uppercase ${
                       esc.urgency === 'emergency' ? 'bg-rose-100 text-rose-700' : 'bg-amber-100 text-amber-800'
                     }`}>
                       {esc.urgency}
@@ -460,7 +460,7 @@ export const CaregiverDashboardView: React.FC = () => {
                       {esc.doctorResponse}
                     </div>
                   ) : (
-                    <div className="text-[10px] text-amber-700 font-semibold">
+                    <div className="text-[11px] text-amber-700 font-semibold">
                       Awaiting physician review...
                     </div>
                   )}
@@ -574,9 +574,9 @@ export const CaregiverDashboardView: React.FC = () => {
                   onChange={e => setEscUrgency(e.target.value as any)}
                   className="w-full px-3 py-2 rounded-xl border border-black/[0.08] bg-white text-ink-primary focus:outline-none font-semibold text-rose-700"
                 >
-                  <option value="urgent">Urgent — Physician Review Requested Soon</option>
-                  <option value="emergency">EMERGENCY — Immediate Hospital / EMS Evaluation</option>
-                  <option value="routine">Routine — Update for next rounding</option>
+                  <option value="urgent">Urgent: Physician Review Requested Soon</option>
+                  <option value="emergency">EMERGENCY: Immediate Hospital / EMS Evaluation</option>
+                  <option value="routine">Routine: Update for next rounding</option>
                 </select>
               </div>
 

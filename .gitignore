@@ -24,3 +24,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# AI index retry queue and local Chroma data
+server/data/ai-index-queue.json
+server/data/chroma/
+scratch/
