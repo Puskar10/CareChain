@@ -840,7 +840,7 @@ export const Navbar: React.FC = () => {
         } else if (currentRole === 'family') {
           setActiveTab('caregiver-dashboard');
         } else if (currentRole === 'patient') {
-          setActiveTab('patient-dashboard');
+          setIsAddEventModalOpen(true);
         } else if (currentRole === 'ems') {
           setActiveTab('ems-dashboard');
         }

@@ -24,6 +24,13 @@ body,
   overflow-x: hidden;
 }
 
+/* `hidden` turns body/#root into scroll containers, which stops the sticky navbar from
+   pinning to the viewport. `clip` blocks horizontal overflow without creating one. */
+body,
+#root {
+  overflow-x: clip;
+}
+
 /* ═══════════════════════════════════════════════════════════
    CARECHAIN — LIQUID GLASS + FLUID UI DESIGN SYSTEM
    Material language: thickness · transparency · depth ·
@@ -132,6 +139,7 @@ body {
   color: var(--ink-primary);
   line-height: 1.5;
   overflow-x: hidden;
+  overflow-x: clip; /* see note above: clip keeps the sticky navbar pinned */
 }
 
 /* ─────────────────────────────────────────

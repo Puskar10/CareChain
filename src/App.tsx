@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import { CareChainProvider, useCareChain } from './context/CareChainContext';
 import { Navbar } from './components/Navbar';
 import { DemoStoryBanner } from './components/DemoStoryBanner';
@@ -70,7 +70,7 @@ const MainContent: React.FC = () => {
  * Navigating to the homepage manually (logo click) never forces a redirect back.
  */
 const AppShell: React.FC = () => {
-  const { user } = useCareChain();
+  const { user, activeTab } = useCareChain();
   const route = useRoute();
   const userId = user?.id ?? null;
   const prevUserId = useRef<string | null>(null);
@@ -82,10 +82,22 @@ const AppShell: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
+  // The document is the only scroll container. Reset it when the visible view actually
+  // changes (route or active tab), before paint, but not on mount so a browser refresh can
+  // still restore its position, and not on unrelated updates (modals, data, role chrome).
+  // `instant` bypasses the global `html { scroll-behavior: smooth }`.
+  const viewKey = route === 'home' ? 'home' : `app:${activeTab}`;
+  const prevViewKey = useRef(viewKey);
+  useLayoutEffect(() => {
+    if (prevViewKey.current === viewKey) return;
+    prevViewKey.current = viewKey;
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [viewKey]);
+
   const isHome = route === 'home';
 
   return (
-    <div className="app-bg min-h-screen flex flex-col w-full max-w-full overflow-x-hidden">
+    <div className="app-bg min-h-screen flex flex-col w-full max-w-full overflow-x-clip">
       {isHome ? (
         <main className="flex-1">
           <PublicHomePage />

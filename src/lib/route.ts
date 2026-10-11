@@ -13,6 +13,12 @@ import { useSyncExternalStore } from 'react';
 export type AppRoute = 'home' | 'app';
 
 const APP_HASH = '#/app';
+
+// Views always open at the top (see AppShell). The browser's own restoration would otherwise
+// re-apply a stale position after a back/forward navigation, once our reset has already run.
+if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+  window.history.scrollRestoration = 'manual';
+}
 const listeners = new Set<() => void>();
 
 const readRoute = (): AppRoute =>
@@ -39,7 +45,7 @@ export function navigateTo(route: AppRoute) {
     window.history.pushState(null, '', pathname + search + (route === 'app' ? APP_HASH : ''));
     notify();
   }
-  window.scrollTo({ top: 0, behavior: 'auto' });
+  window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 export const useRoute = (): AppRoute => useSyncExternalStore(subscribe, readRoute, () => 'home');
