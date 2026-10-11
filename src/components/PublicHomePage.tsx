@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogIn, Play, LayoutDashboard } from 'lucide-react';
+import { LogIn, Play, LayoutDashboard, AlertCircle, X } from 'lucide-react';
 import { useCareChain } from '../context/CareChainContext';
 import { HeroCard } from './HeroCard';
 import { BrandLink } from './BrandLink';
@@ -65,7 +65,7 @@ const PublicHeader: React.FC<{ onOpenDemo: () => void }> = ({ onOpenDemo }) => {
  * It always shows the bundled sample case, never a signed-in user's records.
  */
 export const PublicHomePage: React.FC = () => {
-  const { user, enterDemoMode, startDemoStory, setActiveTab } = useCareChain();
+  const { user, enterDemoMode, startDemoStory, setActiveTab, dataError, clearDataError } = useCareChain();
 
   // Entering demo mode re-syncs the active tab to the role dashboard in a context effect,
   // so a requested landing tab is applied one tick later to win over that default.
@@ -83,6 +83,31 @@ export const PublicHomePage: React.FC = () => {
   return (
     <div>
       <PublicHeader onOpenDemo={handleOpenDemo} />
+      {dataError && (
+        <div className="max-w-2xl mx-auto mt-4 px-4 animate-fade-in">
+          <div
+            className="rounded-2xl p-3.5 flex items-center justify-between gap-3 text-xs shadow-soft border"
+            style={{
+              background: 'rgba(254, 242, 242, 0.88)',
+              backdropFilter: 'blur(16px)',
+              borderColor: 'rgba(248, 113, 113, 0.4)',
+              color: '#991b1b'
+            }}
+          >
+            <div className="flex items-center gap-2.5">
+              <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />
+              <span className="font-medium">{dataError}</span>
+            </div>
+            <button
+              onClick={clearDataError}
+              className="p-1 rounded-lg hover:bg-rose-100 text-rose-700 transition-colors cursor-pointer"
+              aria-label="Dismiss error notification"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      )}
       <HeroCard
         events={DEMO_EVENTS}
         onViewHandover={() => openApp('handover', user ? undefined : () => enterDemoMode('doctor'))}
@@ -92,3 +117,4 @@ export const PublicHomePage: React.FC = () => {
     </div>
   );
 };
+

@@ -18,6 +18,7 @@ import { AuthModal } from './components/modals/AuthModal';
 import { PublicHomePage } from './components/PublicHomePage';
 import { navigateTo, useRoute } from './lib/route';
 
+import { Activity } from 'lucide-react';
 import { DoctorDashboardView } from './components/roles/DoctorDashboardView';
 import { CaregiverDashboardView } from './components/roles/CaregiverDashboardView';
 import { PatientDashboardView } from './components/roles/PatientDashboardView';
@@ -70,17 +71,27 @@ const MainContent: React.FC = () => {
  * Navigating to the homepage manually (logo click) never forces a redirect back.
  */
 const AppShell: React.FC = () => {
-  const { user, activeTab } = useCareChain();
+  const { user, activeTab, profileState, isDemoMode } = useCareChain();
   const route = useRoute();
   const userId = user?.id ?? null;
   const prevUserId = useRef<string | null>(null);
 
   useEffect(() => {
-    if (userId && !prevUserId.current && route === 'home') navigateTo('app');
-    else if (!userId && prevUserId.current) navigateTo('home');
+    // If user signs in or session is restored while on homepage, open the app
+    if (userId && !prevUserId.current && route === 'home') {
+      navigateTo('app');
+    }
+    // If user signs out while in the app, return to homepage
+    else if (!userId && prevUserId.current) {
+      navigateTo('home');
+    }
+    // Protected route guard: if user is logged out, not in demo mode, and session check finished, protect /#/app
+    else if (!userId && !isDemoMode && profileState === 'ready' && route === 'app') {
+      navigateTo('home');
+    }
     prevUserId.current = userId;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId]);
+  }, [userId, profileState, isDemoMode, route]);
 
   // The document is the only scroll container. Reset it when the visible view actually
   // changes (route or active tab), before paint, but not on mount so a browser refresh can
@@ -95,10 +106,37 @@ const AppShell: React.FC = () => {
   }, [viewKey]);
 
   const isHome = route === 'home';
+  // Wait for session restoration before deciding whether user is logged out
+  const isRestoringSession = !isDemoMode && profileState === 'authLoading';
 
   return (
     <div className="app-bg min-h-screen flex flex-col w-full max-w-full overflow-x-clip">
-      {isHome ? (
+      {isRestoringSession ? (
+        <main className="flex-1 flex items-center justify-center min-h-[70vh] px-4 animate-fade-in">
+          <div
+            className="rounded-3xl p-8 sm:p-12 text-center max-w-md w-full space-y-4"
+            style={{
+              background: 'rgba(255,255,255,0.72)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255,255,255,0.85)',
+              boxShadow: '0 8px 32px rgba(15,23,42,0.08)'
+            }}
+          >
+            <div className="w-12 h-12 rounded-2xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-600 flex items-center justify-center mx-auto animate-spin">
+              <Activity className="w-6 h-6" />
+            </div>
+            <div className="space-y-1.5">
+              <h3 className="text-base font-bold text-ink-primary font-carmen">
+                Verifying Session
+              </h3>
+              <p className="text-xs text-ink-muted">
+                Restoring authenticated clinical profile...
+              </p>
+            </div>
+          </div>
+        </main>
+      ) : isHome ? (
         <main className="flex-1">
           <PublicHomePage />
         </main>

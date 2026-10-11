@@ -84,12 +84,16 @@ app.use((err: any, _req: express.Request, res: express.Response, _next: express.
 });
 
 // Start Server
-app.listen(PORT, () => {
-  startAIIndexing();
-  console.log(`====================================================`);
-  console.log(`🚀 CareChain Backend Server running at http://localhost:${PORT}`);
-  console.log(`📡 API Endpoints available at http://localhost:${PORT}/api`);
-  console.log(`🔐 Auth Endpoints: /api/auth/login, /api/auth/register, /api/auth/demo-accounts`);
-  console.log(`🏥 Health Status: http://localhost:${PORT}/api/health`);
-  console.log(`====================================================`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    startAIIndexing();
+    console.log(`====================================================`);
+    console.log(`🚀 CareChain Backend Server running at http://localhost:${PORT}`);
+    console.log(`📡 API Endpoints available at http://localhost:${PORT}/api`);
+    console.log(`🔐 Auth Endpoints: /api/auth/login, /api/auth/register, /api/auth/demo-accounts`);
+    console.log(`🏥 Health Status: http://localhost:${PORT}/api/health`);
+    console.log(`====================================================`);
+  });
+}
+
+export default app;

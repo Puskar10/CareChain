@@ -523,7 +523,7 @@ class Database {
     }
   }
 
-  private dataDir = path.join(process.cwd(), 'server', 'data');
+  private dataDir = process.env.VERCEL ? path.join('/tmp', 'carechain') : path.join(process.cwd(), 'server', 'data');
   private storeFile = path.join(this.dataDir, 'store.json');
   private store: DatabaseStore;
 
@@ -534,8 +534,11 @@ class Database {
 
   private loadStore(): DatabaseStore {
     try {
-      if (fs.existsSync(this.storeFile)) {
-        const raw = fs.readFileSync(this.storeFile, 'utf8');
+      const sourceFile = fs.existsSync(this.storeFile)
+        ? this.storeFile
+        : path.join(process.cwd(), 'server', 'data', 'store.json');
+      if (fs.existsSync(sourceFile)) {
+        const raw = fs.readFileSync(sourceFile, 'utf8');
         const parsed = JSON.parse(raw);
         // Ensure default users exist
         if (!parsed.users || parsed.users.length === 0) {
